@@ -2,13 +2,13 @@ import { lazy } from 'react';
 import { createBrowserRouter } from 'react-router-dom';
 
 // project import
-import LoginRoutes from './LoginRoutes';
-
-import SimpleLayout from '@/layout/Simple';
 import Loadable from '@/components/Loadable';
+import AuthLayout from '@/layout/Auth';
+import DashboardLayout from '@/layout/Dashboard';
 
-// render - landing page
-const PagesLanding = Loadable(lazy(() => import('@/pages/landing')));
+// render - page
+const AuthLogin = Loadable(lazy(() => import('@/pages')));
+const Dashboard = Loadable(lazy(() => import('@/pages/dashboard')));
 
 // ==============================|| ROUTING RENDER ||============================== //
 
@@ -16,15 +16,24 @@ const router = createBrowserRouter(
   [
     {
       path: '/',
-      element: <SimpleLayout />,
+      element: <AuthLayout />,
       children: [
         {
           index: true,
-          element: <PagesLanding />
-        }
+          element: <AuthLogin />
+        },
       ]
     },
-    LoginRoutes,
+    {
+      path: '/',
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: 'dashboard',
+          element: <Dashboard />
+        },
+      ]
+    }
   ],
   { basename: import.meta.env.VITE_APP_BASE_NAME }
 );

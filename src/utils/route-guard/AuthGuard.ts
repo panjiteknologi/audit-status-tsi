@@ -13,7 +13,7 @@ const AuthGuard = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate('login', {
+      navigate('', {
         state: {
           from: location.pathname
         },

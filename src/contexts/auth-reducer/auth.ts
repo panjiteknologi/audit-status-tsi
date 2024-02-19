@@ -1,5 +1,5 @@
 // action - state management
-import { REGISTER, LOGIN, LOGOUT } from './actions';
+import { LOGIN, LOGOUT } from './actions';
 
 type StateType = {
   isLoggedIn?: boolean;
@@ -17,7 +17,7 @@ export const initialState: StateType = {
 // ==============================|| AUTH REDUCER ||============================== //
 
 type Action = {
-  type: '@auth/LOGIN' | '@auth/LOGOUT' | '@auth/REGISTER';
+  type: '@auth/LOGIN' | '@auth/LOGOUT';
   payload: {
     isLoggedIn?: boolean;
     user?: null | any;
@@ -27,13 +27,6 @@ type Action = {
 
 const auth = (state = initialState, action: Action) => {
   switch (action.type) {
-    case REGISTER: {
-      const { user } = action.payload;
-      return {
-        ...state,
-        user
-      };
-    }
     case LOGIN: {
       const { user } = action.payload;
       return {
