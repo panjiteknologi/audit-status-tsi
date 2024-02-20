@@ -8,7 +8,7 @@ import DashboardLayout from '@/layout/Dashboard';
 
 // render - page
 const AuthLogin = Loadable(lazy(() => import('@/pages')));
-const Dashboard = Loadable(lazy(() => import('@/pages/dashboard')));
+const PaySlip = Loadable(lazy(() => import('@/pages/payslip')));
 
 // ==============================|| ROUTING RENDER ||============================== //
 
@@ -29,8 +29,8 @@ const router = createBrowserRouter(
       element: <DashboardLayout />,
       children: [
         {
-          path: 'dashboard',
-          element: <Dashboard />
+          path: 'payslip',
+          element: <PaySlip />
         },
       ]
     }

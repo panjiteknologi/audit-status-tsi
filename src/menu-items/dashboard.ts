@@ -1,9 +1,9 @@
 // assets
-import { DashboardOutlined } from '@mui/icons-material';
+import { WalletOutlined, } from '@mui/icons-material';
 import { MenuType } from '.';
 
 const icons = {
-  dashboard: DashboardOutlined,
+  payslip: WalletOutlined,
 };
 
 const dashboard: MenuType = {
@@ -12,11 +12,11 @@ const dashboard: MenuType = {
   type: 'group',
   children: [
     {
-      id: 'dashboard1',
-      title: 'Dashboard',
-      url: '/dashboard',
+      id: 'payslip',
+      title: 'Payslip',
+      url: '/payslip',
       type: 'item',
-      icon: icons.dashboard,
+      icon: icons.payslip,
     }
   ]
 };

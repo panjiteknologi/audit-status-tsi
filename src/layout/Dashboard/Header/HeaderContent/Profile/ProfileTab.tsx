@@ -4,7 +4,7 @@ import { MouseEvent, useState } from 'react';
 import { List, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 
 // assets
-import { EditOutlined, LogoutOutlined, WalletOutlined } from '@mui/icons-material';
+import { EditOutlined, LogoutOutlined } from '@mui/icons-material';
 
 // ==============================|| HEADER PROFILE - PROFILE TAB ||============================== //
 
@@ -22,12 +22,6 @@ const ProfileTab = ({ handleLogout }: { handleLogout: () => void }) => {
           <EditOutlined />
         </ListItemIcon>
         <ListItemText primary="Edit Profile" />
-      </ListItemButton>
-      <ListItemButton selected={selectedIndex === 4} onClick={(event) => handleListItemClick(event, 4)}>
-        <ListItemIcon>
-          <WalletOutlined />
-        </ListItemIcon>
-        <ListItemText primary="Billing" />
       </ListItemButton>
       <ListItemButton selected={selectedIndex === 2} onClick={handleLogout}>
         <ListItemIcon>

@@ -27,6 +27,7 @@ import useScriptRef from '@/hooks/useScriptRef';
 import IconButton from '@/components/@extended/IconButton';
 import AnimateButton from '@/components/@extended/AnimateButton';
 import { fetcher } from '@/utils/axios';
+import { useNavigate } from "react-router-dom";
 
 // assets
 import { VisibilityOutlined, VisibilityOffOutlined } from '@mui/icons-material';
@@ -34,6 +35,7 @@ import { VisibilityOutlined, VisibilityOffOutlined } from '@mui/icons-material';
 // ============================|| JWT - LOGIN ||============================ //
 
 const AuthLogin = () => {
+  const navigate = useNavigate();
   const [checked, setChecked] = React.useState(false);
 
   const { login } = useAuth();
@@ -61,21 +63,22 @@ const AuthLogin = () => {
           password: Yup.string().max(250).required('Password is required')
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          try {
-            await login(values.email, values.password);
-            if (scriptedRef.current) {
-              setStatus({ success: true });
-              setSubmitting(false);
-              preload('api/menu/dashboard', fetcher); // load menu on login success
-            }
-          } catch (err: any) {
-            console.error(err);
-            if (scriptedRef.current) {
-              setStatus({ success: false });
-              setErrors({ submit: err.message });
-              setSubmitting(false);
-            }
-          }
+          navigate("/payslip")
+          // try {
+          //   await login(values.email, values.password);
+          //   if (scriptedRef.current) {
+          //     setStatus({ success: true });
+          //     setSubmitting(false);
+          //     preload('api/menu/dashboard', fetcher); // load menu on login success
+          //   }
+          // } catch (err: any) {
+          //   console.error(err);
+          //   if (scriptedRef.current) {
+          //     setStatus({ success: false });
+          //     setErrors({ submit: err.message });
+          //     setSubmitting(false);
+          //   }
+          // }
         }}
       >
         {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (

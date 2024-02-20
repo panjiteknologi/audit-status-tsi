@@ -43,33 +43,34 @@ const DashboardLayout = () => {
   if (menuMasterLoading) return <Loader />;
 
   return (
-    <AuthGuard>
-      <Box sx={{ display: 'flex', width: '100%' }}>
-        <Header />
-        {!isHorizontal ? <Drawer /> : <HorizontalBar />}
+    <Box sx={{ display: 'flex', width: '100%' }}>
+      <Header />
+      {!isHorizontal ? <Drawer /> : <HorizontalBar />}
 
-        <Box
-          component="main"
-          sx={{ width: 'calc(100% - 260px)', flexGrow: 1, p: { xs: 2, sm: 3 } }}
+      <Box
+        component="main"
+        sx={{ width: 'calc(100% - 260px)', flexGrow: 1, p: { xs: 2, sm: 3 } }}
+      >
+        <Toolbar sx={{ mt: isHorizontal ? 8 : 'inherit' }} />
+        <Container
+          maxWidth={container ? 'xl' : false}
+          sx={{
+            ...(container && { px: { xs: 0, sm: 2 } }),
+            position: 'relative',
+            minHeight: 'calc(100vh - 110px)',
+            display: 'flex',
+            flexDirection: 'column'
+          }}
         >
-          <Toolbar sx={{ mt: isHorizontal ? 8 : 'inherit' }} />
-          <Container
-            maxWidth={container ? 'xl' : false}
-            sx={{
-              ...(container && { px: { xs: 0, sm: 2 } }),
-              position: 'relative',
-              minHeight: 'calc(100vh - 110px)',
-              display: 'flex',
-              flexDirection: 'column'
-            }}
-          >
-            <Breadcrumbs />
-            <Outlet />
-            <Footer />
-          </Container>
-        </Box>
+          <Breadcrumbs />
+          <Outlet />
+          <Footer />
+        </Container>
       </Box>
-    </AuthGuard>
+    </Box>
+    // <AuthGuard>
+      
+    // </AuthGuard>
   );
 };
 
