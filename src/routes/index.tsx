@@ -1,39 +1,39 @@
-import { lazy } from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { lazy } from "react";
+import { createBrowserRouter } from "react-router-dom";
 
 // project import
-import Loadable from '@/components/Loadable';
-import AuthLayout from '@/layout/Auth';
-import DashboardLayout from '@/layout/Dashboard';
+import Loadable from "@/components/Loadable";
+import AuthLayout from "@/layout/Auth";
+import DashboardLayout from "@/layout/Dashboard";
 
 // render - page
-const AuthLogin = Loadable(lazy(() => import('@/pages')));
-const PaySlip = Loadable(lazy(() => import('@/pages/payslip')));
+const AuthLogin = Loadable(lazy(() => import("@/pages")));
+const PaySlip = Loadable(lazy(() => import("@/pages/payslip")));
 
 // ==============================|| ROUTING RENDER ||============================== //
 
 const router = createBrowserRouter(
   [
     {
-      path: '/',
+      path: "/",
       element: <AuthLayout />,
       children: [
         {
           index: true,
-          element: <AuthLogin />
+          element: <AuthLogin />,
         },
-      ]
+      ],
     },
     {
-      path: '/',
+      path: "/",
       element: <DashboardLayout />,
       children: [
         {
-          path: 'payslip',
-          element: <PaySlip />
+          path: "payslip",
+          element: <PaySlip />,
         },
-      ]
-    }
+      ],
+    },
   ],
   { basename: import.meta.env.VITE_APP_BASE_NAME }
 );
