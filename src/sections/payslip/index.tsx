@@ -1,38 +1,97 @@
-import MainCard from '@/components/MainCard'
-import MainTabs from '@/components/MainTabs'
-import { ListTab } from '@/types/Tabs'
-import { Box, Grid, Typography } from '@mui/material'
-import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
-import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
-import { DatePicker } from '@mui/x-date-pickers/DatePicker';
-
+import { useState } from "react";
+import MainCard from "@/components/MainCard";
+import MainTabs from "@/components/MainTabs";
+import { ListTab } from "@/types/Tabs";
+import { Box, CircularProgress, Grid, Typography } from "@mui/material";
+import { User } from "@/types/User";
+import CardInfo from "./CardInfo";
+import ModalDetail from "./ModalDetail";
 interface PayslipSectionProps {
-  tabs: ListTab[]
+  tabs: ListTab[];
+  data: User[];
+  handleTabChange: (selectedMonth: string) => void;
+  selectedMonthName: string;
+  loading: boolean;
+  value: string;
+  error: boolean;
+  updateStatus: (selectedStatus: string) => void;
 }
 
-const PayslipSections = ({ tabs } : PayslipSectionProps) => {
+const PayslipSections = ({
+  tabs,
+  data,
+  handleTabChange,
+  selectedMonthName,
+  loading,
+  value,
+  updateStatus,
+  error,
+}: PayslipSectionProps) => {
+  const [showPayslip, setShowPayslip] = useState(false);
+  const dataSlip = data[0];
+
+  const openModal = () => {
+    setShowPayslip(true);
+  };
+
   return (
-    <MainCard>
-      <Grid container spacing={2} md={12} xs={12} alignItems={"center"}>
-        <Grid item md={9} xs={10}>
-          <Typography variant="h5">Payslip</Typography>
-        </Grid>
-        <Grid item md={3} xs={10} justifyContent="flex-end">
-          <LocalizationProvider dateAdapter={AdapterDayjs}>
-            <DemoContainer components={['DatePicker']}>
-              <DatePicker label="Pilih Tahun" views={['year']} />
-            </DemoContainer>
-          </LocalizationProvider>
-        </Grid>
-      </Grid>
-      <Box sx={{ marginTop: 2 }}>
-        <MainTabs
-          tabs={tabs}
-        />
+    <MainCard
+      title="Payslip 2024"
+      boxShadow
+      showButton={false}
+      sx={{ minHeight: 500 }}
+    >
+      <Box sx={{ marginBottom: 4 }}>
+        <MainTabs tabs={tabs} handleTabChange={handleTabChange} />
       </Box>
-    </MainCard>
-  )
-}
+      {loading ? (
+        <Box
+          sx={{
+            flexDirection: "row",
+            justifyContent: "center",
+            textAlign: "center",
+          }}
+        >
+          <CircularProgress color="secondary" />
+        </Box>
+      ) : (
+        <>
+          {error && (
+            <Typography>
+              Data {selectedMonthName} saat ini belum tersedia...
+            </Typography>
+          )}
+          <Grid
+            container
+            spacing={{ xs: 2, md: 3 }}
+            columns={{ xs: 4, sm: 8, md: 10, xl: 12 }}
+          >
+            <ModalDetail
+              showPayslip={showPayslip}
+              setShowPayslip={() => setShowPayslip(false)}
+              data={data}
+              dataSlip={dataSlip}
+              selectedMonthName={selectedMonthName}
+              openModal={openModal}
+              value={value}
+              updateStatus={updateStatus}
+            />
 
-export default PayslipSections
+            {data?.map((items, index) => {
+              return (
+                <CardInfo
+                  key={index}
+                  item={selectedMonthName}
+                  openModal={openModal}
+                  items={items}
+                />
+              );
+            })}
+          </Grid>
+        </>
+      )}
+    </MainCard>
+  );
+};
+
+export default PayslipSections;
