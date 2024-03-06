@@ -1,7 +1,7 @@
 import { ReactNode } from "react";
-
 export interface ListTab {
-  title: string
-  content: ReactNode
-  url: string
+  month: string;
+  month_name: string;
+  content: ReactNode;
+  url: string;
 }
