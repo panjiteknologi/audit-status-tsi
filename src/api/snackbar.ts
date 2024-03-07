@@ -16,11 +16,11 @@ type StateType = {
   message?: string
   anchorOrigin?: SnackbarOrigin
   variant?: 'default' | 'alert'
-  alert?: {
+  alert: {
     color?: AlertColor
     variant?: 'filled' | 'outlined'
   }
-  transition?: 'Fade' | 'Grow' | 'SlideUp' | 'SlideDown'
+  transition: 'Fade' | 'Grow' | 'SlideUp' | 'SlideDown'
   close?: boolean
   actionButton?: boolean
   maxStack?: number

@@ -17,7 +17,6 @@ import {
   GET_ID_EMPLOYEE,
   UPDATE_PAY_SLIP,
 } from "@/contexts/JWTContext";
-import { ListTab } from "@/types/Tabs";
 import { User } from "@/types/User";
 import { formatIdr } from "@/utils/formatIdr";
 import { Box } from "@mui/system";
@@ -28,7 +27,7 @@ import CloseButton from "@/sections/payslip/CloseButton";
 const Payslip = () => {
   const [value, setValue] = useState<string>("");
 
-  const [month, setMonth] = useState([]);
+  const [month, setMonth] = useState<{ month: string; month_name: string }[]>([]);
   const [data, setData] = useState<User[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<string>("01");
   const [message, setMessage] = useState("");
@@ -40,7 +39,7 @@ const Payslip = () => {
 
   const gajiProrate = Math.round(
     (+data[0]?.gaji_pokok / +data[0]?.total_timesheet_bulan_ini) *
-      +data[0]?.total_masuk_kerja
+    +data[0]?.total_masuk_kerja
   );
 
   const getDataEmployee = async () => {
@@ -150,7 +149,7 @@ const Payslip = () => {
 
   const getMonthName = (selectedMonth: string) => {
     const selectedMonthObj = month.find(
-      (m: ListTab) => m?.month === selectedMonth
+      (m) => m?.month === selectedMonth
     );
     return selectedMonthObj ? selectedMonthObj?.month_name : "";
   };

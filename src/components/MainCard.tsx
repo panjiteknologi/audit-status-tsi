@@ -38,7 +38,7 @@ interface MainCardProps {
   sx?: SxProps;
   title?: string;
   modal?: boolean;
-  showButton: ReactNode;
+  showButton?: ReactNode;
 }
 
 const MainCard = forwardRef(
@@ -110,11 +110,11 @@ const MainCard = forwardRef(
             sx={
               showButton
                 ? {
-                    display: "flex",
-                    flexDirection: "row",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                  }
+                  display: "flex",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  justifyContent: "space-between",
+                }
                 : null
             }
           >

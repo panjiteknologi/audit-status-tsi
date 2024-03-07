@@ -36,7 +36,7 @@ const MainTabs = ({ tabs, handleTabChange }: MainTabsProps) => {
 
   const handleChange = (_event: React.SyntheticEvent, newValue: number) => {
     setValue(newValue);
-    handleTabChange(tabs[newValue].month, tabs[newValue].month_name);
+    handleTabChange(tabs[newValue].month);
   };
 
   const a11yProps = (index: number) => {
