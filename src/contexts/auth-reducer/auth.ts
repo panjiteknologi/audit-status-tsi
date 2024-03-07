@@ -1,29 +1,29 @@
 // action - state management
-import { LOGIN, LOGOUT } from './actions';
+import { LOGIN, LOGOUT } from "./actions";
 
 type StateType = {
   isLoggedIn?: boolean;
   user?: null | any;
   isInitialized?: boolean;
-}
+};
 
 // initial state
 export const initialState: StateType = {
   isLoggedIn: false,
   isInitialized: false,
-  user: null
+  user: null,
 };
 
 // ==============================|| AUTH REDUCER ||============================== //
 
 type Action = {
-  type: '@auth/LOGIN' | '@auth/LOGOUT';
+  type: "@auth/LOGIN" | "@auth/LOGOUT" | "@auth/IDEMPLOYEE";
   payload: {
     isLoggedIn?: boolean;
     user?: null | any;
     isInitialized?: boolean;
-  }
-}
+  };
+};
 
 const auth = (state = initialState, action: Action) => {
   switch (action.type) {
@@ -33,7 +33,7 @@ const auth = (state = initialState, action: Action) => {
         ...state,
         isLoggedIn: true,
         isInitialized: true,
-        user
+        user,
       };
     }
     case LOGOUT: {
@@ -41,7 +41,7 @@ const auth = (state = initialState, action: Action) => {
         ...state,
         isInitialized: true,
         isLoggedIn: false,
-        user: null
+        user: null,
       };
     }
     default: {

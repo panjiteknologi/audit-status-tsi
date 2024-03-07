@@ -1,17 +1,27 @@
-import { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 // material-ui
-import { styled, useTheme } from '@mui/material/styles';
-import { Box, IconButton, List, ListItem, ListItemAvatar, ListItemText, Menu, MenuItem, Theme } from '@mui/material';
+import { styled, useTheme } from "@mui/material/styles";
+import {
+  Box,
+  IconButton,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemText,
+  Menu,
+  MenuItem,
+  Theme,
+} from "@mui/material";
 
 // project import
-import Avatar from '@/components/@extended/Avatar';
-import useAuth from '@/hooks/useAuth';
-import { useGetMenuMaster } from '@/api/menu';
+import Avatar from "@/components/@extended/Avatar";
+import useAuth from "@/hooks/useAuth";
+import { useGetMenuMaster } from "@/api/menu";
 
 // assets
-import { KeyboardArrowRight, AccountCircleOutlined } from '@mui/icons-material';
+import { KeyboardArrowRight, AccountCircleOutlined } from "@mui/icons-material";
 
 interface ExpandMoreProps {
   theme: Theme;
@@ -19,21 +29,22 @@ interface ExpandMoreProps {
   drawerOpen?: boolean;
 }
 
-const ExpandMore = styled(IconButton, { shouldForwardProp: (prop) => prop !== 'theme' && prop !== 'expand' && prop !== 'drawerOpen' })(
-  ({ theme, expand, drawerOpen }: ExpandMoreProps) => ({
-    transform: !expand ? 'rotate(0deg)' : 'rotate(-90deg)',
-    marginLeft: 'auto',
-    color: theme.palette.secondary.dark,
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest
-    }),
-    ...(!drawerOpen && {
-      opacity: 0,
-      width: 50,
-      height: 50
-    })
-  })
-);
+const ExpandMore = styled(IconButton, {
+  shouldForwardProp: (prop) =>
+    prop !== "theme" && prop !== "expand" && prop !== "drawerOpen",
+})(({ theme, expand, drawerOpen }: ExpandMoreProps) => ({
+  transform: !expand ? "rotate(0deg)" : "rotate(-90deg)",
+  marginLeft: "auto",
+  color: theme.palette.secondary.dark,
+  transition: theme.transitions.create("transform", {
+    duration: theme.transitions.duration.shortest,
+  }),
+  ...(!drawerOpen && {
+    opacity: 0,
+    width: 50,
+    height: 50,
+  }),
+}));
 
 // ==============================|| DRAWER - USER ||============================== //
 
@@ -50,8 +61,8 @@ const NavUser = () => {
       await logout();
       navigate(`/`, {
         state: {
-          from: ''
-        }
+          from: "",
+        },
       });
     } catch (err) {
       console.error(err);
@@ -64,12 +75,21 @@ const NavUser = () => {
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
 
+  const dataUser = user?.data;
+
   return (
-    <Box sx={{ p: 1.25, px: !drawerOpen ? 1.25 : 3, borderTop: `2px solid ${theme.palette.divider}` }}>
+    <Box
+      sx={{
+        p: 1.25,
+        px: !drawerOpen ? 1.25 : 3,
+        borderTop: `2px solid ${theme.palette.divider}`,
+      }}
+    >
       <List disablePadding>
         <ListItem
           disablePadding
@@ -80,23 +100,33 @@ const NavUser = () => {
               expand={open}
               drawerOpen={Boolean(drawerOpen)}
               id="basic-button"
-              aria-controls={open ? 'basic-menu' : undefined}
+              aria-controls={open ? "basic-menu" : undefined}
               aria-haspopup="true"
-              aria-expanded={open ? 'true' : undefined}
+              aria-expanded={open ? "true" : undefined}
               onClick={handleClick}
               aria-label="show more"
             >
-              <KeyboardArrowRight style={{ fontSize: '0.625rem' }} />
+              <KeyboardArrowRight style={{ fontSize: "0.625rem" }} />
             </ExpandMore>
           }
-          sx={{ '& .MuiListItemSecondaryAction-root': { right: !drawerOpen ? -20 : -16 } }}
+          sx={{
+            "& .MuiListItemSecondaryAction-root": {
+              right: !drawerOpen ? -20 : -16,
+            },
+          }}
         >
           <ListItemAvatar>
-            <Avatar alt="Avatar" sx={{ ...(drawerOpen && { width: 46, height: 46 }) }}>
+            <Avatar
+              alt="Avatar"
+              sx={{ ...(drawerOpen && { width: 46, height: 46 }) }}
+            >
               <AccountCircleOutlined />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={user?.name} secondary="UI/UX Designer" />
+          <ListItemText
+            primary={dataUser?.nama}
+            secondary={dataUser?.jabatan}
+          />
         </ListItem>
       </List>
       <Menu
@@ -105,15 +135,15 @@ const NavUser = () => {
         open={open}
         onClose={handleClose}
         MenuListProps={{
-          'aria-labelledby': 'basic-button'
+          "aria-labelledby": "basic-button",
         }}
         anchorOrigin={{
-          vertical: 'top',
-          horizontal: 'right'
+          vertical: "top",
+          horizontal: "right",
         }}
         transformOrigin={{
-          vertical: 'bottom',
-          horizontal: 'right'
+          vertical: "bottom",
+          horizontal: "right",
         }}
       >
         <MenuItem onClick={handleLogout}>Logout</MenuItem>

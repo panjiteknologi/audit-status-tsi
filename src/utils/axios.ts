@@ -1,14 +1,16 @@
-import axios from 'axios';
+import axios from "axios";
 
-const axiosServices = axios.create({ baseURL: import.meta.env.VITE_APP_API_URL || 'root endpoint here' });
+const axiosServices = axios.create({
+  baseURL: import.meta.env.VITE_APP_API_URL || "root endpoint here",
+});
 
 // ==============================|| AXIOS - FOR MOCK SERVICES ||============================== //
 
 axiosServices.interceptors.request.use(
   async (config) => {
-    const accessToken = localStorage.getItem('serviceToken');
+    const accessToken = localStorage.getItem("serviceToken");
     if (accessToken) {
-      config.headers['Authorization'] = `Bearer ${accessToken}`;
+      config.headers["Authorization"] = `${accessToken}`;
     }
     return config;
   },
@@ -20,10 +22,12 @@ axiosServices.interceptors.request.use(
 axiosServices.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401 && !window.location.href.includes('/')) {
-      window.location = '/maintenance/500' as Location | (string & Location);
+    if (error.response.status === 401 && !window.location.href.includes("/")) {
+      window.location = "/maintenance/500" as Location | (string & Location);
     }
-    return Promise.reject((error.response && error.response.data) || 'Wrong Services');
+    return Promise.reject(
+      (error.response && error.response.data) || "Wrong Services"
+    );
   }
 );
 

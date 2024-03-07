@@ -1,43 +1,36 @@
-import React, { MouseEvent } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { MouseEvent } from "react";
 
 // material-ui
 import {
   Button,
-  Checkbox,
-  FormControlLabel,
   FormHelperText,
   Grid,
-  Link,
   InputAdornment,
   InputLabel,
   OutlinedInput,
   Stack,
-  Typography,
-} from '@mui/material';
+} from "@mui/material";
 
 // third party
-import * as Yup from 'yup';
-import { Formik } from 'formik';
-import { preload } from 'swr';
+import * as Yup from "yup";
+import { Formik } from "formik";
 
 // project import
-import useAuth from '@/hooks/useAuth';
-import useScriptRef from '@/hooks/useScriptRef';
-import IconButton from '@/components/@extended/IconButton';
-import AnimateButton from '@/components/@extended/AnimateButton';
-import { fetcher } from '@/utils/axios';
+import useAuth from "@/hooks/useAuth";
+import IconButton from "@/components/@extended/IconButton";
+import AnimateButton from "@/components/@extended/AnimateButton";
+import { useNavigate } from "react-router-dom";
 
 // assets
-import { VisibilityOutlined, VisibilityOffOutlined } from '@mui/icons-material';
+import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
 
 // ============================|| JWT - LOGIN ||============================ //
 
 const AuthLogin = () => {
-  const [checked, setChecked] = React.useState(false);
+  const navigate = useNavigate();
 
   const { login } = useAuth();
-  const scriptedRef = useScriptRef();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
@@ -52,53 +45,63 @@ const AuthLogin = () => {
     <>
       <Formik
         initialValues={{
-          email: '',
-          password: '',
-          submit: null
+          username: "",
+          password: "",
+          submit: null,
         }}
         validationSchema={Yup.object().shape({
-          email: Yup.string().email('Must be a valid email').max(50).required('Email is required'),
-          password: Yup.string().max(250).required('Password is required')
+          username: Yup.string().max(50).required("Username is required"),
+          password: Yup.string().max(250).required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
-            await login(values.email, values.password);
-            if (scriptedRef.current) {
+            const response = await login(values.username, values.password);
+            console.log("response", response);
+            if (response) {
               setStatus({ success: true });
               setSubmitting(false);
-              preload('api/menu/dashboard', fetcher); // load menu on login success
+              navigate("/payslip");
             }
           } catch (err: any) {
-            console.error(err);
-            if (scriptedRef.current) {
-              setStatus({ success: false });
-              setErrors({ submit: err.message });
-              setSubmitting(false);
-            }
+            console.log("err", err);
+            setStatus({ success: false });
+            setErrors({ submit: err.message });
+            setSubmitting(false);
           }
         }}
       >
-        {({ errors, handleBlur, handleChange, handleSubmit, isSubmitting, touched, values }) => (
+        {({
+          errors,
+          handleBlur,
+          handleChange,
+          handleSubmit,
+          isSubmitting,
+          touched,
+          values,
+        }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
               <Grid item xs={12}>
                 <Stack spacing={1}>
-                  <InputLabel htmlFor="email-login">Email Address</InputLabel>
+                  <InputLabel htmlFor="username-login">Username</InputLabel>
                   <OutlinedInput
-                    id="email-login"
-                    type="email"
-                    value={values.email}
-                    name="email"
+                    id="username-login"
+                    type="username"
+                    value={values.username}
+                    name="username"
                     onBlur={handleBlur}
                     onChange={handleChange}
-                    placeholder="Enter email address"
+                    placeholder="Enter Username"
                     fullWidth
-                    error={Boolean(touched.email && errors.email)}
+                    error={Boolean(touched.username && errors.username)}
                   />
                 </Stack>
-                {touched.email && errors.email && (
-                  <FormHelperText error id="standard-weight-helper-text-email-login">
-                    {errors.email}
+                {touched.username && errors.username && (
+                  <FormHelperText
+                    error
+                    id="standard-weight-helper-text-username-login"
+                  >
+                    {errors.username}
                   </FormHelperText>
                 )}
               </Grid>
@@ -109,7 +112,7 @@ const AuthLogin = () => {
                     fullWidth
                     error={Boolean(touched.password && errors.password)}
                     id="-password-login"
-                    type={showPassword ? 'text' : 'password'}
+                    type={showPassword ? "text" : "password"}
                     value={values.password}
                     name="password"
                     onBlur={handleBlur}
@@ -123,7 +126,11 @@ const AuthLogin = () => {
                           edge="end"
                           color="secondary"
                         >
-                          {showPassword ? <VisibilityOutlined /> : <VisibilityOffOutlined />}
+                          {showPassword ? (
+                            <VisibilityOutlined />
+                          ) : (
+                            <VisibilityOffOutlined />
+                          )}
                         </IconButton>
                       </InputAdornment>
                     }
@@ -131,14 +138,22 @@ const AuthLogin = () => {
                   />
                 </Stack>
                 {touched.password && errors.password && (
-                  <FormHelperText error id="standard-weight-helper-text-password-login">
+                  <FormHelperText
+                    error
+                    id="standard-weight-helper-text-password-login"
+                  >
                     {errors.password}
                   </FormHelperText>
                 )}
               </Grid>
 
-              <Grid item xs={12} sx={{ mt: -1 }}>
-                <Stack direction="row" justifyContent="space-between" alignItems="center" spacing={2}>
+              {/* <Grid item xs={12} sx={{ mt: -1 }}>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  alignItems="center"
+                  spacing={2}
+                >
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -149,13 +164,20 @@ const AuthLogin = () => {
                         size="small"
                       />
                     }
-                    label={<Typography variant="h6">Keep me sign in</Typography>}
+                    label={
+                      <Typography variant="h6">Keep me sign in</Typography>
+                    }
                   />
-                  <Link variant="h6" component={RouterLink} to='/forgot-password' color="text.primary">
+                  <Link
+                    variant="h6"
+                    component={RouterLink}
+                    to="/forgot-password"
+                    color="text.primary"
+                  >
                     Forgot Password?
                   </Link>
                 </Stack>
-              </Grid>
+              </Grid> */}
               {errors.submit && (
                 <Grid item xs={12}>
                   <FormHelperText error>{errors.submit}</FormHelperText>
@@ -163,7 +185,15 @@ const AuthLogin = () => {
               )}
               <Grid item xs={12}>
                 <AnimateButton>
-                  <Button disableElevation disabled={isSubmitting} fullWidth size="large" type="submit" variant="contained" color="primary">
+                  <Button
+                    disableElevation
+                    disabled={isSubmitting}
+                    fullWidth
+                    size="large"
+                    type="submit"
+                    variant="contained"
+                    color="primary"
+                  >
                     Login
                   </Button>
                 </AnimateButton>
