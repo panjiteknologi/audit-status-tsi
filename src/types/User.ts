@@ -21,6 +21,7 @@ export interface User {
   is_delete_salary: number;
   kekurangan_bayar_bulan_lalu: number;
   lembur: number;
+  lembur_backup: number;
   master_client_id: number;
   master_client_sub_id: number;
   master_employee_id: null;
@@ -48,6 +49,8 @@ export interface User {
   thr: number;
   total_diterima: number;
   total_timesheet_bulan_ini: number;
+  tunjangan_jabatan: number;
+  tunjangan_lembur_nasional: number;
   tunjangan_transport: number;
   ukuran_baju: string;
   ukuran_celana: string;
