@@ -34,7 +34,7 @@ const Profile = () => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const { logout, user } = useAuth();
+  const { logout } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -64,8 +64,6 @@ const Profile = () => {
 
   const iconBackColorOpen =
     theme.palette.mode === ThemeMode.DARK ? "background.default" : "grey.100";
-
-  const dataUser = user?.data;
 
   const username = window.localStorage.getItem("username");
 

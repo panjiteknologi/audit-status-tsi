@@ -31,12 +31,17 @@ const payload = {
   user: null,
 };
 
+interface jwtProps {
+  id: string;
+  name: string;
+}
+
 const decodedToken = (serviceToken: string | null) => {
   if (!serviceToken) {
     return null;
   }
 
-  const decoded = jwtDecode(serviceToken);
+  const decoded: jwtProps = jwtDecode(serviceToken);
 
   localStorage.setItem("idEmployee", decoded?.id);
   localStorage.setItem("username", decoded?.name);

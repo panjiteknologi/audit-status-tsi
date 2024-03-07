@@ -1,16 +1,25 @@
-import { SyntheticEvent } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { SyntheticEvent } from "react";
 
 // material-ui
-import { Alert, Button, Fade, Grow, GrowProps, Slide, SlideProps } from '@mui/material';
-import MuiSnackbar from '@mui/material/Snackbar';
-import { SnackbarCloseReason } from '@mui/base';
+import {
+  Alert,
+  Button,
+  Fade,
+  Grow,
+  GrowProps,
+  Slide,
+  SlideProps,
+} from "@mui/material";
+import MuiSnackbar from "@mui/material/Snackbar";
+import { SnackbarCloseReason } from "@mui/base";
 
 // project import
-import IconButton from './IconButton';
-import { closeSnackbar, useGetSnackbar } from '@/api/snackbar';
+import IconButton from "./IconButton";
+import { closeSnackbar, useGetSnackbar } from "@/api/snackbar";
 
 // assets
-import { HighlightOffRounded } from '@mui/icons-material';
+import { HighlightOffRounded } from "@mui/icons-material";
 
 // animation function
 function TransitionSlideLeft(props: SlideProps) {
@@ -40,7 +49,7 @@ const animation = {
   SlideRight: TransitionSlideRight,
   SlideDown: TransitionSlideDown,
   Grow: GrowTransition,
-  Fade
+  Fade,
 };
 
 // ==============================|| SNACKBAR ||============================== //
@@ -48,8 +57,11 @@ const animation = {
 const Snackbar = () => {
   const { snackbar } = useGetSnackbar();
 
-  const handleClose = (event: Event | SyntheticEvent<any, Event>, reason: SnackbarCloseReason) => {
-    if (reason === 'clickaway') {
+  const handleClose = (
+    _event: Event | SyntheticEvent<any, Event>,
+    reason: SnackbarCloseReason
+  ) => {
+    if (reason === "clickaway") {
       return;
     }
     closeSnackbar();
@@ -58,7 +70,7 @@ const Snackbar = () => {
   return (
     <>
       {/* default snackbar */}
-      {snackbar?.variant === 'default' && (
+      {snackbar?.variant === "default" && (
         <MuiSnackbar
           anchorOrigin={snackbar.anchorOrigin}
           open={snackbar.open}
@@ -68,10 +80,20 @@ const Snackbar = () => {
           TransitionComponent={animation[snackbar.transition]}
           action={
             <>
-              <Button color="secondary" size="small" onClick={() => handleClose}>
+              <Button
+                color="secondary"
+                size="small"
+                onClick={() => handleClose}
+              >
                 UNDO
               </Button>
-              <IconButton size="small" aria-label="close" color="inherit" onClick={() => handleClose} sx={{ mt: 0.25 }}>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={() => handleClose}
+                sx={{ mt: 0.25 }}
+              >
                 <HighlightOffRounded />
               </IconButton>
             </>
@@ -79,7 +101,7 @@ const Snackbar = () => {
         />
       )}
       {/* alert snackbar */}
-      {snackbar?.variant === 'alert' && (
+      {snackbar?.variant === "alert" && (
         <MuiSnackbar
           TransitionComponent={animation[snackbar.transition]}
           anchorOrigin={snackbar.anchorOrigin}
@@ -93,7 +115,11 @@ const Snackbar = () => {
             action={
               <>
                 {snackbar.actionButton !== false && (
-                  <Button color={snackbar.alert.color} size="small" onClick={() => handleClose}>
+                  <Button
+                    color={snackbar.alert.color}
+                    size="small"
+                    onClick={() => handleClose}
+                  >
                     UNDO
                   </Button>
                 )}
@@ -112,9 +138,9 @@ const Snackbar = () => {
               </>
             }
             sx={{
-              ...(snackbar.alert.variant === 'outlined' && {
-                bgcolor: 'grey.0'
-              })
+              ...(snackbar.alert.variant === "outlined" && {
+                bgcolor: "grey.0",
+              }),
             }}
           >
             {snackbar.message}

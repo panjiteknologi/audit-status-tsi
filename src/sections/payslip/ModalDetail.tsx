@@ -25,10 +25,9 @@ const menu = [
     status_id: "1",
   },
 ];
-
 interface ModalDetailProps {
   showPayslip: boolean;
-  setShowPayslip: () => void;
+  onClose: () => void;
   data: User[];
   dataSlip: User;
   selectedMonthName: string;
@@ -39,7 +38,7 @@ interface ModalDetailProps {
 
 const ModalDetail = ({
   showPayslip,
-  setShowPayslip,
+  onClose,
   data,
   selectedMonthName,
   value,
@@ -97,12 +96,12 @@ const ModalDetail = ({
   return (
     <Modal
       open={showPayslip}
-      onClose={setShowPayslip}
+      onClose={onClose}
       aria-labelledby="child-modal-title"
       aria-describedby="child-modal-description"
     >
       <Box sx={style}>
-        <CloseButton onClick={() => setShowPayslip(false)} />
+        <CloseButton onClick={onClose} />
 
         <Box
           flexDirection={"row"}
