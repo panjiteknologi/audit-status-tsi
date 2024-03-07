@@ -74,14 +74,29 @@ const ModalDetail = ({
       +dataSlip?.total_masuk_kerja
   );
 
-  const totalPendapatan = Math.round(
-    gajiProrate +
-      totalLembur +
-      +dataSlip?.insentive +
-      +dataSlip?.tunjangan_transport +
-      +dataSlip?.thr +
-      +dataSlip?.kekurangan_bayar_bulan_lalu
-  );
+  const totalPendapatan =
+    dataSlip?.client_name === "MERCY"
+      ? Math.round(
+          gajiProrate +
+            totalLembur +
+            +dataSlip?.lembur_backup +
+            +dataSlip?.insentive +
+            +dataSlip?.tunjangan_jabatan +
+            +dataSlip?.tunjangan_lembur_nasional +
+            +dataSlip?.tunjangan_transport +
+            +dataSlip?.thr +
+            +dataSlip?.kekurangan_bayar_bulan_lalu
+        )
+      : Math.round(
+          gajiProrate +
+            totalLembur +
+            +dataSlip?.lembur_backup +
+            +dataSlip?.insentive +
+            +dataSlip?.tunjangan_jabatan +
+            +dataSlip?.tunjangan_transport +
+            +dataSlip?.thr +
+            +dataSlip?.kekurangan_bayar_bulan_lalu
+        );
 
   const totalPotongan = Math.round(
     +dataSlip?.potongan_admin_bank +
