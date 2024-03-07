@@ -1,28 +1,21 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import { MouseEvent, useState } from "react";
-
-// material-ui
+import { useState } from "react";
 import {
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-
-// assets
 import { LogoutOutlined } from "@mui/icons-material";
 
-// ==============================|| HEADER PROFILE - PROFILE TAB ||============================== //
-
 const ProfileTab = ({ handleLogout }: { handleLogout: () => void }) => {
-  const [selectedIndex, setSelectedIndex] = useState<number>(0);
+  const [selectedIndex] = useState<number>(0);
 
-  const handleListItemClick = (
-    event: MouseEvent<HTMLDivElement>,
-    index: number
-  ) => {
-    setSelectedIndex(index);
-  };
+  // const handleListItemClick = (
+  //   event: MouseEvent<HTMLDivElement>,
+  //   index: number
+  // ) => {
+  //   setSelectedIndex(index);
+  // };
 
   return (
     <List

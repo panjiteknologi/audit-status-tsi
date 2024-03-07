@@ -1,5 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable react-hooks/exhaustive-deps */
 import PayslipSections from "@/sections/payslip";
 import {
   Button,
@@ -27,7 +25,9 @@ import CloseButton from "@/sections/payslip/CloseButton";
 const Payslip = () => {
   const [value, setValue] = useState<string>("");
 
-  const [month, setMonth] = useState<{ month: string; month_name: string }[]>([]);
+  const [month, setMonth] = useState<{ month: string; month_name: string }[]>(
+    []
+  );
   const [data, setData] = useState<User[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<string>("01");
   const [message, setMessage] = useState("");
@@ -39,7 +39,7 @@ const Payslip = () => {
 
   const gajiProrate = Math.round(
     (+data[0]?.gaji_pokok / +data[0]?.total_timesheet_bulan_ini) *
-    +data[0]?.total_masuk_kerja
+      +data[0]?.total_masuk_kerja
   );
 
   const getDataEmployee = async () => {
@@ -137,7 +137,7 @@ const Payslip = () => {
   };
 
   const getMonth = async () => {
-    const response: any = await axios.post(
+    const response = await axios.post(
       "http://101.50.2.90:5353/api/v1/cis/employee/get_month"
     );
     setMonth(response?.data?.data);
@@ -148,9 +148,7 @@ const Payslip = () => {
   };
 
   const getMonthName = (selectedMonth: string) => {
-    const selectedMonthObj = month.find(
-      (m) => m?.month === selectedMonth
-    );
+    const selectedMonthObj = month.find((m) => m?.month === selectedMonth);
     return selectedMonthObj ? selectedMonthObj?.month_name : "";
   };
 
@@ -160,6 +158,7 @@ const Payslip = () => {
 
   useEffect(() => {
     getDataEmployee();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMonth]);
 
   return (

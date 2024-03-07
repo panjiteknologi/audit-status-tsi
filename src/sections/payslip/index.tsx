@@ -68,7 +68,7 @@ const PayslipSections = ({
           >
             <ModalDetail
               showPayslip={showPayslip}
-              setShowPayslip={() => setShowPayslip(false)}
+              onClose={() => setShowPayslip(false)}
               data={data}
               dataSlip={dataSlip}
               selectedMonthName={selectedMonthName}
