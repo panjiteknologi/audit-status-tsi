@@ -3,7 +3,6 @@ import { Box, Grid, Paper, Typography, styled } from "@mui/material";
 import { formatIdr } from "@/utils/formatIdr";
 import { User } from "@/types/User";
 import dayjs from "dayjs";
-
 interface CardModalProps {
   item: string;
   items: User;
@@ -176,7 +175,7 @@ const CardModal = ({
                   <TitleItem>Total Lembur</TitleItem>
                 </Grid>
                 <Grid item xs={12} md={4} xl={6}>
-                  <Item>{items?.lembur || "0"}</Item>
+                  <Item>{items?.lembur || "0"} Jam</Item>
                 </Grid>
                 <Grid item xs={12} md={8} xl={6}>
                   <TitleItem>Total Uang Lembur</TitleItem>
@@ -185,16 +184,40 @@ const CardModal = ({
                   <Item>{formatIdr(totalLembur) || "0"}</Item>
                 </Grid>
                 <Grid item xs={12} md={8} xl={6}>
-                  <TitleItem>Insentif</TitleItem>
+                  <TitleItem>Lembur Backup</TitleItem>
                 </Grid>
                 <Grid item xs={12} md={4} xl={6}>
-                  <Item>{formatIdr(items?.insentive) || "-"}</Item>
+                  <Item>{formatIdr(items?.lembur_backup) || "0"}</Item>
                 </Grid>
+                <Grid item xs={12} md={8} xl={6}>
+                  <TitleItem>Insentive</TitleItem>
+                </Grid>
+                <Grid item xs={12} md={4} xl={6}>
+                  <Item>{formatIdr(items?.insentive) || "0"}</Item>
+                </Grid>
+                <Grid item xs={12} md={8} xl={6}>
+                  <TitleItem>Tunjangan Jabatan</TitleItem>
+                </Grid>
+                <Grid item xs={12} md={4} xl={6}>
+                  <Item>{formatIdr(items?.tunjangan_jabatan) || "0"}</Item>
+                </Grid>
+                {items?.client_name === "MERCY" && (
+                  <>
+                    <Grid item xs={12} md={8} xl={6}>
+                      <TitleItem>Tunjangan Lembur Nasional</TitleItem>
+                    </Grid>
+                    <Grid item xs={12} md={4} xl={6}>
+                      <Item>
+                        {formatIdr(items?.tunjangan_lembur_nasional) || "0"}
+                      </Item>
+                    </Grid>
+                  </>
+                )}
                 <Grid item xs={12} md={8} xl={6}>
                   <TitleItem>Tunjangan Transport</TitleItem>
                 </Grid>
                 <Grid item xs={12} md={4} xl={6}>
-                  <Item>{formatIdr(items?.tunjangan_transport) || "-"}</Item>
+                  <Item>{formatIdr(items?.tunjangan_transport) || "0"}</Item>
                 </Grid>
                 <Grid item xs={12} md={8} xl={6}>
                   <TitleItem>THR</TitleItem>

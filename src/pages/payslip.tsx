@@ -21,16 +21,15 @@ import { Box } from "@mui/system";
 import IllustrationConfirmation from "../assets/illustration/il-confirmation.svg";
 import IllustrationCancel from "../assets/illustration/il-notfound.svg";
 import CloseButton from "@/sections/payslip/CloseButton";
+import { ListTab } from "@/types/Tabs";
 
 const Payslip = () => {
   const [value, setValue] = useState<string>("");
-
-  const [month, setMonth] = useState<{ month: string; month_name: string }[]>(
-    []
-  );
-  const [data, setData] = useState<User[]>([]);
   const [selectedMonth, setSelectedMonth] = useState<string>("01");
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState<string>("");
+
+  const [month, setMonth] = useState<ListTab[]>([]);
+  const [data, setData] = useState<User[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);

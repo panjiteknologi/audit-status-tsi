@@ -18,14 +18,29 @@ const PayslipDocument = ({ data }: PayslipDocumentProps) => {
       +data?.total_masuk_kerja
   );
 
-  const totalPendapatan = Math.round(
-    gajiProrate +
-      totalLembur +
-      +data?.insentive +
-      +data?.tunjangan_transport +
-      +data?.thr +
-      +data?.kekurangan_bayar_bulan_lalu
-  );
+  const totalPendapatan =
+    data?.client_name === "MERCY"
+      ? Math.round(
+          gajiProrate +
+            totalLembur +
+            +data?.lembur_backup +
+            +data?.insentive +
+            +data?.tunjangan_jabatan +
+            +data?.tunjangan_lembur_nasional +
+            +data?.tunjangan_transport +
+            +data?.thr +
+            +data?.kekurangan_bayar_bulan_lalu
+        )
+      : Math.round(
+          gajiProrate +
+            totalLembur +
+            +data?.lembur_backup +
+            +data?.insentive +
+            +data?.tunjangan_jabatan +
+            +data?.tunjangan_transport +
+            +data?.thr +
+            +data?.kekurangan_bayar_bulan_lalu
+        );
 
   const totalPotongan = Math.round(
     +data?.potongan_admin_bank +

@@ -28,7 +28,7 @@ const BenefitInformation = ({
             <Text style={styles.titleItem}>Gaji Prorate Diterima</Text>
             <Text style={styles.titleItem}>Total Lembur</Text>
             <Text style={styles.titleItem}>Total Uang Lembur</Text>
-            <Text style={styles.titleItem}>Insentif</Text>
+            <Text style={styles.titleItem}>Insentive</Text>
             <Text style={styles.titleItem}>Tunjangan Transport</Text>
             <Text style={styles.titleItem}>THR</Text>
             <Text style={styles.titleItem}>Kekurangan Bayar Bulan Lalu</Text>
@@ -42,7 +42,7 @@ const BenefitInformation = ({
               {data?.total_masuk_kerja || "0"} Hari
             </Text>
             <Text style={styles.text}>{formatIdr(gajiProrate) || "0"}</Text>
-            <Text style={styles.text}>{data?.lembur || "0"}</Text>
+            <Text style={styles.text}>{data?.lembur || "0"} Jam</Text>
             <Text style={styles.text}>{formatIdr(totalLembur) || "0"}</Text>
             <Text style={styles.text}>{formatIdr(data?.insentive) || "0"}</Text>
             <Text style={styles.text}>

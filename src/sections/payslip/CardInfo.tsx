@@ -50,7 +50,7 @@ const CardInfo = ({ item, openModal, items }: CardInfoProps) => {
           <Grid item xs={6} width={"50%"}>
             <Item>{items?.nama || "-"}</Item>
             <Item>{items?.jabatan || "-"}</Item>
-            <Item>{items?.area || "-"}</Item>
+            <Item>{items?.client_name + " - " + items?.area || "-"}</Item>
             <Item>{formatIdr(items?.gaji_pokok) || "-"}</Item>
             <Item>{formatIdr(items?.insentive) || "-"}</Item>
             <Item>{formatIdr(items?.tunjangan_transport) || "-"}</Item>
