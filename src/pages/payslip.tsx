@@ -137,7 +137,7 @@ const Payslip = () => {
 
   const getMonth = async () => {
     const response = await axios.post(
-      "http://101.50.2.90:5353/api/v1/cis/employee/get_month"
+      "https://api-cis.manajemensistem.com/api/v1/cis/employee/get_month"
     );
     setMonth(response?.data?.data);
   };
