@@ -7,7 +7,8 @@ import authReducer, { initialState } from "@contexts/auth-reducer/auth";
 import Loader from "@components/Loader";
 import axios from "@utils/axios";
 
-export const BASE_URL = "http://101.50.2.90:5353/api/v1/cis/employee/";
+export const BASE_URL =
+  "https://api-cis.manajemensistem.com/api/v1/cis/employee/";
 export const API_LOGIN = "login_employee";
 export const API_LOGOUT = "logout_employee";
 export const GET_ID_EMPLOYEE = "get_employee_by_master_employee_id";
