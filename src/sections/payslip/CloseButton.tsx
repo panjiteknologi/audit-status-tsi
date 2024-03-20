@@ -26,12 +26,9 @@ const CloseButton = ({ onClick }: CloseButtonProps) => {
         top: 12,
         right: 12,
       }}
+      onClick={onClick}
     >
-      <img
-        src={IconClose}
-        style={{ width: 15, height: 15 }}
-        onClick={onClick}
-      />
+      <img src={IconClose} style={{ width: 15, height: 15 }} />
     </Box>
   );
 };

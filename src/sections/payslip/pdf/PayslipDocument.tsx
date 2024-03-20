@@ -105,11 +105,11 @@ const styles = StyleSheet.create({
     marginRight: 8,
     fontSize: "10px",
     color: "gray",
-    fontWeight: "semibold",
+    fontWeight: "bold",
   },
   total: {
     fontSize: "10px",
-    color: "red",
+    color: "#000",
     fontWeight: "bold",
   },
 });

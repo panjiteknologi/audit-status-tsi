@@ -36,26 +36,54 @@ const CardInfo = ({ item, openModal, items }: CardInfoProps) => {
           </Link>
         }
       >
-        <Grid container columnSpacing={{ xs: 2 }} width={"100%"}>
-          <Grid item xs={6} width={"50%"}>
-            <Item>Nama</Item>
-            <Item>Jabatan</Item>
-            <Item>Area</Item>
-            <Item>Basic Salary</Item>
-            <Item>Insentive</Item>
-            <Item>Transport Allowance</Item>
-            <Item>Status</Item>
-            <Item>Notes</Item>
-          </Grid>
-          <Grid item xs={6} width={"50%"}>
-            <Item>{items?.nama || "-"}</Item>
-            <Item>{items?.jabatan || "-"}</Item>
-            <Item>{items?.client_name + " - " + items?.area || "-"}</Item>
-            <Item>{formatIdr(items?.gaji_pokok) || "-"}</Item>
-            <Item>{formatIdr(items?.insentive) || "-"}</Item>
-            <Item>{formatIdr(items?.tunjangan_transport) || "-"}</Item>
-            <Item>{items?.status || "-"}</Item>
-            <Item>{items?.catatan || "-"}</Item>
+        <Grid container columnSpacing={{ xs: 1 }}>
+          <Grid item xs={12}>
+            <Grid container sx={{ marginBottom: 1 }}>
+              <Grid item xs={6}>
+                <Item>Nama</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>{items?.nama || "-"}</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>Jabatan</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>{items?.jabatan || "-"}</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>Area</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>{items?.client_name + " - " + items?.area || "-"}</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>Basic Salary</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>{formatIdr(items?.gaji_pokok) || "-"}</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>Insentive</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>{formatIdr(items?.insentive) || "-"}</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>Transport Allowance</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>{formatIdr(items?.tunjangan_transport) || "-"}</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>Status</Item>
+              </Grid>
+              <Grid item xs={6}>
+                <Item>
+                  {items?.sesuai === 0 ? "Belum Sesuai" : "Sesuai" || "-"}
+                </Item>
+              </Grid>
+            </Grid>
           </Grid>
         </Grid>
       </MainCard>

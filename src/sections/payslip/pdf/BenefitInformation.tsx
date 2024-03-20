@@ -23,7 +23,6 @@ const BenefitInformation = ({
         <Text style={styles.txt}>Pendapatan</Text>
         <View style={styles.informationContent}>
           <View style={{ width: "60%" }}>
-            <Text style={styles.titleItem}>Gaji Pokok</Text>
             <Text style={styles.titleItem}>Jumlah Masuk Kerja</Text>
             <Text style={styles.titleItem}>Gaji Prorate Diterima</Text>
             <Text style={styles.titleItem}>Total Lembur</Text>
@@ -35,9 +34,6 @@ const BenefitInformation = ({
             <Text style={styles.titleItem}>TOTAL PENDAPATAN</Text>
           </View>
           <View style={{ width: "40%" }}>
-            <Text style={styles.text}>
-              {formatIdr(data?.gaji_pokok) || "0"}
-            </Text>
             <Text style={styles.text}>
               {data?.total_masuk_kerja || "0"} Hari
             </Text>

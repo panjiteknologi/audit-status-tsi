@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { Dispatch, SetStateAction } from "react";
 import MainCard from "@/components/MainCard";
 import MainTabs from "@/components/MainTabs";
 import { ListTab } from "@/types/Tabs";
@@ -16,6 +16,10 @@ interface PayslipSectionProps {
   error: boolean;
   updateStatus: (selectedStatus: string) => void;
   disabled: boolean;
+  createWhatsAppLink: () => void;
+  selectedStatus: string;
+  showPayslip: boolean;
+  setShowPayslip: Dispatch<SetStateAction<boolean>>;
 }
 
 const PayslipSections = ({
@@ -28,8 +32,11 @@ const PayslipSections = ({
   updateStatus,
   error,
   disabled,
+  createWhatsAppLink,
+  selectedStatus,
+  showPayslip,
+  setShowPayslip,
 }: PayslipSectionProps) => {
-  const [showPayslip, setShowPayslip] = useState(false);
   const dataSlip = data[0];
 
   const openModal = () => {
@@ -78,6 +85,8 @@ const PayslipSections = ({
               value={value}
               updateStatus={updateStatus}
               disabled={disabled}
+              createWhatsAppLink={createWhatsAppLink}
+              selectedStatus={selectedStatus}
             />
 
             {data?.map((items, index) => {
