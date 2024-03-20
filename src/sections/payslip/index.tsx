@@ -15,6 +15,7 @@ interface PayslipSectionProps {
   value: string;
   error: boolean;
   updateStatus: (selectedStatus: string) => void;
+  disabled: boolean;
 }
 
 const PayslipSections = ({
@@ -26,6 +27,7 @@ const PayslipSections = ({
   value,
   updateStatus,
   error,
+  disabled,
 }: PayslipSectionProps) => {
   const [showPayslip, setShowPayslip] = useState(false);
   const dataSlip = data[0];
@@ -75,6 +77,7 @@ const PayslipSections = ({
               openModal={openModal}
               value={value}
               updateStatus={updateStatus}
+              disabled={disabled}
             />
 
             {data?.map((items, index) => {
