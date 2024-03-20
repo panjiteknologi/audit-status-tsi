@@ -35,6 +35,7 @@ const Payslip = () => {
   const [error, setError] = useState(false);
   const [match, setMatch] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const gajiProrate = Math.round(
     (+data[0]?.gaji_pokok / +data[0]?.total_timesheet_bulan_ini) *
@@ -75,6 +76,7 @@ const Payslip = () => {
 
   const updateStatus = async (selectedStatus: string) => {
     setValue(selectedStatus);
+    setDisabled(true);
     const token = window.localStorage.getItem("serviceToken");
     const id = window.localStorage.getItem("idEmployee");
     try {
@@ -92,26 +94,35 @@ const Payslip = () => {
         }
       );
       if (response && selectedStatus === "0") {
-        setMatch(true);
-        setShowModal(true);
-        setMessage(
-          "Status berhasil diperbaharui, dan kirimkan pesan anda ke Whatsapp agar segera diperbaiki!"
-        );
-        setError(false);
+        setTimeout(() => {
+          setDisabled(false);
+          setMatch(true);
+          setShowModal(true);
+          setMessage(
+            "Status berhasil diperbaharui, dan kirimkan pesan anda ke Whatsapp agar segera diperbaiki!"
+          );
+          setError(false);
+        }, 1000);
       } else if (response && selectedStatus === "1") {
-        setMatch(false);
-        setShowModal(true);
-        setMessage(
-          "Status berhasil diperbaharui, dan data anda tidak ada yang salah."
-        );
-        setError(false);
+        setTimeout(() => {
+          setDisabled(false);
+          setMatch(false);
+          setShowModal(true);
+          setMessage(
+            "Status berhasil diperbaharui, dan data anda tidak ada yang salah."
+          );
+          setError(false);
+        }, 1000);
       }
     } catch (err) {
-      setMatch(false);
-      setError(true);
-      setMessage(
-        "Status tidak berhasil diperbaharui, silakan ulangi beberapa saat lagi."
-      );
+      setTimeout(() => {
+        setDisabled(false);
+        setMatch(false);
+        setError(true);
+        setMessage(
+          "Status tidak berhasil diperbaharui, silakan ulangi beberapa saat lagi."
+        );
+      }, 1000);
     }
   };
 
@@ -172,6 +183,7 @@ const Payslip = () => {
           value={value}
           updateStatus={updateStatus}
           error={error}
+          disabled={disabled}
         />
         <Dialog
           open={showModal}
