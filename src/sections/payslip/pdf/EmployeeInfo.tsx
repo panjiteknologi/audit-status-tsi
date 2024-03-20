@@ -1,4 +1,5 @@
 import { User } from "@/types/User";
+import { formatIdr } from "@/utils/formatIdr";
 import { Text, View, StyleSheet } from "@react-pdf/renderer";
 import dayjs from "dayjs";
 
@@ -21,7 +22,9 @@ const EmployeeInfo = ({ data }: EmployeeInfoProps) => {
           <View style={{ width: "40%" }}>
             <Text style={styles.text}>{data?.nama || "-"}</Text>
             <Text style={styles.text}>{data?.jabatan || "-"}</Text>
-            <Text style={styles.text}>{data?.lokasi || "-"}</Text>
+            <Text style={styles.text}>
+              {data?.client_name + " - " + data?.area || "-"}
+            </Text>
             <Text style={styles.text}>
               {dayjs(new Date(data?.periode)).format("MMMM YYYY") || "-"}
             </Text>
@@ -32,6 +35,7 @@ const EmployeeInfo = ({ data }: EmployeeInfoProps) => {
             <Text style={styles.titleItem}>Tanggal</Text>
             <Text style={styles.titleItem}>Periode Timesheet</Text>
             <Text style={styles.titleItem}>Total Timesheet</Text>
+            <Text style={styles.titleItem}>Gaji Pokok</Text>
           </View>
           <View style={{ width: "40%" }}>
             <Text style={styles.text}>
@@ -44,6 +48,9 @@ const EmployeeInfo = ({ data }: EmployeeInfoProps) => {
             </Text>
             <Text style={styles.text}>
               {data?.total_timesheet_bulan_ini || "0"} Hari
+            </Text>
+            <Text style={styles.text}>
+              {formatIdr(data?.gaji_pokok) || "0"}
             </Text>
           </View>
         </View>

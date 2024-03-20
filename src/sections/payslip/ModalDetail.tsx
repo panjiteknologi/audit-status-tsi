@@ -1,6 +1,8 @@
 import InputDropdown from "@/components/InputDropdown";
 import {
   Box,
+  Button,
+  CircularProgress,
   Grid,
   Modal,
   Typography,
@@ -14,6 +16,8 @@ import { PDFDownloadLink } from "@react-pdf/renderer";
 import PayslipDocument from "./pdf/PayslipDocument";
 import { formatIdr } from "@/utils/formatIdr";
 import CloseButton from "./CloseButton";
+import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
+import IconWhatsApp from "../../assets/icons/ic-wa.svg";
 
 const menu = [
   {
@@ -34,6 +38,9 @@ interface ModalDetailProps {
   openModal: () => void;
   value: string;
   updateStatus: (selectedStatus: string) => void;
+  disabled: boolean;
+  createWhatsAppLink: () => void;
+  selectedStatus: string;
 }
 
 const ModalDetail = ({
@@ -43,9 +50,14 @@ const ModalDetail = ({
   selectedMonthName,
   value,
   updateStatus,
+  disabled,
+  createWhatsAppLink,
+  selectedStatus,
 }: ModalDetailProps) => {
   const theme = useTheme();
   const sm = useMediaQuery(theme.breakpoints.down("sm"));
+  const md = useMediaQuery(theme.breakpoints.down("md"));
+  const lg = useMediaQuery(theme.breakpoints.down("lg"));
 
   const dataSlip = data[0];
   const style = {
@@ -53,16 +65,18 @@ const ModalDetail = ({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: sm ? "95%" : "80%",
-    height: 620,
+    width: sm ? "95%" : md ? "80%" : lg ? "80%" : "50%",
+    height: 650,
     bgcolor: "background.paper",
     boxShadow: 24,
-    p: 4,
     borderRadius: 4,
     overflow: "auto",
     pt: 2,
-    px: 4,
+    px: 2,
     pb: 3,
+    "&::-webkit-scrollbar": {
+      display: "none",
+    },
   };
 
   const totalLembur = Math.round(
@@ -125,32 +139,54 @@ const ModalDetail = ({
           alignItems={"center"}
           marginTop={4}
         >
-          <img style={{ width: 85, height: 50 }} src={Logo} />
+          <img style={{ width: 80, height: 45 }} src={Logo} />
 
           <Typography
             id="modal-modal-title"
             variant="h5"
-            component="h2"
-            sx={{
-              textAlign: "center",
-              marginBottom: "24px",
-              fontSize: 18,
-              marginLeft: -8,
-              marginTop: 2,
-            }}
+            marginLeft={-2}
+            marginTop={2}
+            fontSize={14}
+            textAlign="center"
+            marginBottom="20px"
           >
             Slip Gaji Karyawan
           </Typography>
-          <Typography
-            id="modal-modal-title"
-            variant="h5"
-            component="h2"
-          ></Typography>
+          <PDFDownloadLink
+            document={<PayslipDocument data={dataSlip} />}
+            fileName="slip-gaji.pdf"
+            style={{
+              backgroundColor: "red",
+              borderRadius: 6,
+              paddingRight: 10,
+              paddingLeft: 10,
+              paddingTop: 4,
+              height: 30,
+              textAlign: "center",
+              width: 70,
+              color: "white",
+              textDecoration: "none",
+            }}
+          >
+            {({ loading }) => (
+              <Box flexDirection="row" display="flex" alignItems="center">
+                <FileDownloadOutlinedIcon
+                  sx={{
+                    height: 20,
+                    width: 20,
+                  }}
+                />
+                <Typography fontSize="12px" marginLeft={0.5} fontWeight="bold">
+                  {loading ? "Tunggu sebentar..." : "PDF"}
+                </Typography>
+              </Box>
+            )}
+          </PDFDownloadLink>
         </Box>
 
         <Box borderTop={1} borderColor={"#dedede"} marginTop={2} />
 
-        <Box marginTop={2} marginLeft={1}>
+        <Box marginTop={2}>
           <Typography fontSize={"12px"} color={"gray"} fontWeight={"bold"}>
             PT CHANDRA INOVASI SOLUSINDO
           </Typography>
@@ -184,58 +220,73 @@ const ModalDetail = ({
 
         <Box
           flexDirection={"row"}
-          justifyContent={"flex-end"}
+          justifyContent={"space-between"}
           display={"flex"}
           alignItems={"center"}
           marginTop={1}
         >
           <Typography
             fontSize={"12px"}
-            color={"gray"}
+            color={"#326aa6"}
             fontWeight={"bold"}
             marginRight={2}
+            textTransform={"uppercase"}
           >
             Jumlah Diterima
           </Typography>
-          <Typography fontSize={"12px"} color={"gray"}>
+          <Typography fontSize={"12px"} color={"#326aa6"}>
             {formatIdr(totalPendapatan + totalPotongan) || "0"}
           </Typography>
         </Box>
 
-        <Box borderTop={1} borderColor={"#dedede"} marginTop={2} />
+        <Box borderTop={1} borderColor={"#dedede"} marginTop={1} />
 
-        <Box
-          width={"100%"}
-          display={"flex"}
-          flexDirection={"row"}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-          marginTop={2}
-        >
+        <Box width={"100%"} marginTop={2}>
           <InputDropdown
             title="Apakah data gaji Anda telah sesuai?"
             selectMenu={menu}
             value={value}
             setValue={updateStatus}
+            disabled={disabled}
+            rightIcon={
+              <CircularProgress
+                color="inherit"
+                size={14}
+                sx={{ marginRight: 2 }}
+              />
+            }
           />
-          <PDFDownloadLink
-            style={{
-              backgroundColor: "steelblue",
-              color: "white",
-              fontSize: "12px",
-              borderRadius: 4,
-              padding: 10,
-              textDecoration: "none",
-              width: "100%",
-              height: 40,
-              textAlign: "center",
-              marginLeft: "10px",
-            }}
-            document={<PayslipDocument data={dataSlip} />}
-            fileName="slip-gaji.pdf"
-          >
-            {({ loading }) => (loading ? "Tunggu sebentar..." : "Export")}
-          </PDFDownloadLink>
+        </Box>
+
+        <Box marginTop={2}>
+          {selectedStatus === "0" && dataSlip?.sesuai === 0 && (
+            <Button
+              onClick={createWhatsAppLink}
+              sx={{
+                backgroundColor: "#25d366",
+                color: "white",
+                fontSize: "12px",
+                borderRadius: 2,
+                marginBottom: 2,
+                width: "100%",
+                height: 40,
+                fontWeight: "bold",
+                ":hover": {
+                  backgroundColor: "#25d366",
+                  color: "white",
+                  opacity: 0.6,
+                },
+              }}
+            >
+              <img
+                src={IconWhatsApp}
+                width={18}
+                height={18}
+                style={{ marginRight: 6 }}
+              />
+              Send Whatsapp Message
+            </Button>
+          )}
         </Box>
       </Box>
     </Modal>

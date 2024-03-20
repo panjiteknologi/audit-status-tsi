@@ -1,8 +1,6 @@
 import PayslipSections from "@/sections/payslip";
 import {
-  Button,
   Dialog,
-  DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
@@ -33,8 +31,9 @@ const Payslip = () => {
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-  const [match, setMatch] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [showPayslip, setShowPayslip] = useState(false);
+  const [disabled, setDisabled] = useState(false);
 
   const gajiProrate = Math.round(
     (+data[0]?.gaji_pokok / +data[0]?.total_timesheet_bulan_ini) *
@@ -74,7 +73,9 @@ const Payslip = () => {
   };
 
   const updateStatus = async (selectedStatus: string) => {
+    console.log("selected status", selectedStatus);
     setValue(selectedStatus);
+    setDisabled(true);
     const token = window.localStorage.getItem("serviceToken");
     const id = window.localStorage.getItem("idEmployee");
     try {
@@ -92,26 +93,38 @@ const Payslip = () => {
         }
       );
       if (response && selectedStatus === "0") {
-        setMatch(true);
-        setShowModal(true);
-        setMessage(
-          "Status berhasil diperbaharui, dan kirimkan pesan anda ke Whatsapp agar segera diperbaiki!"
-        );
-        setError(false);
+        setTimeout(() => {
+          setShowPayslip(false);
+          setDisabled(false);
+          setShowModal(true);
+          setMessage(
+            "Status berhasil diperbaharui, dan kirimkan pesan anda ke Whatsapp agar segera diperbaiki!"
+          );
+          setError(false);
+          getDataEmployee();
+        }, 1000);
       } else if (response && selectedStatus === "1") {
-        setMatch(false);
-        setShowModal(true);
-        setMessage(
-          "Status berhasil diperbaharui, dan data anda tidak ada yang salah."
-        );
-        setError(false);
+        setTimeout(() => {
+          setShowPayslip(false);
+          setDisabled(false);
+          setShowModal(true);
+          setMessage(
+            "Status berhasil diperbaharui, dan data anda tidak ada yang salah."
+          );
+          setError(false);
+          getDataEmployee();
+        }, 1000);
       }
     } catch (err) {
-      setMatch(false);
-      setError(true);
-      setMessage(
-        "Status tidak berhasil diperbaharui, silakan ulangi beberapa saat lagi."
-      );
+      setTimeout(() => {
+        setShowPayslip(false);
+        setDisabled(false);
+        setError(false);
+        setMessage(
+          "Status tidak berhasil diperbaharui, silakan ulangi beberapa saat lagi."
+        );
+        getDataEmployee();
+      }, 1000);
     }
   };
 
@@ -123,7 +136,7 @@ const Payslip = () => {
       Nama: ${data[0]?.nama}
       Gaji Pokok: ${formatIdr(data[0]?.gaji_pokok)}
       Gaji Diterima: ${formatIdr(gajiProrate)}
-      Area: ${data[0]?.client_name + data[0]?.area}
+      Area: ${data[0]?.client_name + " - " + data[0]?.area}
       Catatan:
     Terima kasih.`;
 
@@ -172,6 +185,11 @@ const Payslip = () => {
           value={value}
           updateStatus={updateStatus}
           error={error}
+          disabled={disabled}
+          createWhatsAppLink={createWhatsAppLink}
+          selectedStatus={value}
+          showPayslip={showPayslip}
+          setShowPayslip={setShowPayslip}
         />
         <Dialog
           open={showModal}
@@ -179,7 +197,16 @@ const Payslip = () => {
           aria-describedby="alert-dialog-description"
           sx={{ textAlign: "center" }}
         >
-          <CloseButton onClick={() => setShowModal(false)} />
+          <CloseButton
+            onClick={() => {
+              if (value === "0") {
+                setShowPayslip(true);
+                setShowModal(false);
+              } else {
+                setShowModal(false);
+              }
+            }}
+          />
           <DialogTitle
             id="alert-dialog-title"
             fontWeight={"bold"}
@@ -212,26 +239,6 @@ const Payslip = () => {
               {message}
             </DialogContentText>
           </DialogContent>
-          <DialogActions>
-            {match && (
-              <Button
-                onClick={createWhatsAppLink}
-                sx={{
-                  backgroundColor: "steelblue",
-                  color: "white",
-                  fontSize: "12px",
-                  borderRadius: 2,
-                  marginBottom: 2,
-                  width: "100%",
-                  marginRight: 2,
-                  marginLeft: 2,
-                  height: 40,
-                }}
-              >
-                Send Message on Whatsapp
-              </Button>
-            )}
-          </DialogActions>
         </Dialog>
       </Grid>
     </Grid>
