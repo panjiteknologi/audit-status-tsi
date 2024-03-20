@@ -1,6 +1,7 @@
 import InputDropdown from "@/components/InputDropdown";
 import {
   Box,
+  CircularProgress,
   Grid,
   Modal,
   Typography,
@@ -34,6 +35,7 @@ interface ModalDetailProps {
   openModal: () => void;
   value: string;
   updateStatus: (selectedStatus: string) => void;
+  disabled: boolean;
 }
 
 const ModalDetail = ({
@@ -43,6 +45,7 @@ const ModalDetail = ({
   selectedMonthName,
   value,
   updateStatus,
+  disabled,
 }: ModalDetailProps) => {
   const theme = useTheme();
   const sm = useMediaQuery(theme.breakpoints.down("sm"));
@@ -114,6 +117,11 @@ const ModalDetail = ({
       onClose={onClose}
       aria-labelledby="child-modal-title"
       aria-describedby="child-modal-description"
+      sx={{
+        "&::-webkit-scrollbar": {
+          display: "none",
+        },
+      }}
     >
       <Box sx={style}>
         <CloseButton onClick={onClose} />
@@ -204,38 +212,52 @@ const ModalDetail = ({
 
         <Box borderTop={1} borderColor={"#dedede"} marginTop={2} />
 
-        <Box
-          width={"100%"}
-          display={"flex"}
-          flexDirection={"row"}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-          marginTop={2}
-        >
-          <InputDropdown
-            title="Apakah data gaji Anda telah sesuai?"
-            selectMenu={menu}
-            value={value}
-            setValue={updateStatus}
-          />
-          <PDFDownloadLink
-            style={{
-              backgroundColor: "steelblue",
-              color: "white",
-              fontSize: "12px",
-              borderRadius: 4,
-              padding: 10,
-              textDecoration: "none",
-              width: "100%",
-              height: 40,
-              textAlign: "center",
-              marginLeft: "10px",
-            }}
-            document={<PayslipDocument data={dataSlip} />}
-            fileName="slip-gaji.pdf"
-          >
-            {({ loading }) => (loading ? "Tunggu sebentar..." : "Export")}
-          </PDFDownloadLink>
+        <Box width={"100%"} marginTop={2}>
+          <Grid container spacing={1}>
+            <Grid item xs={8} sm={10} md={10} lg={10} xl={11}>
+              <InputDropdown
+                title="Apakah data gaji Anda telah sesuai?"
+                selectMenu={menu}
+                value={value}
+                setValue={updateStatus}
+                disabled={disabled}
+                rightIcon={
+                  <CircularProgress
+                    color="inherit"
+                    size={14}
+                    sx={{ marginRight: 2 }}
+                  />
+                }
+              />
+            </Grid>
+            <Grid item xs={4} sm={2} md={2} lg={2} xl={1}>
+              <Box
+                style={{
+                  backgroundColor: "steelblue",
+                  borderRadius: 4,
+                  paddingLeft: 10,
+                  paddingRight: 10,
+                  paddingTop: 8,
+                  height: 40,
+                  textAlign: "center",
+                  width: "100%",
+                }}
+              >
+                <PDFDownloadLink
+                  document={<PayslipDocument data={dataSlip} />}
+                  fileName="slip-gaji.pdf"
+                  style={{
+                    backgroundColor: "steelblue",
+                    color: "white",
+                    fontSize: "12px",
+                    textDecoration: "none",
+                  }}
+                >
+                  {({ loading }) => (loading ? "Tunggu sebentar..." : "Export")}
+                </PDFDownloadLink>
+              </Box>
+            </Grid>
+          </Grid>
         </Box>
       </Box>
     </Modal>
