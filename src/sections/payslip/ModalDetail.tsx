@@ -34,6 +34,10 @@ interface ModalDetailProps {
   onClose: () => void;
   data: User[];
   dataSlip: User;
+  gajiProrate: number;
+  totalPendapatan: number;
+  totalPotongan: number;
+  totalLembur: number;
   selectedMonthName: string;
   openModal: () => void;
   value: string;
@@ -47,6 +51,11 @@ const ModalDetail = ({
   showPayslip,
   onClose,
   data,
+  dataSlip,
+  gajiProrate,
+  totalPendapatan,
+  totalPotongan,
+  totalLembur,
   selectedMonthName,
   value,
   updateStatus,
@@ -59,7 +68,6 @@ const ModalDetail = ({
   const md = useMediaQuery(theme.breakpoints.down("md"));
   const lg = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const dataSlip = data[0];
   const style = {
     position: "absolute",
     top: "50%",
@@ -78,49 +86,6 @@ const ModalDetail = ({
       display: "none",
     },
   };
-
-  const totalLembur = Math.round(
-    (+dataSlip?.gaji_pokok / 173) * dataSlip?.lembur
-  );
-
-  const gajiProrate = Math.round(
-    (+dataSlip?.gaji_pokok / +dataSlip?.total_timesheet_bulan_ini) *
-      +dataSlip?.total_masuk_kerja
-  );
-
-  const totalPendapatan =
-    dataSlip?.client_name === "MERCY"
-      ? Math.round(
-          gajiProrate +
-            totalLembur +
-            +dataSlip?.lembur_backup +
-            +dataSlip?.insentive +
-            +dataSlip?.tunjangan_jabatan +
-            +dataSlip?.tunjangan_lembur_nasional +
-            +dataSlip?.tunjangan_transport +
-            +dataSlip?.thr +
-            +dataSlip?.kekurangan_bayar_bulan_lalu
-        )
-      : Math.round(
-          gajiProrate +
-            totalLembur +
-            +dataSlip?.lembur_backup +
-            +dataSlip?.insentive +
-            +dataSlip?.tunjangan_jabatan +
-            +dataSlip?.tunjangan_transport +
-            +dataSlip?.thr +
-            +dataSlip?.kekurangan_bayar_bulan_lalu
-        );
-
-  const totalPotongan = Math.round(
-    +dataSlip?.potongan_admin_bank +
-      +dataSlip?.potongan_bpjs_tk +
-      +dataSlip?.potongan_bpjs_kesehatan +
-      +dataSlip?.potongan_iuran +
-      +dataSlip?.potongan_ketidak_hadiran +
-      +dataSlip?.potongan_kelebihan_bayar_bulan_lalu +
-      +dataSlip?.potongan_pinjaman
-  );
 
   return (
     <Modal
