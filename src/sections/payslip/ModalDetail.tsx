@@ -235,7 +235,7 @@ const ModalDetail = ({
             Jumlah Diterima
           </Typography>
           <Typography fontSize={"12px"} color={"#326aa6"}>
-            {formatIdr(totalPendapatan + totalPotongan) || "0"}
+            {formatIdr(totalPendapatan - totalPotongan) || "0"}
           </Typography>
         </Box>
 
