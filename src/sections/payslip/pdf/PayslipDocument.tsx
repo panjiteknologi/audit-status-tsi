@@ -56,6 +56,7 @@ const PayslipDocument = ({ data }: PayslipDocumentProps) => {
     <Document>
       <Page size="A4" style={styles.page}>
         <PayslipHeading title="Slip Gaji Karyawan" />
+        <View style={styles.hr} />
         <InformationPT />
         <View style={styles.hr} />
         <EmployeeInfo data={data} />
@@ -83,10 +84,7 @@ const PayslipDocument = ({ data }: PayslipDocumentProps) => {
 const styles = StyleSheet.create({
   page: {
     fontFamily: "Helvetica",
-    fontSize: 11,
-    paddingTop: 30,
-    paddingLeft: 60,
-    paddingRight: 60,
+    padding: 24,
     lineHeight: 1.5,
     flexDirection: "column",
   },
@@ -98,8 +96,7 @@ const styles = StyleSheet.create({
     display: "flex",
     justifyContent: "flex-end",
     flexDirection: "row",
-    marginTop: 16,
-    marginBottom: 20,
+    marginVertical: 8,
   },
   totalDiterima: {
     marginRight: 8,

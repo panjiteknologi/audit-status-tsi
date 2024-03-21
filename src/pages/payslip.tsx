@@ -35,9 +35,49 @@ const Payslip = () => {
   const [showPayslip, setShowPayslip] = useState(false);
   const [disabled, setDisabled] = useState(false);
 
+  const dataSlip = data[0];
+
+  const totalLembur = Math.round(
+    (+dataSlip?.gaji_pokok / 173) * dataSlip?.lembur
+  );
+
   const gajiProrate = Math.round(
-    (+data[0]?.gaji_pokok / +data[0]?.total_timesheet_bulan_ini) *
-      +data[0]?.total_masuk_kerja
+    (+dataSlip?.gaji_pokok / +dataSlip?.total_timesheet_bulan_ini) *
+      +dataSlip?.total_masuk_kerja
+  );
+
+  const totalPendapatan =
+    dataSlip?.client_name === "MERCY"
+      ? Math.round(
+          gajiProrate +
+            totalLembur +
+            +dataSlip?.lembur_backup +
+            +dataSlip?.insentive +
+            +dataSlip?.tunjangan_jabatan +
+            +dataSlip?.tunjangan_lembur_nasional +
+            +dataSlip?.tunjangan_transport +
+            +dataSlip?.thr +
+            +dataSlip?.kekurangan_bayar_bulan_lalu
+        )
+      : Math.round(
+          gajiProrate +
+            totalLembur +
+            +dataSlip?.lembur_backup +
+            +dataSlip?.insentive +
+            +dataSlip?.tunjangan_jabatan +
+            +dataSlip?.tunjangan_transport +
+            +dataSlip?.thr +
+            +dataSlip?.kekurangan_bayar_bulan_lalu
+        );
+
+  const totalPotongan = Math.round(
+    +dataSlip?.potongan_admin_bank +
+      +dataSlip?.potongan_bpjs_tk +
+      +dataSlip?.potongan_bpjs_kesehatan +
+      +dataSlip?.potongan_iuran +
+      +dataSlip?.potongan_ketidak_hadiran +
+      +dataSlip?.potongan_kelebihan_bayar_bulan_lalu +
+      +dataSlip?.potongan_pinjaman
   );
 
   const getDataEmployee = async () => {
@@ -135,7 +175,7 @@ const Payslip = () => {
       Nomor PKWT: ${data[0]?.no_pkwt}
       Nama: ${data[0]?.nama}
       Gaji Pokok: ${formatIdr(data[0]?.gaji_pokok)}
-      Gaji Diterima: ${formatIdr(gajiProrate)}
+      Gaji Diterima: ${formatIdr(totalPendapatan - totalPotongan)}
       Area: ${data[0]?.client_name + " - " + data[0]?.area}
       Catatan:
     Terima kasih.`;
@@ -190,7 +230,13 @@ const Payslip = () => {
           selectedStatus={value}
           showPayslip={showPayslip}
           setShowPayslip={setShowPayslip}
+          dataSlip={dataSlip}
+          totalPendapatan={totalPendapatan}
+          totalPotongan={totalPotongan}
+          gajiProrate={gajiProrate}
+          totalLembur={totalLembur}
         />
+
         <Dialog
           open={showModal}
           aria-labelledby="alert-dialog-title"

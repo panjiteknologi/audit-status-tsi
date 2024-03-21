@@ -20,6 +20,11 @@ interface PayslipSectionProps {
   selectedStatus: string;
   showPayslip: boolean;
   setShowPayslip: Dispatch<SetStateAction<boolean>>;
+  dataSlip: User;
+  gajiProrate: number;
+  totalPendapatan: number;
+  totalPotongan: number;
+  totalLembur: number;
 }
 
 const PayslipSections = ({
@@ -36,9 +41,12 @@ const PayslipSections = ({
   selectedStatus,
   showPayslip,
   setShowPayslip,
+  dataSlip,
+  gajiProrate,
+  totalPendapatan,
+  totalPotongan,
+  totalLembur,
 }: PayslipSectionProps) => {
-  const dataSlip = data[0];
-
   const openModal = () => {
     setShowPayslip(true);
   };
@@ -80,6 +88,10 @@ const PayslipSections = ({
               onClose={() => setShowPayslip(false)}
               data={data}
               dataSlip={dataSlip}
+              gajiProrate={gajiProrate}
+              totalPendapatan={totalPendapatan}
+              totalPotongan={totalPotongan}
+              totalLembur={totalLembur}
               selectedMonthName={selectedMonthName}
               openModal={openModal}
               value={value}

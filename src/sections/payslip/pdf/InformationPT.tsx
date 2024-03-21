@@ -12,8 +12,7 @@ const InformationPT = () => (
 
 const styles = StyleSheet.create({
   headerContainer: {
-    marginVertical: 16,
-    marginTop: 36,
+    marginVertical: 8,
   },
   txt: {
     fontSize: "10px",
