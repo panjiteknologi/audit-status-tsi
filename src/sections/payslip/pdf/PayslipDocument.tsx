@@ -71,7 +71,7 @@ const PayslipDocument = ({ data }: PayslipDocumentProps) => {
         <View style={styles.totalView}>
           <Text style={styles.totalDiterima}>Jumlah Diterima</Text>
           <Text style={styles.total}>
-            {formatIdr(totalPendapatan + totalPotongan) || "0"}
+            {formatIdr(totalPendapatan - totalPotongan) || "0"}
           </Text>
         </View>
         <View style={styles.hr} />
