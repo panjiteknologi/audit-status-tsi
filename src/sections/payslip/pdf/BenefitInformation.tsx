@@ -63,6 +63,14 @@ const BenefitInformation = ({
               <Text style={styles.text}>{formatIdr(totalLembur) || "0"}</Text>
             </GridItem>
             <GridItem>
+              <Text style={styles.text}>Lembur Backup</Text>
+            </GridItem>
+            <GridItem>
+              <Text style={styles.text}>
+                {formatIdr(data?.lembur_backup) || "0"}
+              </Text>
+            </GridItem>
+            <GridItem>
               <Text style={styles.titleItem}>Insentive</Text>
             </GridItem>
             <GridItem>
@@ -70,6 +78,28 @@ const BenefitInformation = ({
                 {formatIdr(data?.insentive) || "0"}
               </Text>
             </GridItem>
+            <GridItem>
+              <Text style={styles.titleItem}>Tunjangan Jabatan</Text>
+            </GridItem>
+            <GridItem>
+              <Text style={styles.text}>
+                {formatIdr(data?.tunjangan_jabatan) || "0"}
+              </Text>
+            </GridItem>
+            {data?.client_name === "MERCY" && (
+              <>
+                <GridItem>
+                  <Text style={styles.titleItem}>
+                    Tunjangan Lembur Nasional
+                  </Text>
+                </GridItem>
+                <GridItem>
+                  <Text style={styles.text}>
+                    {formatIdr(data?.tunjangan_lembur_nasional) || "0"}
+                  </Text>
+                </GridItem>
+              </>
+            )}
             <GridItem>
               <Text style={styles.titleItem}>Tunjangan Transport</Text>
             </GridItem>
