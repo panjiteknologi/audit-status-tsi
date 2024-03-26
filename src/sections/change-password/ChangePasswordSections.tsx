@@ -17,33 +17,29 @@ import * as Yup from "yup";
 import { Formik } from "formik";
 
 // project import
-import useAuth from "@/hooks/useAuth";
 import IconButton from "@/components/@extended/IconButton";
 import AnimateButton from "@/components/@extended/AnimateButton";
 
 // assets
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
-import { useNavigate } from "react-router";
+import axios from "axios";
+import { BASE_URL, CHANGE_PASSWORD } from "@/contexts/JWTContext";
 
 // ============================|| JWT - LOGIN ||============================ //
 
-interface AuthLoginProps {
+interface ChangePasswordSectionsProps {
   setError: Dispatch<SetStateAction<boolean>>;
   setShowModal: Dispatch<SetStateAction<boolean>>;
   setTitleMessage: Dispatch<SetStateAction<string>>;
   setMessage: Dispatch<SetStateAction<string>>;
 }
 
-const AuthLogin = ({
+const ChangePasswordSections = ({
   setError,
   setShowModal,
   setTitleMessage,
   setMessage,
-}: AuthLoginProps) => {
-  const navigate = useNavigate();
-
-  const { login } = useAuth();
-
+}: ChangePasswordSectionsProps) => {
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -57,12 +53,10 @@ const AuthLogin = ({
     <>
       <Formik
         initialValues={{
-          username: "",
           password: "",
           submit: null,
         }}
         validationSchema={Yup.object().shape({
-          username: Yup.string().max(50).required("Username is required"),
           password: Yup.string()
             .matches(
               /^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$/,
@@ -72,15 +66,38 @@ const AuthLogin = ({
             .required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+          const token = window.localStorage.getItem("serviceToken");
+          const id = window.localStorage.getItem("idEmployee");
+
+          const params = {
+            master_employee_id: id,
+            new_password: values.password,
+          };
+
           try {
-            const response = await login(values.username, values.password);
+            const response = await axios.post(
+              BASE_URL + CHANGE_PASSWORD,
+              params,
+              {
+                headers: {
+                  Authorization: token,
+                },
+              }
+            );
+            console.log("response");
+
             if (response) {
+              setShowModal(true);
               setError(false);
               setStatus({ success: true });
               setSubmitting(false);
-              navigate("/payslip");
+              setTitleMessage(
+                "Congratulations! You have successfully changed your password."
+              );
+              setMessage("Your password has been successfully changed.");
             }
           } catch (err: any) {
+            console.log("err", err);
             setShowModal(true);
             setError(true);
             setStatus({ success: false });
@@ -104,30 +121,6 @@ const AuthLogin = ({
         }) => (
           <form noValidate onSubmit={handleSubmit}>
             <Grid container spacing={3}>
-              <Grid item xs={12}>
-                <Stack spacing={1}>
-                  <InputLabel htmlFor="username-login">Username</InputLabel>
-                  <OutlinedInput
-                    id="username-login"
-                    type="text"
-                    value={values.username.trim()}
-                    name="username"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    placeholder="Enter Username"
-                    fullWidth
-                    error={Boolean(touched.username && errors.username)}
-                  />
-                </Stack>
-                {touched.username && errors.username && (
-                  <FormHelperText
-                    error
-                    id="standard-weight-helper-text-username-login"
-                  >
-                    {errors.username}
-                  </FormHelperText>
-                )}
-              </Grid>
               <Grid item xs={12}>
                 <Stack spacing={1}>
                   <InputLabel htmlFor="password-login">Password</InputLabel>
@@ -169,38 +162,6 @@ const AuthLogin = ({
                   </FormHelperText>
                 )}
               </Grid>
-
-              {/* <Grid item xs={12} sx={{ mt: -1 }}>
-                <Stack
-                  direction="row"
-                  justifyContent="space-between"
-                  alignItems="center"
-                  spacing={2}
-                >
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={checked}
-                        onChange={(event) => setChecked(event.target.checked)}
-                        name="checked"
-                        color="primary"
-                        size="small"
-                      />
-                    }
-                    label={
-                      <Typography variant="h6">Keep me sign in</Typography>
-                    }
-                  />
-                  <Link
-                    variant="h6"
-                    component={RouterLink}
-                    to="/forgot-password"
-                    color="text.primary"
-                  >
-                    Forgot Password?
-                  </Link>
-                </Stack>
-              </Grid> */}
               {errors.submit && (
                 <Grid item xs={12}>
                   <FormHelperText error>{errors.submit}</FormHelperText>
@@ -217,7 +178,7 @@ const AuthLogin = ({
                     variant="contained"
                     color="primary"
                   >
-                    Login
+                    Change Password
                   </Button>
                 </AnimateButton>
               </Grid>
@@ -229,4 +190,4 @@ const AuthLogin = ({
   );
 };
 
-export default AuthLogin;
+export default ChangePasswordSections;

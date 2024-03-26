@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 // material-ui
 import { styled, useTheme } from "@mui/material/styles";
@@ -21,7 +22,7 @@ import useAuth from "@/hooks/useAuth";
 import { useGetMenuMaster } from "@/api/menu";
 
 // assets
-import { KeyboardArrowRight, AccountCircleOutlined } from "@mui/icons-material";
+import { KeyboardArrowRight, SettingsOutlined } from "@mui/icons-material";
 
 interface ExpandMoreProps {
   theme: Theme;
@@ -55,19 +56,7 @@ const NavUser = () => {
   const { menuMaster } = useGetMenuMaster();
   const drawerOpen = menuMaster?.isDashboardDrawerOpened;
 
-  const { logout, user } = useAuth();
-  const handleLogout = async () => {
-    try {
-      await logout();
-      navigate(`/`, {
-        state: {
-          from: "",
-        },
-      });
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const { user } = useAuth();
 
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -118,15 +107,12 @@ const NavUser = () => {
           <ListItemAvatar>
             <Avatar
               alt="Avatar"
-              sx={{ ...(drawerOpen && { width: 46, height: 46 }) }}
+              sx={{ ...(drawerOpen && { width: 36, height: 36 }) }}
             >
-              <AccountCircleOutlined />
+              <SettingsOutlined />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText
-            primary={dataUser?.nama}
-            secondary={dataUser?.jabatan}
-          />
+          <ListItemText primary="Settings" secondary={dataUser?.jabatan} />
         </ListItem>
       </List>
       <Menu
@@ -146,13 +132,15 @@ const NavUser = () => {
           horizontal: "right",
         }}
       >
-        <MenuItem onClick={handleLogout}>Logout</MenuItem>
-        <MenuItem component={Link} to="#" onClick={handleClose}>
+        <MenuItem onClick={() => navigate("change-password")}>
+          Change Password
+        </MenuItem>
+        {/* <MenuItem component={Link} to="#" onClick={handleClose}>
           Profile
         </MenuItem>
         <MenuItem component={Link} to="#" onClick={handleClose}>
           My account
-        </MenuItem>
+        </MenuItem> */}
       </Menu>
     </Box>
   );

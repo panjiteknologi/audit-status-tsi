@@ -14,6 +14,8 @@ export const API_LOGOUT = "logout_employee";
 export const GET_ID_EMPLOYEE = "get_employee_by_master_employee_id";
 export const GET_MONTH = "get_month";
 export const UPDATE_PAY_SLIP = "update_status_slip_gaji";
+export const GET_ALL_EMPLOYEE = "get_all_employee";
+export const CHANGE_PASSWORD = "change_password";
 
 // ==============================|| JWT CONTEXT & PROVIDER ||============================== //
 

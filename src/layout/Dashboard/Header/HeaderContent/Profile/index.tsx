@@ -189,7 +189,10 @@ const Profile = () => {
                       </Grid> */}
                     </Grid>
                   </CardContent>
-                  <ProfileTab handleLogout={handleLogout} />
+                  <ProfileTab
+                    handleLogout={handleLogout}
+                    changePassword={() => navigate("change-password")}
+                  />
                 </MainCard>
               </ClickAwayListener>
             </Paper>

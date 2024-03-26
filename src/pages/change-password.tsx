@@ -6,41 +6,34 @@ import {
   DialogContentText,
   DialogTitle,
   Grid,
-  Stack,
-  Typography,
 } from "@mui/material";
 
 // project import
-import AuthWrapper from "@/sections/auth/AuthWrapper";
-import AuthLogin from "@/sections/auth/auth-forms/AuthLogin";
 import CloseButton from "@/sections/payslip/CloseButton";
 import { useState } from "react";
 import IllustrationSuccess from "../assets/illustration/il-success.svg";
 import IllustrationServerDown from "../assets/illustration/il-server-down.svg";
+import ChangePasswordSections from "@/sections/change-password/ChangePasswordSections";
+import MainCard from "@/components/MainCard";
 
-// ================================|| LOGIN ||================================ //
+// ================================|| ChangePassword ||================================ //
 
-const Login = () => {
+const ChangePassword = () => {
   const [showModal, setShowModal] = useState(false);
   const [error, setError] = useState(false);
   const [titleMessage, setTitleMessage] = useState("");
   const [message, setMessage] = useState("");
 
   return (
-    <AuthWrapper>
+    <MainCard
+      title="Change Password"
+      boxShadow
+      showButton={false}
+      sx={{ minHeight: 250 }}
+    >
       <Grid container spacing={3}>
         <Grid item xs={12}>
-          <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="baseline"
-            sx={{ mb: { xs: -0.5, sm: 0.5 } }}
-          >
-            <Typography variant="h3">Login</Typography>
-          </Stack>
-        </Grid>
-        <Grid item xs={12}>
-          <AuthLogin
+          <ChangePasswordSections
             setError={setError}
             setShowModal={setShowModal}
             setTitleMessage={setTitleMessage}
@@ -48,6 +41,7 @@ const Login = () => {
           />
         </Grid>
       </Grid>
+
       <Dialog
         open={showModal}
         aria-labelledby="alert-dialog-title"
@@ -90,8 +84,8 @@ const Login = () => {
           </DialogContentText>
         </DialogContent>
       </Dialog>
-    </AuthWrapper>
+    </MainCard>
   );
 };
 
-export default Login;
+export default ChangePassword;

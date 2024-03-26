@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -5,6 +6,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Loadable from "@/components/Loadable";
 import AuthLayout from "@/layout/Auth";
 import DashboardLayout from "@/layout/Dashboard";
+import ChangePassword from "@/pages/change-password";
 
 // render - page
 const AuthLogin = Loadable(lazy(() => import("@/pages")));
@@ -31,6 +33,17 @@ const router = createBrowserRouter(
         {
           path: "payslip",
           element: <PaySlip />,
+        },
+      ],
+    },
+    {
+      path: "/",
+      element: <DashboardLayout />,
+
+      children: [
+        {
+          path: "change-password",
+          element: <ChangePassword />,
         },
       ],
     },
