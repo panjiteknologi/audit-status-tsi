@@ -84,7 +84,6 @@ const ChangePasswordSections = ({
                 },
               }
             );
-            console.log("response");
 
             if (response) {
               setShowModal(true);
@@ -97,13 +96,14 @@ const ChangePasswordSections = ({
               setMessage("Your password has been successfully changed.");
             }
           } catch (err: any) {
-            console.log("err", err);
             setShowModal(true);
             setError(true);
             setStatus({ success: false });
             setErrors({ submit: err.message });
             setSubmitting(false);
-            setTitleMessage("Sorry, you haven't successfully logged in.");
+            setTitleMessage(
+              "Sorry, you haven't successfully changed your password.."
+            );
             setMessage(
               err?.data?.message || "Please try again in a few moments!"
             );
