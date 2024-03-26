@@ -31,7 +31,7 @@ import { AccountCircleOutlined } from "@mui/icons-material";
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 
 interface ProfileProps {
-  onClose: (event: any) => void;
+  onClose?: (event: any) => void;
 }
 const Profile = ({ onClose }: ProfileProps) => {
   const theme = useTheme();
@@ -195,7 +195,7 @@ const Profile = ({ onClose }: ProfileProps) => {
                   <ProfileTab
                     handleLogout={handleLogout}
                     changePassword={(event: any) => {
-                      onClose(event);
+                      if (onClose) onClose(event);
                       navigate("change-password");
                     }}
                   />

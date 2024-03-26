@@ -119,7 +119,7 @@ const ModalDetail = ({
           </Typography>
           <PDFDownloadLink
             document={<PayslipDocument data={dataSlip} />}
-            fileName={`Slip Gaji - ${dataSlip?.nama} (${dataSlip.client_name}) ${dataSlip.area}.pdf`}
+            fileName={`Slip Gaji - ${dataSlip?.nama} (${dataSlip?.client_name}) ${dataSlip?.area}.pdf`}
             style={{
               backgroundColor: "red",
               borderRadius: 6,
