@@ -76,6 +76,7 @@ const Payslip = () => {
       +dataSlip?.potongan_bpjs_kesehatan +
       +dataSlip?.potongan_iuran +
       +dataSlip?.potongan_ketidak_hadiran +
+      +dataSlip?.potongan_tidak_absen +
       +dataSlip?.potongan_kelebihan_bayar_bulan_lalu +
       +dataSlip?.potongan_pinjaman
   );

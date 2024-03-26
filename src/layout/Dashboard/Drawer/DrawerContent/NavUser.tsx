@@ -132,7 +132,12 @@ const NavUser = () => {
           horizontal: "right",
         }}
       >
-        <MenuItem onClick={() => navigate("change-password")}>
+        <MenuItem
+          onClick={() => {
+            handleClose();
+            navigate("change-password");
+          }}
+        >
           Change Password
         </MenuItem>
         {/* <MenuItem component={Link} to="#" onClick={handleClose}>

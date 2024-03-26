@@ -102,7 +102,7 @@ const MobileSection = () => {
                     {/* <Search /> */}
                     <Box sx={{ width: "100%", ml: 1 }} />
 
-                    <Profile />
+                    <Profile onClose={(event: any) => handleClose(event)} />
                   </Toolbar>
                 </AppBar>
               </ClickAwayListener>
