@@ -1,14 +1,19 @@
-import { useState } from "react";
 import {
   List,
   ListItemButton,
   ListItemIcon,
   ListItemText,
 } from "@mui/material";
-import { LogoutOutlined } from "@mui/icons-material";
+import { LogoutOutlined, EditOutlined } from "@mui/icons-material";
 
-const ProfileTab = ({ handleLogout }: { handleLogout: () => void }) => {
-  const [selectedIndex] = useState<number>(0);
+const ProfileTab = ({
+  handleLogout,
+  changePassword,
+}: {
+  handleLogout: () => void;
+  changePassword: () => void;
+}) => {
+  // const [selectedIndex] = useState<number>(0);
 
   // const handleListItemClick = (
   //   event: MouseEvent<HTMLDivElement>,
@@ -28,7 +33,13 @@ const ProfileTab = ({ handleLogout }: { handleLogout: () => void }) => {
         </ListItemIcon>
         <ListItemText primary="Edit Profile" />
       </ListItemButton> */}
-      <ListItemButton selected={selectedIndex === 2} onClick={handleLogout}>
+      <ListItemButton onClick={changePassword}>
+        <ListItemIcon>
+          <EditOutlined />
+        </ListItemIcon>
+        <ListItemText primary="Change Password" />
+      </ListItemButton>
+      <ListItemButton onClick={handleLogout}>
         <ListItemIcon>
           <LogoutOutlined />
         </ListItemIcon>
