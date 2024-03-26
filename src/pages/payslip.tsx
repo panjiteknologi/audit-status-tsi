@@ -113,7 +113,6 @@ const Payslip = () => {
   };
 
   const updateStatus = async (selectedStatus: string) => {
-    console.log("selected status", selectedStatus);
     setValue(selectedStatus);
     setDisabled(true);
     const token = window.localStorage.getItem("serviceToken");
