@@ -5,7 +5,6 @@ import EmployeeInfo from "./EmployeeInfo";
 import { User } from "../../../types/User";
 import BenefitInformation from "./BenefitInformation";
 import { formatIdr } from "@/utils/formatIdr";
-
 interface PayslipDocumentProps {
   data: User;
 }
@@ -48,6 +47,7 @@ const PayslipDocument = ({ data }: PayslipDocumentProps) => {
       +data?.potongan_bpjs_kesehatan +
       +data?.potongan_iuran +
       +data?.potongan_ketidak_hadiran +
+      +data?.potongan_tidak_absen +
       +data?.potongan_kelebihan_bayar_bulan_lalu +
       +data?.potongan_pinjaman
   );
@@ -110,4 +110,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
 });
+
 export default PayslipDocument;

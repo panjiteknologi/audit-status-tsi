@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   List,
   ListItemButton,
@@ -11,9 +12,9 @@ const ProfileTab = ({
   changePassword,
 }: {
   handleLogout: () => void;
-  changePassword: () => void;
+  changePassword: (event: any) => void;
 }) => {
-  // const [selectedIndex] = useState<number>(0);
+  // const [selectedIndex, setSelectedIndex] = useState<number>(0);
 
   // const handleListItemClick = (
   //   event: MouseEvent<HTMLDivElement>,

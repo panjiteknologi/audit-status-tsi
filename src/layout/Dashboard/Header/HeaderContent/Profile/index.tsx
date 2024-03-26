@@ -30,7 +30,10 @@ import { AccountCircleOutlined } from "@mui/icons-material";
 
 // ==============================|| HEADER CONTENT - PROFILE ||============================== //
 
-const Profile = () => {
+interface ProfileProps {
+  onClose: (event: any) => void;
+}
+const Profile = ({ onClose }: ProfileProps) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
@@ -191,7 +194,10 @@ const Profile = () => {
                   </CardContent>
                   <ProfileTab
                     handleLogout={handleLogout}
-                    changePassword={() => navigate("change-password")}
+                    changePassword={(event: any) => {
+                      onClose(event);
+                      navigate("change-password");
+                    }}
                   />
                 </MainCard>
               </ClickAwayListener>
