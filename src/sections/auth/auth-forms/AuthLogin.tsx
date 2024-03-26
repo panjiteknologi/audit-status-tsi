@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { MouseEvent } from "react";
+import React, { Dispatch, MouseEvent, SetStateAction } from "react";
 
 // material-ui
 import {
@@ -20,14 +20,26 @@ import { Formik } from "formik";
 import useAuth from "@/hooks/useAuth";
 import IconButton from "@/components/@extended/IconButton";
 import AnimateButton from "@/components/@extended/AnimateButton";
-import { useNavigate } from "react-router-dom";
 
 // assets
 import { VisibilityOutlined, VisibilityOffOutlined } from "@mui/icons-material";
+import { useNavigate } from "react-router";
 
 // ============================|| JWT - LOGIN ||============================ //
 
-const AuthLogin = () => {
+interface AuthLoginProps {
+  setError: Dispatch<SetStateAction<boolean>>;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+  setTitleMessage: Dispatch<SetStateAction<string>>;
+  setMessage: Dispatch<SetStateAction<string>>;
+}
+
+const AuthLogin = ({
+  setError,
+  setShowModal,
+  setTitleMessage,
+  setMessage,
+}: AuthLoginProps) => {
   const navigate = useNavigate();
 
   const { login } = useAuth();
@@ -51,22 +63,33 @@ const AuthLogin = () => {
         }}
         validationSchema={Yup.object().shape({
           username: Yup.string().max(50).required("Username is required"),
-          password: Yup.string().max(250).required("Password is required"),
+          password: Yup.string()
+            .matches(
+              /^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$/,
+              "Password must contain at least one number and one special character"
+            )
+            .min(8)
+            .required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           try {
             const response = await login(values.username, values.password);
-            console.log("response", response);
             if (response) {
+              setError(false);
               setStatus({ success: true });
               setSubmitting(false);
               navigate("/payslip");
             }
           } catch (err: any) {
-            console.log("err", err);
+            setShowModal(true);
+            setError(true);
             setStatus({ success: false });
             setErrors({ submit: err.message });
             setSubmitting(false);
+            setTitleMessage("Sorry, you haven't successfully logged in.");
+            setMessage(
+              err?.data?.message || "Please try again in a few moments!"
+            );
           }
         }}
       >
@@ -86,8 +109,8 @@ const AuthLogin = () => {
                   <InputLabel htmlFor="username-login">Username</InputLabel>
                   <OutlinedInput
                     id="username-login"
-                    type="username"
-                    value={values.username}
+                    type="text"
+                    value={values.username.trim()}
                     name="username"
                     onBlur={handleBlur}
                     onChange={handleChange}
@@ -113,7 +136,7 @@ const AuthLogin = () => {
                     error={Boolean(touched.password && errors.password)}
                     id="-password-login"
                     type={showPassword ? "text" : "password"}
-                    value={values.password}
+                    value={values.password.trim()}
                     name="password"
                     onBlur={handleBlur}
                     onChange={handleChange}
