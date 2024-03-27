@@ -195,8 +195,13 @@ const Profile = ({ onClose }: ProfileProps) => {
                   <ProfileTab
                     handleLogout={handleLogout}
                     changePassword={(event: any) => {
-                      if (onClose) onClose(event);
-                      navigate("change-password");
+                      if (onClose) {
+                        onClose(event);
+                        navigate("change-password");
+                      } else {
+                        handleClose(event);
+                        navigate("change-password");
+                      }
                     }}
                   />
                 </MainCard>

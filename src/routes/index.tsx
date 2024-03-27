@@ -31,7 +31,7 @@ const router = createBrowserRouter(
       element: <DashboardLayout />,
       children: [
         {
-          path: "payslip",
+          path: "/payslip",
           element: <PaySlip />,
         },
       ],
@@ -39,10 +39,9 @@ const router = createBrowserRouter(
     {
       path: "/",
       element: <DashboardLayout />,
-
       children: [
         {
-          path: "change-password",
+          path: "/change-password",
           element: <ChangePassword />,
         },
       ],

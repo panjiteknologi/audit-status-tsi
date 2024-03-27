@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import {
   BASE_URL,
+  GET_ALL_EMPLOYEE,
   GET_ID_EMPLOYEE,
   UPDATE_PAY_SLIP,
 } from "@/contexts/JWTContext";
@@ -28,6 +29,7 @@ const Payslip = () => {
 
   const [month, setMonth] = useState<ListTab[]>([]);
   const [data, setData] = useState<User[]>([]);
+  const [dataSlips, setDataSlips] = useState<User[]>([]);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
@@ -204,12 +206,37 @@ const Payslip = () => {
     return selectedMonthObj ? selectedMonthObj?.month_name : "";
   };
 
+  const getDataById = async () => {
+    const token = window.localStorage.getItem("serviceToken");
+    const id = window.localStorage.getItem("idEmployee");
+
+    try {
+      const response = await axios.post(
+        BASE_URL + GET_ALL_EMPLOYEE,
+        {
+          master_employee_id: id,
+          periode: selectedMonth,
+        },
+        {
+          headers: {
+            Authorization: token,
+          },
+        }
+      );
+
+      setDataSlips(response?.data);
+    } catch {
+      console.log("errror");
+    }
+  };
+
   useEffect(() => {
     getMonth();
   }, []);
 
   useEffect(() => {
     getDataEmployee();
+    getDataById();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedMonth]);
 
@@ -235,6 +262,7 @@ const Payslip = () => {
           totalPotongan={totalPotongan}
           gajiProrate={gajiProrate}
           totalLembur={totalLembur}
+          dataSlips={dataSlips}
         />
 
         <Dialog
