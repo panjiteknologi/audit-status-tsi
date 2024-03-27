@@ -25,6 +25,7 @@ interface PayslipSectionProps {
   totalPendapatan: number;
   totalPotongan: number;
   totalLembur: number;
+  dataSlips: User[];
 }
 
 const PayslipSections = ({
@@ -46,6 +47,7 @@ const PayslipSections = ({
   totalPendapatan,
   totalPotongan,
   totalLembur,
+  dataSlips,
 }: PayslipSectionProps) => {
   const openModal = () => {
     setShowPayslip(true);
@@ -99,6 +101,7 @@ const PayslipSections = ({
               disabled={disabled}
               createWhatsAppLink={createWhatsAppLink}
               selectedStatus={selectedStatus}
+              dataSlips={dataSlips}
             />
 
             {data?.map((items, index) => {

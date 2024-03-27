@@ -18,6 +18,8 @@ import { formatIdr } from "@/utils/formatIdr";
 import CloseButton from "./CloseButton";
 import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import IconWhatsApp from "../../assets/icons/ic-wa.svg";
+// import JSZip from "jszip";
+// import { saveAs } from "file-saver";
 
 const menu = [
   {
@@ -45,6 +47,7 @@ interface ModalDetailProps {
   disabled: boolean;
   createWhatsAppLink: () => void;
   selectedStatus: string;
+  dataSlips: User[];
 }
 
 const ModalDetail = ({
@@ -62,7 +65,8 @@ const ModalDetail = ({
   disabled,
   createWhatsAppLink,
   selectedStatus,
-}: ModalDetailProps) => {
+}: // dataSlips,
+ModalDetailProps) => {
   const theme = useTheme();
   const sm = useMediaQuery(theme.breakpoints.down("sm"));
   const md = useMediaQuery(theme.breakpoints.down("md"));
@@ -86,6 +90,62 @@ const ModalDetail = ({
       display: "none",
     },
   };
+
+  // const handleDownload = async () => {
+  //   const zipProdia = new JSZip();
+  //   const zipMercy = new JSZip();
+  //   const zipDjarum = new JSZip();
+
+  //   try {
+  //     // Mendapatkan data berdasarkan klien
+  //     const dataToDownload = dataSlips?.data?.filter(
+  //       (items) => items?.client_name === "PRODIA"
+  //     );
+  //     const dataToDownload2 = dataSlips?.data?.filter(
+  //       (items) => items?.client_name === "MERCY"
+  //     );
+  //     const dataToDownload3 = dataSlips?.data?.filter(
+  //       (items) => items?.client_name === "DJARUM"
+  //     );
+
+  //     // Mengatur fungsi pembuatan ZIP file
+  //     const generateZip = async (zip, data, zipName) => {
+  //       const chunkedData = chunkArray(data, 50);
+  //       for (let i = 0; i < chunkedData.length; i++) {
+  //         const chunk = chunkedData[i];
+  //         await Promise.all(
+  //           chunk.map(async (items, index) => {
+  //             const fileName = `Slip Gaji - ${
+  //               items?.nama + ` (${items?.client_name}) ` + items?.area
+  //             }.pdf`;
+  //             const blob = await pdf(<PayslipDocument data={items} />).toBlob();
+  //             zip.file(fileName, blob);
+  //           })
+  //         );
+  //         const zipBlob = await zip.generateAsync({ type: "blob" });
+  //         saveAs(zipBlob, `${zipName}-part-${i + 1}.zip`); // Ubah nama zip sesuai kebutuhan Anda
+  //         zip = new JSZip(); // Reset ZIP object
+  //       }
+  //     };
+
+  //     // Memanggil fungsi pembuatan ZIP file untuk setiap klien
+  //     await generateZip(zipProdia, dataToDownload, "PRODIA");
+  //     await generateZip(zipMercy, dataToDownload2, "MERCY");
+  //     await generateZip(zipDjarum, dataToDownload3, "DJARUM");
+  //   } catch (error) {
+  //     console.error("Error generating ZIP file:", error);
+  //     // Handle error if any
+  //   }
+  // };
+
+  // // Fungsi untuk membagi array menjadi bagian-bagian dengan ukuran tertentu
+  // const chunkArray = (array, size) => {
+  //   const chunkedArray = [];
+  //   for (let i = 0; i < array.length; i += size) {
+  //     chunkedArray.push(array.slice(i, i + size));
+  //   }
+  //   return chunkedArray;
+  // };
 
   return (
     <Modal
@@ -119,7 +179,7 @@ const ModalDetail = ({
           </Typography>
           <PDFDownloadLink
             document={<PayslipDocument data={dataSlip} />}
-            fileName={`Slip Gaji - ${dataSlip?.nama} (${dataSlip?.client_name}) ${dataSlip?.area}.pdf`}
+            fileName="slip-gaji.pdf"
             style={{
               backgroundColor: "red",
               borderRadius: 6,
@@ -147,6 +207,15 @@ const ModalDetail = ({
               </Box>
             )}
           </PDFDownloadLink>
+          {/* <Button
+            onClick={handleDownload}
+            variant="contained"
+            color="primary"
+            style={{ margin: "20px auto", display: "block" }}
+            startIcon={<FileDownloadOutlinedIcon />}
+          >
+            Unduh Slip Gaji (ZIP)
+          </Button> */}
         </Box>
 
         <Box borderTop={1} borderColor={"#dedede"} marginTop={2} />
