@@ -72,8 +72,12 @@ const AuthLogin = ({
             .required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
+          const username = values.username.trim();
+          const password = values.password.trim();
+
           try {
-            const response = await login(values.username, values.password);
+            const response = await login(username, password);
+
             if (response) {
               setError(false);
               setStatus({ success: true });
