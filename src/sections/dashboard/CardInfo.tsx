@@ -54,42 +54,72 @@ const CardInfo = ({
 
   const dataField: AllProject[] = [
     {
-      tahapan: "Tanggal Application Form / Request",
+      tahapan: "Tanggal Aplication Form or Request",
       tanggalStatus: items?.tgl_apl_form_or_request,
       catatan: items?.note_tgl_apl_form_or_request,
     },
     {
-      tahapan: "Tanggal Review / Penugasan",
+      tahapan: "Tanggal Review Penugasan ST Satu",
       tanggalStatus: items?.tgl_review_penugasan_st_satu,
       catatan: items?.note_tgl_review_penugasan_st_satu,
     },
     {
-      tahapan: "Tanggal Pengiriman Notification",
+      tahapan: "Tanggal Review Penugasan ST Dua",
+      tanggalStatus: items?.tgl_review_penugasan_st_dua,
+      catatan: items?.note_tgl_review_penugasan_st_dua,
+    },
+    {
+      tahapan: "Tanggal Pengiriman Notifikasi ST Satu",
       tanggalStatus: items?.tgl_pengiriman_notif_st_satu,
       catatan: items?.note_tgl_pengiriman_notif_st_satu,
     },
     {
-      tahapan: "Tanggal Persetujuan Notification",
+      tahapan: "Tanggal Pengiriman Notifikasi ST Dua",
+      tanggalStatus: items?.tgl_pengiriman_notif_st_dua,
+      catatan: items?.note_tgl_pengiriman_notif_st_dua,
+    },
+    {
+      tahapan: "Tanggal Persetujuan Notifikasi ST Satu",
       tanggalStatus: items?.tgl_persetujuan_notif_st_satu,
       catatan: items?.note_tgl_persetujuan_notif_st_satu,
     },
     {
-      tahapan: "Tanggal Pengiriman Audit",
+      tahapan: "Tanggal Persetujuan Notifikasi ST Dua",
+      tanggalStatus: items?.tgl_persetujuan_notif_st_dua,
+      catatan: items?.note_tgl_persetujuan_notif_st_dua,
+    },
+    {
+      tahapan: "Tanggal Pengiriman Audit Plan ST Satu",
       tanggalStatus: items?.tgl_pengiriman_audit_plan_st_satu,
       catatan: items?.note_tgl_pengiriman_audit_plan_st_satu,
     },
     {
-      tahapan: "Tanggal Pelaksanaan Audit",
+      tahapan: "Tanggal Pengiriman Audit Plan ST Dua",
+      tanggalStatus: items?.tgl_pengiriman_audit_plan_st_dua,
+      catatan: items?.note_tgl_pengiriman_audit_plan_st_dua,
+    },
+    {
+      tahapan: "Tanggal Pelaksanaan Audit ST Satu",
       tanggalStatus: items?.tgl_pelaksanaan_audit_st_satu,
       catatan: items?.note_tgl_pelaksanaan_audit_st_satu,
     },
     {
-      tahapan: "Tanggal Penyelesaian CAPA",
+      tahapan: "Tanggal Pelaksanaan Audit ST Dua",
+      tanggalStatus: items?.tgl_pelaksanaan_audit_st_dua,
+      catatan: items?.note_tgl_pelaksanaan_audit_st_dua,
+    },
+    {
+      tahapan: "Tanggal Penyelesaian CAPA ST Satu",
       tanggalStatus: items?.tgl_penyelesaian_capa_st_satu,
       catatan: items?.note_tgl_penyelesaian_capa_st_satu,
     },
     {
-      tahapan: "Tanggal Pengiriman Draft Sertifikat",
+      tahapan: "Tanggal Penyelesaian CAPA ST Dua",
+      tanggalStatus: items?.tgl_penyelesaian_capa_st_dua,
+      catatan: items?.note_tgl_penyelesaian_capa_st_dua,
+    },
+    {
+      tahapan: "Tanggal Pengiriman Sertifikat",
       tanggalStatus: items?.tgl_pengiriman_sertifikat,
       catatan: items?.note_tgl_pengiriman_sertifikat,
     },
@@ -109,16 +139,19 @@ const CardInfo = ({
       catatan: items?.note_tgl_persetujuan_kan,
     },
     {
-      tahapan: "Status Pembayaran",
-      tanggalStatus: items?.status_pembayaran,
-      catatan: items?.note_status_pembayaran,
-    },
-    {
       tahapan: "Tanggal Kirim Sertifikat",
       tanggalStatus: items?.tgl_kirim_sertifikat,
       catatan: items?.note_tgl_kirim_sertifikat,
     },
   ];
+
+  const latestProgress = dataField
+    .filter((item) => item.tanggalStatus)
+    .sort((a, b) =>
+      new Date(a.tanggalStatus as string) > new Date(b.tanggalStatus as string)
+        ? -1
+        : 1
+    )[0];
 
   return (
     <Grid item xs={4} sx={{ marginTop: 4 }}>
@@ -199,15 +232,19 @@ const CardInfo = ({
               </Grid>
               <Grid item xs={6} xl={2} lg={2} md={2}>
                 <TitleItem>Akreditasi</TitleItem>
-                <Item>{items?.akreditasi || "-"}</Item>
+                <Item>{items?.nama_akreditasi || "-"}</Item>
               </Grid>
               <Grid item xs={6} xl={2} lg={2} md={2}>
                 <TitleItem>Tahapan</TitleItem>
-                <Item>{items?.tahapan || "-"}</Item>
+                <Item>{items?.nama_tahapan || "-"}</Item>
               </Grid>
               <Grid item xs={6} xl={2} lg={2} md={2}>
-                <TitleItem>Latet Progress</TitleItem>
-                <Item>{items?.cycle_date || "-"}</Item>
+                <TitleItem>Latest Progress</TitleItem>
+                <Item>
+                  {latestProgress
+                    ? `${latestProgress.tahapan?.replace("Tanggal ", "")}`
+                    : "-"}
+                </Item>
               </Grid>
             </Grid>
           </Grid>

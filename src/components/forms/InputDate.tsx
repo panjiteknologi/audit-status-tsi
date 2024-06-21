@@ -1,5 +1,5 @@
 import React, { SetStateAction } from "react";
-import { LocalizationProvider, DateTimePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import TextField from "@mui/material/TextField";
 import { Moment } from "moment";
@@ -17,7 +17,7 @@ const InputDate: React.FC<InputDateProps> = ({
 }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
-      <DateTimePicker
+      <DatePicker
         renderInput={(props) => (
           <TextField
             {...props}

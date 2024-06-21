@@ -52,6 +52,8 @@ export interface AllProject {
   cycle_date?: string;
   create_user?: string | undefined;
   cycle_user?: number;
+  nama_akreditasi?: string;
+  nama_tahapan?: string;
 }
 
 export interface MenuProject {

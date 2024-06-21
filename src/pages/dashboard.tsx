@@ -448,29 +448,31 @@ const Dashboard = () => {
                 : "Successfully Update Form"
               : " Sorry, you haven't logged in yet, please log in."}
           </DialogTitle>
-          <DialogActions>
-            <Button
-              onClick={() => {
-                setShowModal(false);
-                navigation("/Login");
-              }}
-              sx={{
-                width: "100%",
-                backgroundColor: "steelblue",
-                color: "white",
-                fontSize: "12px",
-                fontWeight: "bold",
-                height: 45,
-                borderRadius: 4,
-                ":hover": {
-                  backgroundColor: "#1e2041",
+          {!isLoggedIn && (
+            <DialogActions>
+              <Button
+                onClick={() => {
+                  setShowModal(false);
+                  navigation("/Login");
+                }}
+                sx={{
+                  width: "100%",
+                  backgroundColor: "steelblue",
                   color: "white",
-                },
-              }}
-            >
-              LOGIN
-            </Button>
-          </DialogActions>
+                  fontSize: "12px",
+                  fontWeight: "bold",
+                  height: 45,
+                  borderRadius: 4,
+                  ":hover": {
+                    backgroundColor: "#1e2041",
+                    color: "white",
+                  },
+                }}
+              >
+                LOGIN
+              </Button>
+            </DialogActions>
+          )}
         </DialogContent>
       </Dialog>
     </React.Fragment>

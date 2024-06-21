@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { SetStateAction } from "react";
 import {
   Autocomplete,
   Box,
@@ -21,9 +21,8 @@ import CloseButton from "./CloseButton";
 import { AllProject, MenuProject } from "@/types/Project";
 import { Formik } from "formik";
 import InputText from "@/components/forms/InputText";
-import { formatDate } from "@/utils/date";
 import InputDate from "@/components/forms/InputDate";
-import moment from "moment";
+import moment, { Moment } from "moment";
 
 interface ModalDetailProps {
   disabled: boolean;
@@ -517,12 +516,11 @@ const ModalDetail = ({
                             ? moment(values.tgl_apl_form_or_request)
                             : null
                         }
-                        handleDateChange={(newDate) => {
-                          const formattedDate = newDate.format(
-                            "YYYY-MM-DD HH:mm:ss"
-                          );
+                        handleDateChange={(newDate: SetStateAction<Moment>) => {
+                          const selectedDate = newDate?.format("YYYY-MM-DD");
+                          const currentTime = moment().format("HH:mm:ss");
 
-                          setFieldValue(name, formattedDate);
+                          setFieldValue(name, selectedDate + " " + currentTime);
                         }}
                         label={label}
                       />

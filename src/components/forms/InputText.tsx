@@ -10,7 +10,7 @@ interface InputTextProps {
     | React.ChangeEventHandler<HTMLInputElement | HTMLTextAreaElement>
     | undefined;
   error?: boolean;
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   values?: string;
   name?: string;
 }
