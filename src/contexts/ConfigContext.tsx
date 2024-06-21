@@ -1,14 +1,14 @@
-import { ReactNode, createContext } from 'react';
+import { ReactNode, createContext } from "react";
 
 // project import
-import config from '@/config';
-import useLocalStorage from '@/hooks/useLocalStorage';
+import config from "@/config";
+import useLocalStorage from "@/hooks/useLocalStorage";
 
 // initial state
 const initialState = {
   ...config,
-  onChangeLocalization: () => { },
-  onChangeMode: () => { },
+  onChangeLocalization: () => {},
+  onChangeMode: () => {},
 };
 
 // ==============================|| CONFIG CONTEXT & PROVIDER ||============================== //
@@ -24,24 +24,27 @@ type ConfigContextType = {
   themeDirection: string;
   onChangeLocalization: () => void;
   onChangeMode: () => void;
-}
+};
 
 const ConfigContext = createContext({} as ConfigContextType);
 
 function ConfigProvider({ children }: { children: ReactNode }) {
-  const [config, setConfig] = useLocalStorage('cis-config', initialState);
+  const [config, setConfig] = useLocalStorage(
+    "auditor-dashboard-config",
+    initialState
+  );
 
   const onChangeLocalization = (lang: string) => {
     setConfig({
       ...config,
-      i18n: lang
+      i18n: lang,
     });
   };
 
-  const onChangeMode = (mode: 'light' | 'dark') => {
+  const onChangeMode = (mode: "light" | "dark") => {
     setConfig({
       ...config,
-      mode
+      mode,
     });
   };
 
@@ -50,7 +53,7 @@ function ConfigProvider({ children }: { children: ReactNode }) {
       value={{
         ...config,
         onChangeLocalization,
-        onChangeMode
+        onChangeMode,
       }}
     >
       {children}

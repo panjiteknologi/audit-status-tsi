@@ -13,10 +13,10 @@ import {
 // project import
 import AuthWrapper from "@/sections/auth/AuthWrapper";
 import AuthLogin from "@/sections/auth/auth-forms/AuthLogin";
-import CloseButton from "@/sections/payslip/CloseButton";
 import { useState } from "react";
-import IllustrationSuccess from "../assets/illustration/il-success.svg";
-import IllustrationServerDown from "../assets/illustration/il-server-down.svg";
+import ilustrationSuccess from "../assets/ilustration/il-success.svg";
+import ilustrationServerDown from "../assets/ilustration/il-server-down.svg";
+import CloseButton from "@/sections/dashboard/CloseButton";
 
 // ================================|| LOGIN ||================================ //
 
@@ -36,7 +36,9 @@ const Login = () => {
             alignItems="baseline"
             sx={{ mb: { xs: -0.5, sm: 0.5 } }}
           >
-            <Typography variant="h3">Login</Typography>
+            <Typography variant="h4" sx={{ textAlign: "center", flex: 1 }}>
+              Login
+            </Typography>
           </Stack>
         </Grid>
         <Grid item xs={12}>
@@ -68,12 +70,12 @@ const Login = () => {
           <Box marginTop={-4}>
             {!error ? (
               <img
-                src={IllustrationSuccess}
+                src={ilustrationSuccess}
                 style={{ width: 250, height: 250 }}
               />
             ) : (
               <img
-                src={IllustrationServerDown}
+                src={ilustrationServerDown}
                 style={{ width: 250, height: 250 }}
               />
             )}

@@ -9,10 +9,10 @@ import {
 } from "@mui/material";
 
 // project import
-import CloseButton from "@/sections/payslip/CloseButton";
+import CloseButton from "@/sections/dashboard/CloseButton";
 import { useState } from "react";
-import IllustrationSuccess from "../assets/illustration/il-success.svg";
-import IllustrationServerDown from "../assets/illustration/il-server-down.svg";
+import ilustrationSuccess from "../assets/ilustration/il-success.svg";
+import ilustrationServerDown from "../assets/ilustration/il-server-down.svg";
 import ChangePasswordSections from "@/sections/change-password/ChangePasswordSections";
 import MainCard from "@/components/MainCard";
 
@@ -62,12 +62,12 @@ const ChangePassword = () => {
           <Box marginTop={-4}>
             {!error ? (
               <img
-                src={IllustrationSuccess}
+                src={ilustrationSuccess}
                 style={{ width: 250, height: 250 }}
               />
             ) : (
               <img
-                src={IllustrationServerDown}
+                src={ilustrationServerDown}
                 style={{ width: 250, height: 250 }}
               />
             )}

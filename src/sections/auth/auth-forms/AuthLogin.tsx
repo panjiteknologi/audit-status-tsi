@@ -63,26 +63,18 @@ const AuthLogin = ({
         }}
         validationSchema={Yup.object().shape({
           username: Yup.string().max(50).required("Username is required"),
-          password: Yup.string()
-            .matches(
-              /^(?=.*[0-9])(?=.*[a-zA-Z]).{8,}$/,
-              "Password must contain at least one number and one special character"
-            )
-            .min(8)
-            .required("Password is required"),
+          password: Yup.string().min(6).required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
           const username = values.username.trim();
           const password = values.password.trim();
-
           try {
             const response = await login(username, password);
-
-            if (response) {
+            if (response?.data?.message === "Login Successfully") {
               setError(false);
               setStatus({ success: true });
               setSubmitting(false);
-              navigate("/payslip");
+              navigate("/");
             }
           } catch (err: any) {
             setShowModal(true);

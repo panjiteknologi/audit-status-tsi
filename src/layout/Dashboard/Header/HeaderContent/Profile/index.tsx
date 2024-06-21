@@ -37,7 +37,7 @@ const Profile = ({ onClose }: ProfileProps) => {
   const theme = useTheme();
   const navigate = useNavigate();
 
-  const { logout } = useAuth();
+  const { logout, isLoggedIn } = useAuth();
 
   const handleLogout = async () => {
     try {
@@ -65,6 +65,10 @@ const Profile = ({ onClose }: ProfileProps) => {
     setOpen(false);
   };
 
+  const toogleLogin = () => {
+    navigate("/Login");
+  };
+
   const iconBackColorOpen =
     theme.palette.mode === ThemeMode.DARK ? "background.default" : "grey.100";
 
@@ -72,42 +76,75 @@ const Profile = ({ onClose }: ProfileProps) => {
 
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
-      <ButtonBase
-        sx={{
-          p: 0.25,
-          bgcolor: open ? iconBackColorOpen : "transparent",
-          borderRadius: 1,
-          "&:hover": {
-            bgcolor:
-              theme.palette.mode === ThemeMode.DARK
-                ? "secondary.light"
-                : "secondary.lighter",
-          },
-          "&:focus-visible": {
-            outline: `2px solid ${theme.palette.secondary.dark}`,
-            outlineOffset: 2,
-          },
-        }}
-        aria-label="open profile"
-        ref={anchorRef}
-        aria-controls={open ? "profile-grow" : undefined}
-        aria-haspopup="true"
-        onClick={handleToggle}
-      >
-        <Stack
-          direction="row"
-          spacing={1.25}
-          alignItems="center"
-          sx={{ p: 0.5 }}
+      {isLoggedIn ? (
+        <ButtonBase
+          sx={{
+            p: 0.25,
+            bgcolor: open ? iconBackColorOpen : "transparent",
+            borderRadius: 1,
+            "&:hover": {
+              bgcolor:
+                theme.palette.mode === ThemeMode.DARK
+                  ? "secondary.light"
+                  : "secondary.lighter",
+            },
+            "&:focus-visible": {
+              outline: `2px solid ${theme.palette.secondary.dark}`,
+              outlineOffset: 2,
+            },
+          }}
+          aria-label="open profile"
+          ref={anchorRef}
+          aria-controls={open ? "profile-grow" : undefined}
+          aria-haspopup="true"
+          onClick={handleToggle}
         >
-          <Avatar alt="profile user" size="sm">
-            <AccountCircleOutlined />
-          </Avatar>
-          {/* <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
-            {dataUser?.nama || "-"}
-          </Typography> */}
-        </Stack>
-      </ButtonBase>
+          <Stack
+            direction="row"
+            spacing={1.25}
+            alignItems="center"
+            sx={{ p: 0.5 }}
+          >
+            <Avatar alt="profile user" size="sm">
+              <AccountCircleOutlined />
+            </Avatar>
+            {/* <Typography variant="subtitle1" sx={{ textTransform: "capitalize" }}>
+           {dataUser?.nama || "-"}
+         </Typography> */}
+          </Stack>
+        </ButtonBase>
+      ) : (
+        <ButtonBase
+          sx={{
+            p: 0.25,
+            borderRadius: 1,
+            "&:hover": {
+              bgcolor:
+                theme.palette.mode === ThemeMode.DARK
+                  ? "secondary.light"
+                  : "secondary.lighter",
+            },
+            "&:focus-visible": {
+              outline: `2px solid ${theme.palette.secondary.dark}`,
+              outlineOffset: 2,
+            },
+          }}
+          aria-label="open profile"
+          aria-haspopup="true"
+          onClick={toogleLogin}
+        >
+          <Stack
+            direction="row"
+            spacing={1.25}
+            alignItems="center"
+            sx={{ p: 0.5 }}
+          >
+            <Typography variant="h5" color={"#1e2041"}>
+              Login
+            </Typography>
+          </Stack>
+        </ButtonBase>
+      )}
       <Popper
         placement="bottom-end"
         open={open}

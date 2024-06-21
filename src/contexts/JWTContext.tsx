@@ -7,15 +7,16 @@ import authReducer, { initialState } from "@contexts/auth-reducer/auth";
 import Loader from "@components/Loader";
 import axios from "@utils/axios";
 
-export const BASE_URL =
-  "https://api-cis.manajemensistem.com/api/v1/cis/employee/";
-export const API_LOGIN = "login_employee";
-export const API_LOGOUT = "logout_employee";
-export const GET_ID_EMPLOYEE = "get_employee_by_master_employee_id";
-export const GET_MONTH = "get_month";
-export const UPDATE_PAY_SLIP = "update_status_slip_gaji";
-export const GET_ALL_EMPLOYEE = "get_all_employee";
-export const CHANGE_PASSWORD = "change_password";
+export const BASE_URL = "http://101.50.2.90:5454/api/v1/audit_status/";
+export const API_LOGIN = "login_user";
+export const API_LOGOUT = "logout_user";
+export const GET_ALL_PROJECT = "get_all_project";
+export const GET_AKREDITASI = "get_akreditasi";
+export const GET_STANDARD = "get_standar";
+export const GET_STATUS_PEMBAYARAN = "get_status_pembayaran";
+export const GET_TAHAPAN = "get_tahapan";
+export const ADD_PROJECT = "add_project";
+export const UPDATE_PROJECT = "update_project";
 
 // ==============================|| JWT CONTEXT & PROVIDER ||============================== //
 
@@ -46,7 +47,7 @@ const decodedToken = (serviceToken: string | null) => {
 
   const decoded: jwtProps = jwtDecode(serviceToken);
 
-  localStorage.setItem("idEmployee", decoded?.id);
+  localStorage.setItem("idUser", decoded?.id);
   localStorage.setItem("username", decoded?.name);
 
   return decoded;
@@ -118,7 +119,7 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
   };
 
   // const logout = async () => {
-  //   const id = window.localStorage.getItem("idEmployee");
+  //   const id = window.localStorage.getItem("idUser");
   //   const serviceToken = window.localStorage.getItem("serviceToken");
 
   //   const data = {
@@ -133,7 +134,7 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
   //   if (response) {
   //     setSession(null);
   //     dispatch({ type: LOGOUT, payload });
-  //     window.localStorage.removeItem("idEmployee");
+  //     window.localStorage.removeItem("idUser");
   //     window.localStorage.removeItem("serviceToken");
   //   }
   // };
@@ -148,7 +149,7 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
         isInitialized: undefined,
       },
     });
-    window.localStorage.removeItem("idEmployee");
+    window.localStorage.removeItem("idUser");
     window.localStorage.removeItem("serviceToken");
   };
 

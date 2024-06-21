@@ -1,6 +1,6 @@
 import MainCard from "@/components/MainCard";
 import { Grid } from "@mui/material";
-import { User } from "@/types/User";
+import { User } from "@/types/Project";
 import CardContent from "./CardContent";
 interface CardModalProps {
   item: string;

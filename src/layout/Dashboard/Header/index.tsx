@@ -2,7 +2,14 @@ import { useMemo } from "react";
 
 // material-ui
 import { useTheme } from "@mui/material/styles";
-import { AppBar, AppBarProps, Toolbar, useMediaQuery } from "@mui/material";
+import {
+  AppBar,
+  AppBarProps,
+  Box,
+  Toolbar,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 
 // project import
 import AppBarStyled from "./AppBarStyled";
@@ -20,10 +27,13 @@ import { handlerDrawerOpen, useGetMenuMaster } from "@/api/menu";
 
 // assets
 import { Menu, MenuOpen } from "@mui/icons-material";
+import useAuth from "@/hooks/useAuth";
 
 // ==============================|| MAIN LAYOUT - HEADER ||============================== //
 
 const Header = () => {
+  const { isLoggedIn } = useAuth();
+
   const theme = useTheme();
   const downLG = useMediaQuery(theme.breakpoints.down("lg"));
   const { menuOrientation } = useConfig();
@@ -43,22 +53,30 @@ const Header = () => {
   // common header
   const mainHeader = (
     <Toolbar>
-      {!isHorizontal ? (
-        <IconButton
-          aria-label="open drawer"
-          onClick={() => handlerDrawerOpen(!drawerOpen)}
-          edge="start"
-          color="secondary"
-          variant="light"
-          sx={{
-            color: "text.primary",
-            bgcolor: drawerOpen ? "transparent" : iconBackColor,
-            ml: { xs: 0, lg: -2 },
-          }}
-        >
-          {!drawerOpen ? <Menu /> : <MenuOpen />}
-        </IconButton>
-      ) : null}
+      {isLoggedIn ? (
+        <>
+          {!isHorizontal ? (
+            <IconButton
+              aria-label="open drawer"
+              onClick={() => handlerDrawerOpen(!drawerOpen)}
+              edge="start"
+              color="secondary"
+              variant="light"
+              sx={{
+                color: "text.primary",
+                bgcolor: drawerOpen ? "transparent" : iconBackColor,
+                ml: { xs: 0, lg: -2 },
+              }}
+            >
+              {!drawerOpen ? <Menu /> : <MenuOpen />}
+            </IconButton>
+          ) : null}
+        </>
+      ) : (
+        <Box sx={{ width: "100%" }}>
+          <Typography variant="h5">Audit Status System</Typography>
+        </Box>
+      )}
       {headerContent}
     </Toolbar>
   );
@@ -71,14 +89,16 @@ const Header = () => {
     sx: {
       borderBottom: `1px solid ${theme.palette.divider}`,
       zIndex: 1200,
-      width: isHorizontal
-        ? "100%"
-        : {
-            xs: "100%",
-            lg: drawerOpen
-              ? `calc(100% - ${DRAWER_WIDTH}px)`
-              : `calc(100% - ${MINI_DRAWER_WIDTH}px)`,
-          },
+      width: isLoggedIn
+        ? isHorizontal
+          ? "100%"
+          : {
+              xs: "100%",
+              lg: drawerOpen
+                ? `calc(100% - ${DRAWER_WIDTH}px)`
+                : `calc(100% - ${MINI_DRAWER_WIDTH}px)`,
+            }
+        : "100%",
     },
   };
 

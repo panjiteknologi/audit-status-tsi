@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { useMemo } from "react";
+import React, { useMemo } from "react";
 
 // material-ui
 import { useTheme } from "@mui/material/styles";
@@ -12,6 +12,7 @@ import MiniDrawerStyled from "./MiniDrawerStyled";
 
 import { DRAWER_WIDTH } from "@/config";
 import { handlerDrawerOpen, useGetMenuMaster } from "@/api/menu";
+import useAuth from "@/hooks/useAuth";
 
 // ==============================|| MAIN LAYOUT - DRAWER ||============================== //
 
@@ -21,6 +22,8 @@ interface MainDrawerProps {
 }
 
 const MainDrawer = ({ window }: MainDrawerProps) => {
+  const { isLoggedIn } = useAuth();
+
   const theme = useTheme();
   const { menuMaster } = useGetMenuMaster();
   const drawerOpen = menuMaster?.isDashboardDrawerOpened;
@@ -38,44 +41,48 @@ const MainDrawer = ({ window }: MainDrawerProps) => {
   );
 
   return (
-    <Box
-      component="nav"
-      sx={{ flexShrink: { md: 0 }, zIndex: 1200 }}
-      aria-label="mailbox folders"
-    >
-      {!matchDownMD ? (
-        <MiniDrawerStyled
-          variant="permanent"
-          open={Boolean(drawerOpen)}
-          theme={theme}
+    <React.Fragment>
+      {isLoggedIn && (
+        <Box
+          component="nav"
+          sx={{ flexShrink: { md: 0 }, zIndex: 1200 }}
+          aria-label="mailbox folders"
         >
-          {drawerHeader}
-          {drawerContent}
-        </MiniDrawerStyled>
-      ) : (
-        <Drawer
-          container={container}
-          variant="temporary"
-          open={drawerOpen}
-          onClose={() => handlerDrawerOpen(!drawerOpen)}
-          ModalProps={{ keepMounted: true }}
-          sx={{
-            display: { xs: "block", lg: "none" },
-            overflowX: "scroll",
-            "& .MuiDrawer-paper": {
-              boxSizing: "border-box",
-              width: DRAWER_WIDTH,
-              borderRight: `1px solid ${theme.palette.divider}`,
-              backgroundImage: "none",
-              boxShadow: "inherit",
-            },
-          }}
-        >
-          {drawerHeader}
-          {drawerContent}
-        </Drawer>
+          {!matchDownMD ? (
+            <MiniDrawerStyled
+              variant="permanent"
+              open={Boolean(drawerOpen)}
+              theme={theme}
+            >
+              {drawerHeader}
+              {drawerContent}
+            </MiniDrawerStyled>
+          ) : (
+            <Drawer
+              container={container}
+              variant="temporary"
+              open={drawerOpen}
+              onClose={() => handlerDrawerOpen(!drawerOpen)}
+              ModalProps={{ keepMounted: true }}
+              sx={{
+                display: { xs: "block", lg: "none" },
+                overflowX: "scroll",
+                "& .MuiDrawer-paper": {
+                  boxSizing: "border-box",
+                  width: DRAWER_WIDTH,
+                  borderRight: `1px solid ${theme.palette.divider}`,
+                  backgroundImage: "none",
+                  boxShadow: "inherit",
+                },
+              }}
+            >
+              {drawerHeader}
+              {drawerContent}
+            </Drawer>
+          )}
+        </Box>
       )}
-    </Box>
+    </React.Fragment>
   );
 };
 

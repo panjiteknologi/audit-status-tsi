@@ -34,12 +34,12 @@ const ProfileTab = ({
         </ListItemIcon>
         <ListItemText primary="Edit Profile" />
       </ListItemButton> */}
-      <ListItemButton onClick={changePassword}>
+      {/* <ListItemButton onClick={changePassword}>
         <ListItemIcon>
           <EditOutlined />
         </ListItemIcon>
         <ListItemText primary="Change Password" />
-      </ListItemButton>
+      </ListItemButton> */}
       <ListItemButton onClick={handleLogout}>
         <ListItemIcon>
           <LogoutOutlined />

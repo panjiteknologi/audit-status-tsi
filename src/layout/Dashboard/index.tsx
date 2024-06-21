@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 // material-ui
@@ -18,10 +18,13 @@ import useConfig from "@/hooks/useConfig";
 import { handlerDrawerOpen, useGetMenuMaster } from "@/api/menu";
 
 import { MenuOrientation } from "@/config";
+import useAuth from "@/hooks/useAuth";
 
 // ==============================|| MAIN LAYOUT ||============================== //
 
 const DashboardLayout = () => {
+  const { isLoggedIn } = useAuth();
+
   const theme = useTheme();
   const { menuMasterLoading } = useGetMenuMaster();
   const matchDownXL = useMediaQuery(theme.breakpoints.down("xl"));
@@ -43,33 +46,71 @@ const DashboardLayout = () => {
   if (menuMasterLoading) return <Loader />;
 
   return (
-    <AuthGuard>
-      <Box sx={{ display: "flex", width: "100%" }}>
-        <Header />
-        {!isHorizontal ? <Drawer /> : <HorizontalBar />}
+    <React.Fragment>
+      {isLoggedIn ? (
+        <AuthGuard>
+          <Box sx={{ display: "flex", width: "100%" }}>
+            <Header />
+            {!isHorizontal ? <Drawer /> : <HorizontalBar />}
 
-        <Box
-          component="main"
-          sx={{ width: "calc(100% - 260px)", flexGrow: 1, p: { xs: 2, sm: 3 } }}
-        >
-          <Toolbar sx={{ mt: isHorizontal ? 8 : "inherit" }} />
-          <Container
-            maxWidth={container ? "xl" : false}
+            <Box
+              component="main"
+              sx={{
+                width: "calc(100% - 260px)",
+                flexGrow: 1,
+                p: { xs: 2, sm: 3 },
+              }}
+            >
+              <Toolbar sx={{ mt: isHorizontal ? 8 : "inherit" }} />
+              <Container
+                maxWidth={container ? "xl" : false}
+                sx={{
+                  ...(container && { px: { xs: 0, sm: 2 } }),
+                  position: "relative",
+                  minHeight: "calc(100vh - 110px)",
+                  display: "flex",
+                  flexDirection: "column",
+                }}
+              >
+                <Breadcrumbs />
+                <Outlet />
+                <Footer />
+              </Container>
+            </Box>
+          </Box>
+        </AuthGuard>
+      ) : (
+        <Box sx={{ display: "flex", width: "100%" }}>
+          <Header />
+          {!isHorizontal ? <Drawer /> : <HorizontalBar />}
+
+          <Box
+            component="main"
             sx={{
-              ...(container && { px: { xs: 0, sm: 2 } }),
-              position: "relative",
-              minHeight: "calc(100vh - 110px)",
-              display: "flex",
-              flexDirection: "column",
+              width: "calc(100% - 260px)",
+              flexGrow: 1,
+              p: { xs: 2, sm: 3 },
             }}
           >
-            <Breadcrumbs />
-            <Outlet />
-            <Footer />
-          </Container>
+            <Toolbar sx={{ mt: isHorizontal ? 8 : "inherit" }} />
+            <Container
+              maxWidth={container ? "xl" : false}
+              sx={{
+                ...(container && { px: { xs: 0, sm: 2 } }),
+                position: "relative",
+                minHeight: "calc(100vh - 110px)",
+                display: "flex",
+                flexDirection: "column",
+              }}
+            >
+              <Breadcrumbs />
+              <Outlet />
+              <Footer />
+            </Container>
+          </Box>
         </Box>
-      </Box>
-    </AuthGuard>
+      )}
+    </React.Fragment>
   );
 };
 

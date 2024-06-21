@@ -1,4 +1,4 @@
-import { User } from "@/types/User";
+import { User } from "@/types/Project";
 import { formatIdr } from "@/utils/formatIdr";
 import {
   Box,

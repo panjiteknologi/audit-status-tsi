@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
+import { ReactNode } from "react";
 
 // material-ui
-import { Box, Grid } from '@mui/material';
+import { Box, Grid } from "@mui/material";
 
 // project import
-import AuthFooter from '@/components/cards/AuthFooter';
-import Logo from '@/components/logo';
-import AuthCard from './AuthCard';
+import AuthFooter from "@/components/cards/AuthFooter";
+import Logo from "@/components/logo";
+import AuthCard from "./AuthCard";
 
 // ==============================|| AUTHENTICATION - WRAPPER ||============================== //
 
@@ -15,16 +15,16 @@ interface AuthWrapperProps {
 }
 
 const AuthWrapper = ({ children }: AuthWrapperProps) => (
-  <Box sx={{ minHeight: '100vh' }}>
+  <Box sx={{ minHeight: "100vh" }}>
     <Grid
       container
       direction="column"
       justifyContent="flex-end"
       sx={{
-        minHeight: '100vh'
+        minHeight: "100vh",
       }}
     >
-      <Grid item xs={12} sx={{ ml: 3, mt: 3 }}>
+      <Grid item xs={6} sx={{ ml: 3, mt: 3 }}>
         <Logo />
       </Grid>
       <Grid item xs={12}>
@@ -34,7 +34,13 @@ const AuthWrapper = ({ children }: AuthWrapperProps) => (
           container
           justifyContent="center"
           alignItems="center"
-          sx={{ minHeight: { xs: 'calc(100vh - 210px)', sm: 'calc(100vh - 134px)', md: 'calc(100vh - 112px)' } }}
+          sx={{
+            minHeight: {
+              xs: "calc(100vh - 210px)",
+              sm: "calc(100vh - 134px)",
+              md: "calc(100vh - 112px)",
+            },
+          }}
         >
           <Grid item>
             <AuthCard>{children}</AuthCard>

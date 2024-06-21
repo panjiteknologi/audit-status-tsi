@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 // material-ui
 import { styled, useTheme } from "@mui/material/styles";
@@ -12,7 +11,6 @@ import {
   ListItemAvatar,
   ListItemText,
   Menu,
-  MenuItem,
   Theme,
 } from "@mui/material";
 
@@ -51,7 +49,6 @@ const ExpandMore = styled(IconButton, {
 
 const NavUser = () => {
   const theme = useTheme();
-  const navigate = useNavigate();
 
   const { menuMaster } = useGetMenuMaster();
   const drawerOpen = menuMaster?.isDashboardDrawerOpened;
@@ -132,14 +129,6 @@ const NavUser = () => {
           horizontal: "right",
         }}
       >
-        <MenuItem
-          onClick={() => {
-            handleClose();
-            navigate("change-password");
-          }}
-        >
-          Change Password
-        </MenuItem>
         {/* <MenuItem component={Link} to="#" onClick={handleClose}>
           Profile
         </MenuItem>

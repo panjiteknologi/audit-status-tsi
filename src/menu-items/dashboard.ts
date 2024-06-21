@@ -1,24 +1,24 @@
 // assets
-import { WalletOutlined, } from '@mui/icons-material';
-import { MenuType } from '.';
+import { WalletOutlined } from "@mui/icons-material";
+import { MenuType } from ".";
 
 const icons = {
-  payslip: WalletOutlined,
+  dashboard: WalletOutlined,
 };
 
 const dashboard: MenuType = {
-  id: 'group-dashboard',
-  title: 'Dashboard',
-  type: 'group',
+  id: "group-dashboard",
+  title: "Dashboard",
+  type: "group",
   children: [
     {
-      id: 'payslip',
-      title: 'Payslip',
-      url: '/payslip',
-      type: 'item',
-      icon: icons.payslip,
-    }
-  ]
+      id: "dashboard",
+      title: "dashboard",
+      url: "/",
+      type: "item",
+      icon: icons.dashboard,
+    },
+  ],
 };
 
 export default dashboard;

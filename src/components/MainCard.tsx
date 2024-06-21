@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { ReactNode, forwardRef, Ref } from "react";
+import React, { ReactNode, forwardRef, Ref } from "react";
 
 // material-ui
 import { SxProps, useTheme } from "@mui/material/styles";
@@ -17,7 +17,8 @@ import { ThemeMode } from "@/config";
 
 // header style
 const headerSX = {
-  p: 2.5,
+  p: 1,
+  paddingX: 2,
   "& .MuiCardHeader-action": { m: "0px auto", alignSelf: "center" },
 };
 
@@ -29,7 +30,6 @@ interface MainCardProps {
   children?: ReactNode;
   subheader?: ReactNode | string;
   content?: boolean;
-  contentSX?: any;
   darkTitle?: boolean;
   divider?: boolean;
   elevation?: number;
@@ -39,6 +39,10 @@ interface MainCardProps {
   title?: string;
   modal?: boolean;
   showButton?: ReactNode;
+  iconRight?: ReactNode;
+  btnHeader?: ReactNode;
+  titleBtnHeader?: string | undefined;
+  bgHeaderColor?: string;
 }
 
 const MainCard = forwardRef(
@@ -49,7 +53,6 @@ const MainCard = forwardRef(
       children,
       subheader,
       content = true,
-      contentSX = {},
       darkTitle,
       divider = true,
       elevation,
@@ -59,6 +62,10 @@ const MainCard = forwardRef(
       title,
       modal = false,
       showButton,
+      iconRight,
+      btnHeader,
+      titleBtnHeader,
+      bgHeaderColor,
       ...others
     }: MainCardProps,
     ref: Ref<any>
@@ -104,30 +111,99 @@ const MainCard = forwardRef(
           ...sx,
         }}
       >
+        {btnHeader && (
+          <React.Fragment>
+            <Box
+              sx={
+                showButton
+                  ? {
+                      display: "flex",
+                      flexDirection: "row",
+                      alignItems: "center",
+                      backgroundColor: bgHeaderColor,
+                      justifyContent: "space-between",
+                    }
+                  : null
+              }
+            >
+              <CardHeader
+                sx={{
+                  justifyContent: "center",
+                  flexDirection: "row",
+                  alignItems: "center",
+                  padding: 1,
+                  paddingX: 2,
+                  "& .MuiCardHeader-action": {
+                    m: "0px auto",
+                    alignSelf: "center",
+                  },
+                }}
+                titleTypographyProps={{ variant: "subtitle1" }}
+                title={
+                  <Box
+                    sx={{
+                      flexDirection: "row",
+                      display: "flex",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Typography
+                      variant="h6"
+                      sx={{
+                        textAlign: "center",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    >
+                      {titleBtnHeader}
+                    </Typography>
+                    <Box sx={{ paddingLeft: 0.5 }}>{iconRight}</Box>
+                  </Box>
+                }
+                action={secondary}
+                subheader={subheader}
+              />
+
+              {showButton}
+            </Box>
+            <Divider />
+          </React.Fragment>
+        )}
+
         {/* card header and action */}
         {!darkTitle && title && (
           <Box
             sx={
               showButton
                 ? {
-                  display: "flex",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                }
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }
                 : null
             }
           >
             <CardHeader
               sx={headerSX}
               titleTypographyProps={{ variant: "subtitle1" }}
-              title={title}
+              title={
+                <Box
+                  sx={{
+                    flexDirection: "row",
+                    display: "flex",
+                    alignItems: "center",
+                  }}
+                >
+                  <Typography variant="h5">{title}</Typography>
+                </Box>
+              }
               action={secondary}
               subheader={subheader}
             />
-            {showButton}
           </Box>
         )}
+
         {darkTitle && title && (
           <CardHeader
             sx={headerSX}
@@ -140,7 +216,17 @@ const MainCard = forwardRef(
         {title && divider && <Divider />}
 
         {/* card content */}
-        {content && <CardContent sx={contentSX}>{children}</CardContent>}
+        {content && (
+          <CardContent
+            sx={{
+              paddingY: 2,
+              paddingX: 2,
+              "& .MuiCardHeader-action": { m: "0px auto", alignSelf: "center" },
+            }}
+          >
+            {children}
+          </CardContent>
+        )}
         {!content && children}
       </Card>
     );

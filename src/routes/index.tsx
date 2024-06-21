@@ -1,23 +1,17 @@
 /* eslint-disable react-refresh/only-export-components */
 import { lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
-
-// project import
 import Loadable from "@/components/Loadable";
 import AuthLayout from "@/layout/Auth";
 import DashboardLayout from "@/layout/Dashboard";
-import ChangePassword from "@/pages/change-password";
 
-// render - page
 const AuthLogin = Loadable(lazy(() => import("@/pages")));
-const PaySlip = Loadable(lazy(() => import("@/pages/payslip")));
-
-// ==============================|| ROUTING RENDER ||============================== //
+const Dashboard = Loadable(lazy(() => import("@/pages/dashboard")));
 
 const router = createBrowserRouter(
   [
     {
-      path: "/",
+      path: "/Login",
       element: <AuthLayout />,
       children: [
         {
@@ -31,18 +25,8 @@ const router = createBrowserRouter(
       element: <DashboardLayout />,
       children: [
         {
-          path: "/payslip",
-          element: <PaySlip />,
-        },
-      ],
-    },
-    {
-      path: "/",
-      element: <DashboardLayout />,
-      children: [
-        {
-          path: "/change-password",
-          element: <ChangePassword />,
+          path: "/",
+          element: <Dashboard />,
         },
       ],
     },
