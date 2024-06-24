@@ -64,19 +64,9 @@ const CardInfo = ({
       catatan: items?.note_tgl_review_penugasan_st_satu,
     },
     {
-      tahapan: "Tanggal Review Penugasan ST Dua",
-      tanggalStatus: items?.tgl_review_penugasan_st_dua,
-      catatan: items?.note_tgl_review_penugasan_st_dua,
-    },
-    {
       tahapan: "Tanggal Pengiriman Notifikasi ST Satu",
       tanggalStatus: items?.tgl_pengiriman_notif_st_satu,
       catatan: items?.note_tgl_pengiriman_notif_st_satu,
-    },
-    {
-      tahapan: "Tanggal Pengiriman Notifikasi ST Dua",
-      tanggalStatus: items?.tgl_pengiriman_notif_st_dua,
-      catatan: items?.note_tgl_pengiriman_notif_st_dua,
     },
     {
       tahapan: "Tanggal Persetujuan Notifikasi ST Satu",
@@ -84,19 +74,9 @@ const CardInfo = ({
       catatan: items?.note_tgl_persetujuan_notif_st_satu,
     },
     {
-      tahapan: "Tanggal Persetujuan Notifikasi ST Dua",
-      tanggalStatus: items?.tgl_persetujuan_notif_st_dua,
-      catatan: items?.note_tgl_persetujuan_notif_st_dua,
-    },
-    {
       tahapan: "Tanggal Pengiriman Audit Plan ST Satu",
       tanggalStatus: items?.tgl_pengiriman_audit_plan_st_satu,
       catatan: items?.note_tgl_pengiriman_audit_plan_st_satu,
-    },
-    {
-      tahapan: "Tanggal Pengiriman Audit Plan ST Dua",
-      tanggalStatus: items?.tgl_pengiriman_audit_plan_st_dua,
-      catatan: items?.note_tgl_pengiriman_audit_plan_st_dua,
     },
     {
       tahapan: "Tanggal Pelaksanaan Audit ST Satu",
@@ -104,14 +84,34 @@ const CardInfo = ({
       catatan: items?.note_tgl_pelaksanaan_audit_st_satu,
     },
     {
-      tahapan: "Tanggal Pelaksanaan Audit ST Dua",
-      tanggalStatus: items?.tgl_pelaksanaan_audit_st_dua,
-      catatan: items?.note_tgl_pelaksanaan_audit_st_dua,
-    },
-    {
       tahapan: "Tanggal Penyelesaian CAPA ST Satu",
       tanggalStatus: items?.tgl_penyelesaian_capa_st_satu,
       catatan: items?.note_tgl_penyelesaian_capa_st_satu,
+    },
+    {
+      tahapan: "Tanggal Review Penugasan ST Dua",
+      tanggalStatus: items?.tgl_review_penugasan_st_dua,
+      catatan: items?.note_tgl_review_penugasan_st_dua,
+    },
+    {
+      tahapan: "Tanggal Pengiriman Notifikasi ST Dua",
+      tanggalStatus: items?.tgl_pengiriman_notif_st_dua,
+      catatan: items?.note_tgl_pengiriman_notif_st_dua,
+    },
+    {
+      tahapan: "Tanggal Persetujuan Notifikasi ST Dua",
+      tanggalStatus: items?.tgl_persetujuan_notif_st_dua,
+      catatan: items?.note_tgl_persetujuan_notif_st_dua,
+    },
+    {
+      tahapan: "Tanggal Pengiriman Audit Plan ST Dua",
+      tanggalStatus: items?.tgl_pengiriman_audit_plan_st_dua,
+      catatan: items?.note_tgl_pengiriman_audit_plan_st_dua,
+    },
+    {
+      tahapan: "Tanggal Pelaksanaan Audit ST Dua",
+      tanggalStatus: items?.tgl_pelaksanaan_audit_st_dua,
+      catatan: items?.note_tgl_pelaksanaan_audit_st_dua,
     },
     {
       tahapan: "Tanggal Penyelesaian CAPA ST Dua",

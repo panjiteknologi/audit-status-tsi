@@ -411,22 +411,10 @@ const ModalDetail = ({
                     note: values?.note_tgl_review_penugasan_st_satu,
                   },
                   {
-                    label: "Tanggal Review Penugasan ST Dua",
-                    name: "tgl_review_penugasan_st_dua",
-                    value: values?.tgl_review_penugasan_st_dua,
-                    note: values?.note_tgl_review_penugasan_st_dua,
-                  },
-                  {
                     label: "Tanggal Pengiriman Notifikasi ST Satu",
                     name: "tgl_pengiriman_notif_st_satu",
                     value: values?.tgl_pengiriman_notif_st_satu,
                     note: values?.note_tgl_pengiriman_notif_st_satu,
-                  },
-                  {
-                    label: "Tanggal Pengiriman Notifikasi ST Dua",
-                    name: "tgl_pengiriman_notif_st_dua",
-                    value: values?.tgl_pengiriman_notif_st_dua,
-                    note: values?.note_tgl_pengiriman_notif_st_dua,
                   },
                   {
                     label: "Tanggal Persetujuan Notifikasi ST Satu",
@@ -435,22 +423,10 @@ const ModalDetail = ({
                     note: values?.note_tgl_persetujuan_notif_st_satu,
                   },
                   {
-                    label: "Tanggal Persetujuan Notifikasi ST Dua",
-                    name: "tgl_persetujuan_notif_st_dua",
-                    value: values?.tgl_persetujuan_notif_st_dua,
-                    note: values?.note_tgl_persetujuan_notif_st_dua,
-                  },
-                  {
                     label: "Tanggal Pengiriman Audit Plan ST Satu",
                     name: "tgl_pengiriman_audit_plan_st_satu",
                     value: values?.tgl_pengiriman_audit_plan_st_satu,
                     note: values?.note_tgl_pengiriman_audit_plan_st_satu,
-                  },
-                  {
-                    label: "Tanggal Pengiriman Audit Plan ST Dua",
-                    name: "tgl_pengiriman_audit_plan_st_dua",
-                    value: values?.tgl_pengiriman_audit_plan_st_dua,
-                    note: values?.note_tgl_pengiriman_audit_plan_st_dua,
                   },
                   {
                     label: "Tanggal Pelaksanaan Audit ST Satu",
@@ -459,16 +435,40 @@ const ModalDetail = ({
                     note: values?.note_tgl_pelaksanaan_audit_st_satu,
                   },
                   {
-                    label: "Tanggal Pelaksanaan Audit ST Dua",
-                    name: "tgl_pelaksanaan_audit_st_dua",
-                    value: values?.tgl_pelaksanaan_audit_st_dua,
-                    note: values?.note_tgl_pelaksanaan_audit_st_dua,
-                  },
-                  {
                     label: "Tanggal Penyelesaian CAPA ST Satu",
                     name: "tgl_penyelesaian_capa_st_satu",
                     value: values?.tgl_penyelesaian_capa_st_satu,
                     note: values?.note_tgl_penyelesaian_capa_st_satu,
+                  },
+                  {
+                    label: "Tanggal Review Penugasan ST Dua",
+                    name: "tgl_review_penugasan_st_dua",
+                    value: values?.tgl_review_penugasan_st_dua,
+                    note: values?.note_tgl_review_penugasan_st_dua,
+                  },
+                  {
+                    label: "Tanggal Pengiriman Notifikasi ST Dua",
+                    name: "tgl_pengiriman_notif_st_dua",
+                    value: values?.tgl_pengiriman_notif_st_dua,
+                    note: values?.note_tgl_pengiriman_notif_st_dua,
+                  },
+                  {
+                    label: "Tanggal Persetujuan Notifikasi ST Dua",
+                    name: "tgl_persetujuan_notif_st_dua",
+                    value: values?.tgl_persetujuan_notif_st_dua,
+                    note: values?.note_tgl_persetujuan_notif_st_dua,
+                  },
+                  {
+                    label: "Tanggal Pengiriman Audit Plan ST Dua",
+                    name: "tgl_pengiriman_audit_plan_st_dua",
+                    value: values?.tgl_pengiriman_audit_plan_st_dua,
+                    note: values?.note_tgl_pengiriman_audit_plan_st_dua,
+                  },
+                  {
+                    label: "Tanggal Pelaksanaan Audit ST Dua",
+                    name: "tgl_pelaksanaan_audit_st_dua",
+                    value: values?.tgl_pelaksanaan_audit_st_dua,
+                    note: values?.note_tgl_pelaksanaan_audit_st_dua,
                   },
                   {
                     label: "Tanggal Penyelesaian CAPA ST Dua",
