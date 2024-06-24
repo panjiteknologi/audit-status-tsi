@@ -43,32 +43,22 @@ const BoldTableCell = styled(TableCell)(() => ({
   padding: "8px 16px",
   border: "none",
   whiteSpace: "nowrap",
-  position: "sticky",
   left: 0,
   zIndex: 1,
 }));
 
 const ScrollableTableCell = styled(TableCell)(() => ({
   minWidth: "200px",
-  "& .MuiTableContainer-root": {
-    overflowX: "scroll",
-    overflowY: "hidden",
-    "&::-webkit-scrollbar": {
-      display: "none",
-    },
-    scrollbarWidth: "none",
+}));
+
+const HiddenScrollbarTableContainer = styled(TableContainer)(() => ({
+  overflowX: "auto",
+  overflowY: "auto",
+  height: 500,
+  "&::-webkit-scrollbar": {
+    display: "none",
   },
-  "& .scroll-gradient": {
-    position: "absolute",
-    zIndex: 1,
-    top: 0,
-    right: 0,
-    bottom: 0,
-    left: 0,
-    pointerEvents: "none",
-    background:
-      "linear-gradient(to right, transparent, transparent 30%, white 30%, white 70%, transparent 70%, transparent)",
-  },
+  scrollbarWidth: "none",
 }));
 
 interface DataTableProps {
@@ -78,12 +68,7 @@ interface DataTableProps {
 const DataTable = ({ data }: DataTableProps) => {
   return (
     <CustomPaper>
-      <TableContainer
-        style={{
-          overflow: "auto",
-          height: 400,
-        }}
-      >
+      <HiddenScrollbarTableContainer>
         <Table style={{ minWidth: 750 }}>
           <TableHead>
             <TableRow>
@@ -104,7 +89,7 @@ const DataTable = ({ data }: DataTableProps) => {
             ))}
           </TableBody>
         </Table>
-      </TableContainer>
+      </HiddenScrollbarTableContainer>
     </CustomPaper>
   );
 };
