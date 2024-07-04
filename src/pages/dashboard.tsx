@@ -268,28 +268,30 @@ const Dashboard = () => {
           />
         )}
 
-        <IconButton
-          aria-label="add icon"
-          onClick={() => {
-            setAdd(true);
-            setShowModal(true);
-          }}
-          sx={{
-            backgroundColor: "black",
-            borderRadius: 2,
-            ":hover": {
-              backgroundColor: "#1e2041",
-              color: "white",
-            },
-          }}
-        >
-          <AddIcon
-            sx={{
-              color: "white",
-              width: 18,
+        {isLoggedIn && (
+          <IconButton
+            aria-label="add icon"
+            onClick={() => {
+              setAdd(true);
+              setShowModal(true);
             }}
-          />
-        </IconButton>
+            sx={{
+              backgroundColor: "black",
+              borderRadius: 2,
+              ":hover": {
+                backgroundColor: "#1e2041",
+                color: "white",
+              },
+            }}
+          >
+            <AddIcon
+              sx={{
+                color: "white",
+                width: 18,
+              }}
+            />
+          </IconButton>
+        )}
       </Box>
 
       {isLoggedIn && (
