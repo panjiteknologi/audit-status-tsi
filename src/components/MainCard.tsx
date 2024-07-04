@@ -36,13 +36,14 @@ interface MainCardProps {
   secondary?: any;
   shadow?: string;
   sx?: SxProps;
-  title?: string;
+  title?: string | number;
   modal?: boolean;
   showButton?: ReactNode;
   iconRight?: ReactNode;
   btnHeader?: ReactNode;
-  titleBtnHeader?: string | undefined;
+  titleBtnHeader?: string | number | undefined;
   bgHeaderColor?: string;
+  isLogin?: boolean;
 }
 
 const MainCard = forwardRef(
@@ -66,6 +67,7 @@ const MainCard = forwardRef(
       btnHeader,
       titleBtnHeader,
       bgHeaderColor,
+      isLogin,
       ...others
     }: MainCardProps,
     ref: Ref<any>
@@ -111,62 +113,66 @@ const MainCard = forwardRef(
           ...sx,
         }}
       >
-        {btnHeader && (
+        {isLogin && (
           <React.Fragment>
-            <Box
-              sx={
-                showButton
-                  ? {
-                      display: "flex",
-                      flexDirection: "row",
-                      alignItems: "center",
-                      backgroundColor: bgHeaderColor,
-                      justifyContent: "space-between",
-                    }
-                  : null
-              }
-            >
-              <CardHeader
-                sx={{
-                  justifyContent: "center",
-                  flexDirection: "row",
-                  alignItems: "center",
-                  padding: 1,
-                  paddingX: 2,
-                  "& .MuiCardHeader-action": {
-                    m: "0px auto",
-                    alignSelf: "center",
-                  },
-                }}
-                titleTypographyProps={{ variant: "subtitle1" }}
-                title={
-                  <Box
+            {btnHeader && (
+              <React.Fragment>
+                <Box
+                  sx={
+                    showButton
+                      ? {
+                          display: "flex",
+                          flexDirection: "row",
+                          alignItems: "center",
+                          backgroundColor: bgHeaderColor,
+                          justifyContent: "space-between",
+                        }
+                      : null
+                  }
+                >
+                  <CardHeader
                     sx={{
+                      justifyContent: "center",
                       flexDirection: "row",
-                      display: "flex",
                       alignItems: "center",
+                      padding: 1,
+                      paddingX: 2,
+                      "& .MuiCardHeader-action": {
+                        m: "0px auto",
+                        alignSelf: "center",
+                      },
                     }}
-                  >
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        textAlign: "center",
-                        color: "white",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      {titleBtnHeader}
-                    </Typography>
-                    <Box sx={{ paddingLeft: 0.5 }}>{iconRight}</Box>
-                  </Box>
-                }
-                action={secondary}
-                subheader={subheader}
-              />
+                    titleTypographyProps={{ variant: "subtitle1" }}
+                    title={
+                      <Box
+                        sx={{
+                          flexDirection: "row",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            textAlign: "center",
+                            color: "white",
+                            fontWeight: "bold",
+                          }}
+                        >
+                          {titleBtnHeader}
+                        </Typography>
+                        <Box sx={{ paddingLeft: 0.5 }}>{iconRight}</Box>
+                      </Box>
+                    }
+                    action={secondary}
+                    subheader={subheader}
+                  />
 
-              {showButton}
-            </Box>
-            <Divider />
+                  {showButton}
+                </Box>
+                <Divider />
+              </React.Fragment>
+            )}
           </React.Fragment>
         )}
 
@@ -187,20 +193,11 @@ const MainCard = forwardRef(
             <CardHeader
               sx={headerSX}
               titleTypographyProps={{ variant: "subtitle1" }}
-              title={
-                <Box
-                  sx={{
-                    flexDirection: "row",
-                    display: "flex",
-                    alignItems: "center",
-                  }}
-                >
-                  <Typography variant="h5">{title}</Typography>
-                </Box>
-              }
+              title={<Typography variant="h4">{title}</Typography>}
               action={secondary}
               subheader={subheader}
             />
+            {showButton}
           </Box>
         )}
 
