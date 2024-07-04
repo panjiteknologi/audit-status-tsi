@@ -1,4 +1,3 @@
-// material-ui
 import {
   Box,
   Dialog,
@@ -9,16 +8,12 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
-
-// project import
 import AuthWrapper from "@/sections/auth/AuthWrapper";
 import AuthLogin from "@/sections/auth/auth-forms/AuthLogin";
 import { useState } from "react";
 import ilustrationSuccess from "../assets/ilustration/il-success.svg";
 import ilustrationServerDown from "../assets/ilustration/il-server-down.svg";
 import CloseButton from "@/sections/dashboard/CloseButton";
-
-// ================================|| LOGIN ||================================ //
 
 const Login = () => {
   const [showModal, setShowModal] = useState(false);
