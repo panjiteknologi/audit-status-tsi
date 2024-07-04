@@ -88,7 +88,6 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
           });
         }
       } catch (err) {
-        console.error(err);
         dispatch({
           type: LOGOUT,
           payload,
