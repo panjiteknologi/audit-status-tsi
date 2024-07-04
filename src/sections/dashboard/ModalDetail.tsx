@@ -97,6 +97,7 @@ const ModalDetail = ({
         </Typography>
         <Formik
           initialValues={{
+            create_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
             id_project: data?.id_project,
             nama_perusahaan: add ? "" : data?.nama_perusahaan || "",
             nama_sales_or_crr: add ? "" : data?.nama_sales_or_crr || "",
@@ -112,6 +113,8 @@ const ModalDetail = ({
             tgl_review_penugasan_st_satu: add
               ? ""
               : data?.tgl_review_penugasan_st_satu || "",
+            tgl_kontrak: add ? "" : data?.tgl_kontrak || "",
+            note_tgl_kontrak: add ? "" : data?.note_tgl_kontrak || "",
             note_tgl_review_penugasan_st_satu: add
               ? ""
               : data?.note_tgl_review_penugasan_st_satu || "",
@@ -181,12 +184,12 @@ const ModalDetail = ({
             note_tgl_penyelesaian_capa_st_dua: add
               ? ""
               : data?.note_tgl_penyelesaian_capa_st_dua || "",
-            tgl_pengiriman_sertifikat: add
+            tgl_pengiriman_draft_sertifikat: add
               ? ""
-              : data?.tgl_pengiriman_sertifikat || "",
-            note_tgl_pengiriman_sertifikat: add
+              : data?.tgl_pengiriman_draft_sertifikat || "",
+            note_tgl_pengiriman_draft_sertifikat: add
               ? ""
-              : data?.note_tgl_pengiriman_sertifikat || "",
+              : data?.note_tgl_pengiriman_draft_sertifikat || "",
             tgl_persetujuan_draft_sertifikat: add
               ? ""
               : data?.tgl_persetujuan_draft_sertifikat || "",
@@ -201,7 +204,7 @@ const ModalDetail = ({
             note_tgl_persetujuan_kan: add
               ? ""
               : data?.note_tgl_persetujuan_kan || "",
-            status_pembayaran: add ? [] : data?.status_pembayaran || [],
+            status_pembayaran: add ? "" : data?.status_pembayaran || "",
             note_status_pembayaran: add
               ? ""
               : data?.note_status_pembayaran || "",
@@ -221,9 +224,6 @@ const ModalDetail = ({
               .required("Standar is required"),
             akreditasi: Yup.string().required("Akreditasi is required"),
             tahapan: Yup.string().required("Tahapan is required"),
-            status_pembayaran: Yup.string().required(
-              "Status Pembayaran is required"
-            ),
           })}
           onSubmit={async (values: any) => {
             onHandleSubmit(values);
@@ -237,331 +237,471 @@ const ModalDetail = ({
             touched,
             values,
             setFieldValue,
-          }) => (
-            <form noValidate onSubmit={handleSubmit}>
-              <Grid container spacing={2}>
-                <Grid item xs={12}>
-                  <InputText
-                    label="Nama Perusahaan"
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    values={values?.nama_perusahaan}
-                    name="nama_perusahaan"
-                    error={Boolean(
-                      touched.nama_perusahaan && errors.nama_perusahaan
-                    )}
-                    errorMessage={errors.nama_perusahaan}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <InputText
-                    label="Nama Sales or CRR"
-                    values={values?.nama_sales_or_crr}
-                    onBlur={handleBlur}
-                    onChange={handleChange}
-                    name="nama_sales_or_crr"
-                    error={Boolean(
-                      touched.nama_sales_or_crr && errors.nama_sales_or_crr
-                    )}
-                    errorMessage={errors.nama_perusahaan}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <Autocomplete
-                      multiple
-                      id="tags-standard"
-                      options={dataStandard}
-                      getOptionLabel={(option) => option.nama_standar}
-                      renderInput={(params) => (
-                        <TextField
-                          {...params}
-                          label="Standar"
-                          placeholder="Standar"
-                        />
+          }) => {
+            return (
+              <form noValidate onSubmit={handleSubmit}>
+                <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <InputText
+                      label="Nama Perusahaan"
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      values={values?.nama_perusahaan}
+                      name="nama_perusahaan"
+                      error={Boolean(
+                        touched.nama_perusahaan && errors.nama_perusahaan
                       )}
-                      value={values.standar || []}
-                      onBlur={handleBlur}
-                      onChange={(_, newValue) => {
-                        setFieldValue("standar", newValue);
-                      }}
+                      errorMessage={errors.nama_perusahaan}
                     />
-                    {touched.standar && errors.standar && (
-                      <FormHelperText
-                        error
-                        id="standard-weight-helper-text-standar"
-                      >
-                        {errors.standar}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel>Akreditasi</InputLabel>
-                    <Select
-                      value={values?.akreditasi || ""}
-                      onChange={handleChange}
+                  </Grid>
+                  <Grid item xs={12}>
+                    <InputText
+                      label="Nama Sales or CRR"
+                      values={values?.nama_sales_or_crr}
                       onBlur={handleBlur}
-                      name="akreditasi"
-                      error={Boolean(touched.akreditasi && errors.akreditasi)}
-                    >
-                      {dataAkreditasi.map((item, index) => (
-                        <MenuItem key={index} value={item.id_akreditasi}>
-                          {item.nama_akreditasi}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    {touched.akreditasi && errors.akreditasi && (
-                      <FormHelperText
-                        error
-                        id="standard-weight-helper-text-akreditasi-login"
-                      >
-                        {errors.akreditasi}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-                <Grid item xs={12}>
-                  <FormControl fullWidth>
-                    <InputLabel>Tahapan</InputLabel>
-                    <Select
-                      value={values?.tahapan || ""}
                       onChange={handleChange}
-                      onBlur={handleBlur}
-                      name="tahapan"
-                      error={Boolean(touched.tahapan && errors.tahapan)}
-                    >
-                      {dataTahapan.map((item, index) => (
-                        <MenuItem key={index} value={item.id_tahapan}>
-                          {item.nama_tahapan}
-                        </MenuItem>
-                      ))}
-                    </Select>
-                    {touched.tahapan && errors.tahapan && (
-                      <FormHelperText
-                        error
-                        id="standard-weight-helper-text-tahapan-login"
-                      >
-                        {errors.tahapan}
-                      </FormHelperText>
-                    )}
-                  </FormControl>
-                </Grid>
-
-                <React.Fragment>
-                  <Grid item xs={12} sm={6}>
+                      name="nama_sales_or_crr"
+                      error={Boolean(
+                        touched.nama_sales_or_crr && errors.nama_sales_or_crr
+                      )}
+                      errorMessage={errors.nama_perusahaan}
+                    />
+                  </Grid>
+                  <Grid item xs={12}>
                     <FormControl fullWidth>
-                      <InputLabel id="status_pembayaran-label">
-                        Status Pembayaran
-                      </InputLabel>
+                      <Autocomplete
+                        multiple
+                        id="tags-standard"
+                        options={dataStandard}
+                        getOptionLabel={(option) => option.nama_standar}
+                        renderInput={(params) => (
+                          <TextField
+                            {...params}
+                            label="Standar"
+                            placeholder="Standar"
+                          />
+                        )}
+                        value={values.standar || []}
+                        onBlur={handleBlur}
+                        onChange={(_, newValue) => {
+                          setFieldValue("standar", newValue);
+                        }}
+                      />
+                      {touched.standar && errors.standar && (
+                        <FormHelperText
+                          error
+                          id="standard-weight-helper-text-standar"
+                        >
+                          {errors.standar}
+                        </FormHelperText>
+                      )}
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <FormControl fullWidth>
+                      <InputLabel>Akreditasi</InputLabel>
                       <Select
-                        labelId="status_pembayaran-label"
-                        value={values?.status_pembayaran || ""}
+                        value={values?.akreditasi || ""}
                         onChange={handleChange}
                         onBlur={handleBlur}
-                        name="status_pembayaran"
-                        error={Boolean(
-                          touched.status_pembayaran && errors.status_pembayaran
-                        )}
+                        name="akreditasi"
+                        error={Boolean(touched.akreditasi && errors.akreditasi)}
                       >
-                        {dataStatusPembayaran.map((item, index) => (
-                          <MenuItem
-                            key={index}
-                            value={item.status_pembayaran_id}
-                          >
-                            {item.nama_status_pembayaran}
+                        {dataAkreditasi.map((item, index) => (
+                          <MenuItem key={index} value={item.id_akreditasi}>
+                            {item.nama_akreditasi}
                           </MenuItem>
                         ))}
                       </Select>
-                      {touched.status_pembayaran &&
-                        errors.status_pembayaran && (
-                          <FormHelperText error id="status_pembayaran-error">
-                            {errors.status_pembayaran}
-                          </FormHelperText>
-                        )}
+                      {touched.akreditasi && errors.akreditasi && (
+                        <FormHelperText
+                          error
+                          id="standard-weight-helper-text-akreditasi-login"
+                        >
+                          {errors.akreditasi}
+                        </FormHelperText>
+                      )}
                     </FormControl>
                   </Grid>
-                  <Grid item xs={12} sm={6}>
-                    <InputText
-                      label="Catatan Status Pembayaran"
-                      values={values?.note_status_pembayaran}
-                      onBlur={handleBlur}
-                      onChange={handleChange}
-                      name="note_status_pembayaran"
-                      error={Boolean(
-                        touched.note_status_pembayaran &&
-                          errors.note_status_pembayaran
+                  <Grid item xs={12}>
+                    <FormControl fullWidth>
+                      <InputLabel>Tahapan</InputLabel>
+                      <Select
+                        value={values?.tahapan || ""}
+                        onChange={handleChange}
+                        onBlur={handleBlur}
+                        name="tahapan"
+                        error={Boolean(touched.tahapan && errors.tahapan)}
+                      >
+                        {dataTahapan.map((item, index) => (
+                          <MenuItem key={index} value={item.id_tahapan}>
+                            {item.nama_tahapan}
+                          </MenuItem>
+                        ))}
+                      </Select>
+                      {touched.tahapan && errors.tahapan && (
+                        <FormHelperText
+                          error
+                          id="standard-weight-helper-text-tahapan-login"
+                        >
+                          {errors.tahapan}
+                        </FormHelperText>
                       )}
-                    />
+                    </FormControl>
                   </Grid>
-                </React.Fragment>
 
-                {[
-                  {
-                    label: "Tanggal Aplication Form or Request",
-                    name: "tgl_apl_form_or_request",
-                    value: values?.tgl_apl_form_or_request,
-                    note: values?.note_tgl_apl_form_or_request,
-                  },
-                  {
-                    label: "Tanggal Review Penugasan ST Satu",
-                    name: "tgl_review_penugasan_st_satu",
-                    value: values?.tgl_review_penugasan_st_satu,
-                    note: values?.note_tgl_review_penugasan_st_satu,
-                  },
-                  {
-                    label: "Tanggal Pengiriman Notifikasi ST Satu",
-                    name: "tgl_pengiriman_notif_st_satu",
-                    value: values?.tgl_pengiriman_notif_st_satu,
-                    note: values?.note_tgl_pengiriman_notif_st_satu,
-                  },
-                  {
-                    label: "Tanggal Persetujuan Notifikasi ST Satu",
-                    name: "tgl_persetujuan_notif_st_satu",
-                    value: values?.tgl_persetujuan_notif_st_satu,
-                    note: values?.note_tgl_persetujuan_notif_st_satu,
-                  },
-                  {
-                    label: "Tanggal Pengiriman Audit Plan ST Satu",
-                    name: "tgl_pengiriman_audit_plan_st_satu",
-                    value: values?.tgl_pengiriman_audit_plan_st_satu,
-                    note: values?.note_tgl_pengiriman_audit_plan_st_satu,
-                  },
-                  {
-                    label: "Tanggal Pelaksanaan Audit ST Satu",
-                    name: "tgl_pelaksanaan_audit_st_satu",
-                    value: values?.tgl_pelaksanaan_audit_st_satu,
-                    note: values?.note_tgl_pelaksanaan_audit_st_satu,
-                  },
-                  {
-                    label: "Tanggal Penyelesaian CAPA ST Satu",
-                    name: "tgl_penyelesaian_capa_st_satu",
-                    value: values?.tgl_penyelesaian_capa_st_satu,
-                    note: values?.note_tgl_penyelesaian_capa_st_satu,
-                  },
-                  {
-                    label: "Tanggal Review Penugasan ST Dua",
-                    name: "tgl_review_penugasan_st_dua",
-                    value: values?.tgl_review_penugasan_st_dua,
-                    note: values?.note_tgl_review_penugasan_st_dua,
-                  },
-                  {
-                    label: "Tanggal Pengiriman Notifikasi ST Dua",
-                    name: "tgl_pengiriman_notif_st_dua",
-                    value: values?.tgl_pengiriman_notif_st_dua,
-                    note: values?.note_tgl_pengiriman_notif_st_dua,
-                  },
-                  {
-                    label: "Tanggal Persetujuan Notifikasi ST Dua",
-                    name: "tgl_persetujuan_notif_st_dua",
-                    value: values?.tgl_persetujuan_notif_st_dua,
-                    note: values?.note_tgl_persetujuan_notif_st_dua,
-                  },
-                  {
-                    label: "Tanggal Pengiriman Audit Plan ST Dua",
-                    name: "tgl_pengiriman_audit_plan_st_dua",
-                    value: values?.tgl_pengiriman_audit_plan_st_dua,
-                    note: values?.note_tgl_pengiriman_audit_plan_st_dua,
-                  },
-                  {
-                    label: "Tanggal Pelaksanaan Audit ST Dua",
-                    name: "tgl_pelaksanaan_audit_st_dua",
-                    value: values?.tgl_pelaksanaan_audit_st_dua,
-                    note: values?.note_tgl_pelaksanaan_audit_st_dua,
-                  },
-                  {
-                    label: "Tanggal Penyelesaian CAPA ST Dua",
-                    name: "tgl_penyelesaian_capa_st_dua",
-                    value: values?.tgl_penyelesaian_capa_st_dua,
-                    note: values?.note_tgl_penyelesaian_capa_st_dua,
-                  },
-                  {
-                    label: "Tanggal Pengiriman Sertifikat",
-                    name: "tgl_pengiriman_sertifikat",
-                    value: values?.tgl_pengiriman_sertifikat,
-                    note: values?.note_tgl_pengiriman_sertifikat,
-                  },
-                  {
-                    label: "Tanggal Persetujuan Draft Sertifikat",
-                    name: "tgl_persetujuan_draft_sertifikat",
-                    value: values?.tgl_persetujuan_draft_sertifikat,
-                    note: values?.note_tgl_persetujuan_draft_sertifikat,
-                  },
-                  {
-                    label: "Tanggal Pengajuan ke KAN",
-                    name: "tgl_pengajuan_ke_kan",
-                    value: values?.tgl_pengajuan_ke_kan,
-                    note: values?.note_tgl_pengajuan_ke_kan,
-                  },
-                  {
-                    label: "Tanggal Persetujuan KAN",
-                    name: "tgl_persetujuan_kan",
-                    value: values?.tgl_persetujuan_kan,
-                    note: values?.note_tgl_persetujuan_kan,
-                  },
-                  {
-                    label: "Tanggal Kirim Sertifikat",
-                    name: "tgl_kirim_sertifikat",
-                    value: values?.tgl_kirim_sertifikat,
-                    note: values?.note_tgl_kirim_sertifikat,
-                  },
-                ].map(({ label, name, value, note }, index) => (
-                  <React.Fragment key={index}>
+                  <React.Fragment>
                     <Grid item xs={12} sm={6}>
-                      <InputDate
-                        selectedDate={value ? moment(value) : null}
-                        value={
-                          values.tgl_apl_form_or_request
-                            ? moment(values.tgl_apl_form_or_request)
-                            : null
-                        }
-                        handleDateChange={(newDate: SetStateAction<Moment>) => {
-                          const selectedDate = newDate?.format("YYYY-MM-DD");
-                          const currentTime = moment().format("HH:mm:ss");
-
-                          setFieldValue(name, selectedDate + " " + currentTime);
-                        }}
-                        label={label}
-                      />
+                      <FormControl fullWidth>
+                        <InputLabel id="status_pembayaran-label">
+                          Status Pembayaran
+                        </InputLabel>
+                        <Select
+                          labelId="status_pembayaran-label"
+                          value={values?.status_pembayaran || ""}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name="status_pembayaran"
+                          error={Boolean(
+                            touched.status_pembayaran &&
+                              errors.status_pembayaran
+                          )}
+                        >
+                          {dataStatusPembayaran.map((item, index) => (
+                            <MenuItem
+                              key={index}
+                              value={item.status_pembayaran_id}
+                            >
+                              {item.nama_status_pembayaran}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        {touched.status_pembayaran &&
+                          errors.status_pembayaran && (
+                            <FormHelperText error id="status_pembayaran-error">
+                              {errors.status_pembayaran}
+                            </FormHelperText>
+                          )}
+                      </FormControl>
                     </Grid>
                     <Grid item xs={12} sm={6}>
                       <InputText
-                        label={`Catatan ${label}`}
-                        values={note}
-                        onChange={handleChange}
+                        label="Catatan Status Pembayaran"
+                        values={values?.note_status_pembayaran}
                         onBlur={handleBlur}
-                        name={`note_${name}`}
+                        onChange={handleChange}
+                        name="note_status_pembayaran"
+                        error={Boolean(
+                          touched.note_status_pembayaran &&
+                            errors.note_status_pembayaran
+                        )}
                       />
                     </Grid>
                   </React.Fragment>
-                ))}
 
-                <Grid item xs={12} textAlign="center" marginTop={2}>
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    fullWidth
-                    disabled={disabled}
-                    sx={{ backgroundColor: "#1e2041" }}
-                  >
-                    {loadingBtn ? (
-                      <>
-                        <CircularProgress
-                          color="inherit"
-                          size={14}
-                          sx={{ marginRight: 1 }}
-                        />
-                        {add ? "Add" : "Update"}
-                      </>
-                    ) : (
-                      <>{add ? "Add" : "Update"}</>
-                    )}
-                  </Button>
+                  {values?.tahapan === 1 ? (
+                    <React.Fragment>
+                      {[
+                        {
+                          label: "Tanggal Aplication Form or Request",
+                          name: "tgl_apl_form_or_request",
+                          value: values?.tgl_apl_form_or_request,
+                          note: values?.note_tgl_apl_form_or_request,
+                        },
+                        {
+                          label: "Tanggal Review Penugasan ST Satu",
+                          name: "tgl_review_penugasan_st_satu",
+                          value: values?.tgl_review_penugasan_st_satu,
+                          note: values?.note_tgl_review_penugasan_st_satu,
+                        },
+                        {
+                          label: "Tanggal Kontrak",
+                          name: "tgl_kontrak",
+                          value: values?.tgl_kontrak,
+                          note: values?.note_tgl_kontrak,
+                        },
+                        {
+                          label: "Tanggal Pengiriman Notifikasi ST Satu",
+                          name: "tgl_pengiriman_notif_st_satu",
+                          value: values?.tgl_pengiriman_notif_st_satu,
+                          note: values?.note_tgl_pengiriman_notif_st_satu,
+                        },
+                        {
+                          label: "Tanggal Persetujuan Notifikasi ST Satu",
+                          name: "tgl_persetujuan_notif_st_satu",
+                          value: values?.tgl_persetujuan_notif_st_satu,
+                          note: values?.note_tgl_persetujuan_notif_st_satu,
+                        },
+                        {
+                          label: "Tanggal Pengiriman Audit Plan ST Satu",
+                          name: "tgl_pengiriman_audit_plan_st_satu",
+                          value: values?.tgl_pengiriman_audit_plan_st_satu,
+                          note: values?.note_tgl_pengiriman_audit_plan_st_satu,
+                        },
+                        {
+                          label: "Tanggal Pelaksanaan Audit ST Satu",
+                          name: "tgl_pelaksanaan_audit_st_satu",
+                          value: values?.tgl_pelaksanaan_audit_st_satu,
+                          note: values?.note_tgl_pelaksanaan_audit_st_satu,
+                        },
+                        {
+                          label: "Tanggal Penyelesaian CAPA ST Satu",
+                          name: "tgl_penyelesaian_capa_st_satu",
+                          value: values?.tgl_penyelesaian_capa_st_satu,
+                          note: values?.note_tgl_penyelesaian_capa_st_satu,
+                        },
+                        {
+                          label: "Tanggal Review Penugasan ST Dua",
+                          name: "tgl_review_penugasan_st_dua",
+                          value: values?.tgl_review_penugasan_st_dua,
+                          note: values?.note_tgl_review_penugasan_st_dua,
+                        },
+                        {
+                          label: "Tanggal Pengiriman Notifikasi ST Dua",
+                          name: "tgl_pengiriman_notif_st_dua",
+                          value: values?.tgl_pengiriman_notif_st_dua,
+                          note: values?.note_tgl_pengiriman_notif_st_dua,
+                        },
+                        {
+                          label: "Tanggal Persetujuan Notifikasi ST Dua",
+                          name: "tgl_persetujuan_notif_st_dua",
+                          value: values?.tgl_persetujuan_notif_st_dua,
+                          note: values?.note_tgl_persetujuan_notif_st_dua,
+                        },
+                        {
+                          label: "Tanggal Pengiriman Audit Plan ST Dua",
+                          name: "tgl_pengiriman_audit_plan_st_dua",
+                          value: values?.tgl_pengiriman_audit_plan_st_dua,
+                          note: values?.note_tgl_pengiriman_audit_plan_st_dua,
+                        },
+                        {
+                          label: "Tanggal Pelaksanaan Audit ST Dua",
+                          name: "tgl_pelaksanaan_audit_st_dua",
+                          value: values?.tgl_pelaksanaan_audit_st_dua,
+                          note: values?.note_tgl_pelaksanaan_audit_st_dua,
+                        },
+                        {
+                          label: "Tanggal Penyelesaian CAPA ST Dua",
+                          name: "tgl_penyelesaian_capa_st_dua",
+                          value: values?.tgl_penyelesaian_capa_st_dua,
+                          note: values?.note_tgl_penyelesaian_capa_st_dua,
+                        },
+                        {
+                          label: "Tanggal Pengiriman Draft Sertifikat",
+                          name: "tgl_pengiriman_draft_sertifikat",
+                          value: values?.tgl_pengiriman_draft_sertifikat,
+                          note: values?.note_tgl_pengiriman_draft_sertifikat,
+                        },
+                        {
+                          label: "Tanggal Persetujuan Draft Sertifikat",
+                          name: "tgl_persetujuan_draft_sertifikat",
+                          value: values?.tgl_persetujuan_draft_sertifikat,
+                          note: values?.note_tgl_persetujuan_draft_sertifikat,
+                        },
+                        {
+                          label: "Tanggal Pengajuan ke KAN",
+                          name: "tgl_pengajuan_ke_kan",
+                          value: values?.tgl_pengajuan_ke_kan,
+                          note: values?.note_tgl_pengajuan_ke_kan,
+                        },
+                        {
+                          label: "Tanggal Persetujuan KAN",
+                          name: "tgl_persetujuan_kan",
+                          value: values?.tgl_persetujuan_kan,
+                          note: values?.note_tgl_persetujuan_kan,
+                        },
+                        {
+                          label: "Tanggal Kirim Sertifikat",
+                          name: "tgl_kirim_sertifikat",
+                          value: values?.tgl_kirim_sertifikat,
+                          note: values?.note_tgl_kirim_sertifikat,
+                        },
+                      ].map(({ label, name, value, note }, index) => (
+                        <React.Fragment key={index}>
+                          <Grid item xs={12} sm={6}>
+                            <InputDate
+                              selectedDate={value ? moment(value) : null}
+                              value={
+                                values.tgl_apl_form_or_request
+                                  ? moment(values.tgl_apl_form_or_request)
+                                  : null
+                              }
+                              handleDateChange={(
+                                newDate: SetStateAction<Moment>
+                              ) => {
+                                const selectedDate =
+                                  newDate?.format("YYYY-MM-DD");
+                                const currentTime = moment().format("HH:mm:ss");
+
+                                setFieldValue(
+                                  name,
+                                  selectedDate + " " + currentTime
+                                );
+                              }}
+                              label={label}
+                            />
+                          </Grid>
+                          <Grid item xs={12} sm={6}>
+                            <InputText
+                              label={`Catatan ${label}`}
+                              values={note}
+                              onChange={handleChange}
+                              onBlur={handleBlur}
+                              name={`note_${name}`}
+                            />
+                          </Grid>
+                        </React.Fragment>
+                      ))}
+                    </React.Fragment>
+                  ) : (
+                    values?.tahapan > 1 && (
+                      <React.Fragment>
+                        {[
+                          {
+                            label: "Tanggal Aplication Form or Request",
+                            name: "tgl_apl_form_or_request",
+                            value: values?.tgl_apl_form_or_request,
+                            note: values?.note_tgl_apl_form_or_request,
+                          },
+                          {
+                            label: "Tanggal Review Penugasan ST Dua",
+                            name: "tgl_review_penugasan_st_dua",
+                            value: values?.tgl_review_penugasan_st_dua,
+                            note: values?.note_tgl_review_penugasan_st_dua,
+                          },
+                          {
+                            label: "Tanggal Kontrak",
+                            name: "tgl_kontrak",
+                            value: values?.tgl_kontrak,
+                            note: values?.note_tgl_kontrak,
+                          },
+                          {
+                            label: "Tanggal Pengiriman Notifikasi ST Dua",
+                            name: "tgl_pengiriman_notif_st_dua",
+                            value: values?.tgl_pengiriman_notif_st_dua,
+                            note: values?.note_tgl_pengiriman_notif_st_dua,
+                          },
+                          {
+                            label: "Tanggal Persetujuan Notifikasi ST Dua",
+                            name: "tgl_persetujuan_notif_st_dua",
+                            value: values?.tgl_persetujuan_notif_st_dua,
+                            note: values?.note_tgl_persetujuan_notif_st_dua,
+                          },
+                          {
+                            label: "Tanggal Pengiriman Audit Plan ST Dua",
+                            name: "tgl_pengiriman_audit_plan_st_dua",
+                            value: values?.tgl_pengiriman_audit_plan_st_dua,
+                            note: values?.note_tgl_pengiriman_audit_plan_st_dua,
+                          },
+                          {
+                            label: "Tanggal Pelaksanaan Audit ST Dua",
+                            name: "tgl_pelaksanaan_audit_st_dua",
+                            value: values?.tgl_pelaksanaan_audit_st_dua,
+                            note: values?.note_tgl_pelaksanaan_audit_st_dua,
+                          },
+                          {
+                            label: "Tanggal Penyelesaian CAPA ST Dua",
+                            name: "tgl_penyelesaian_capa_st_dua",
+                            value: values?.tgl_penyelesaian_capa_st_dua,
+                            note: values?.note_tgl_penyelesaian_capa_st_dua,
+                          },
+                          {
+                            label: "Tanggal Pengiriman Draft Sertifikat",
+                            name: "tgl_pengiriman_draft_sertifikat",
+                            value: values?.tgl_pengiriman_draft_sertifikat,
+                            note: values?.note_tgl_pengiriman_draft_sertifikat,
+                          },
+                          {
+                            label: "Tanggal Persetujuan Draft Sertifikat",
+                            name: "tgl_persetujuan_draft_sertifikat",
+                            value: values?.tgl_persetujuan_draft_sertifikat,
+                            note: values?.note_tgl_persetujuan_draft_sertifikat,
+                          },
+                          {
+                            label: "Tanggal Pengajuan ke KAN",
+                            name: "tgl_pengajuan_ke_kan",
+                            value: values?.tgl_pengajuan_ke_kan,
+                            note: values?.note_tgl_pengajuan_ke_kan,
+                          },
+                          {
+                            label: "Tanggal Persetujuan KAN",
+                            name: "tgl_persetujuan_kan",
+                            value: values?.tgl_persetujuan_kan,
+                            note: values?.note_tgl_persetujuan_kan,
+                          },
+                          {
+                            label: "Tanggal Kirim Sertifikat",
+                            name: "tgl_kirim_sertifikat",
+                            value: values?.tgl_kirim_sertifikat,
+                            note: values?.note_tgl_kirim_sertifikat,
+                          },
+                        ].map(({ label, name, value, note }, index) => (
+                          <React.Fragment key={index}>
+                            <Grid item xs={12} sm={6}>
+                              <InputDate
+                                selectedDate={value ? moment(value) : null}
+                                value={
+                                  values.tgl_apl_form_or_request
+                                    ? moment(values.tgl_apl_form_or_request)
+                                    : null
+                                }
+                                handleDateChange={(
+                                  newDate: SetStateAction<Moment>
+                                ) => {
+                                  const selectedDate =
+                                    newDate?.format("YYYY-MM-DD");
+                                  const currentTime =
+                                    moment().format("HH:mm:ss");
+
+                                  setFieldValue(
+                                    name,
+                                    selectedDate + " " + currentTime
+                                  );
+                                }}
+                                label={label}
+                              />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                              <InputText
+                                label={`Catatan ${label}`}
+                                values={note}
+                                onChange={handleChange}
+                                onBlur={handleBlur}
+                                name={`note_${name}`}
+                              />
+                            </Grid>
+                          </React.Fragment>
+                        ))}
+                      </React.Fragment>
+                    )
+                  )}
+
+                  <Grid item xs={12} textAlign="center" marginTop={2}>
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      fullWidth
+                      disabled={disabled}
+                      sx={{ backgroundColor: "#1e2041" }}
+                    >
+                      {loadingBtn ? (
+                        <>
+                          <CircularProgress
+                            color="inherit"
+                            size={14}
+                            sx={{ marginRight: 1 }}
+                          />
+                          {add ? "Add" : "Update"}
+                        </>
+                      ) : (
+                        <>{add ? "Add" : "Update"}</>
+                      )}
+                    </Button>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </form>
-          )}
+              </form>
+            );
+          }}
         </Formik>
       </Box>
     </Modal>
