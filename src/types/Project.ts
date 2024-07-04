@@ -1,17 +1,19 @@
 export interface AllProject {
   status_pembayaran_id?: string | number | readonly string[] | undefined;
-  nama_status_pembayaran?: string;
-  tanggalStatus?: number | string;
-  catatan?: string;
+  nama_status_pembayaran?: string | any;
+  tanggalStatus?: any;
+  catatan?: string | any;
   id_project?: number;
-  nama_perusahaan?: string;
-  nama_sales_or_crr?: string;
+  nama_perusahaan?: string | any;
+  nama_sales_or_crr?: string | any;
   standar?: [];
   akreditasi?: number;
-  tahapan?: string;
-  tgl_apl_form_or_request?: string;
-  note_tgl_apl_form_or_request?: string;
-  tgl_review_penugasan_st_satu?: string;
+  tahapan?: string | any;
+  tgl_kontrak?: string | any;
+  note_tgl_kontrak?: string | any;
+  tgl_apl_form_or_request?: string | any;
+  note_tgl_apl_form_or_request?: string | any;
+  tgl_review_penugasan_st_satu?: string | any;
   note_tgl_review_penugasan_st_satu?: string | undefined;
   tgl_review_penugasan_st_dua?: string;
   note_tgl_review_penugasan_st_dua?: string;
@@ -35,8 +37,8 @@ export interface AllProject {
   note_tgl_penyelesaian_capa_st_satu?: string | undefined;
   tgl_penyelesaian_capa_st_dua?: string;
   note_tgl_penyelesaian_capa_st_dua?: string | undefined;
-  tgl_pengiriman_sertifikat?: string;
-  note_tgl_pengiriman_sertifikat?: string | undefined;
+  tgl_pengiriman_draft_sertifikat?: string;
+  note_tgl_pengiriman_draft_sertifikat?: string | undefined;
   tgl_persetujuan_draft_sertifikat?: string;
   note_tgl_persetujuan_draft_sertifikat?: string | undefined;
   tgl_pengajuan_ke_kan?: string;
@@ -47,6 +49,26 @@ export interface AllProject {
   note_status_pembayaran?: string | undefined;
   tgl_kirim_sertifikat?: string;
   note_tgl_kirim_sertifikat?: string | undefined;
+  lead_time_tgl_apl_form_or_request?: string | undefined;
+  lead_time_tgl_kontrak?: string | undefined;
+  lead_time_tgl_review_penugasan_st_satu?: string | undefined;
+  lead_time_tgl_pengiriman_notif_st_satu?: string | undefined;
+  lead_time_tgl_persetujuan_notif_st_satu?: string | undefined;
+  lead_time_tgl_pengiriman_audit_plan_st_satu?: string | undefined;
+  lead_time_tgl_pelaksanaan_audit_st_satu?: string | undefined;
+  lead_time_tgl_penyelesaian_capa_st_satu?: string | undefined;
+  lead_time_project_finish?: string | undefined;
+  lead_time_tgl_kirim_sertifikat?: string | undefined;
+  lead_time_tgl_pelaksanaan_audit_st_dua?: string | undefined;
+  lead_time_tgl_pengajuan_ke_kan?: string | undefined;
+  lead_time_tgl_pengiriman_audit_plan_st_dua?: string | undefined;
+  lead_time_tgl_pengiriman_draft_sertifikat?: string | undefined;
+  lead_time_tgl_pengiriman_notif_st_dua?: string | undefined;
+  lead_time_tgl_penyelesaian_capa_st_dua?: string | undefined;
+  lead_time_tgl_persetujuan_draft_sertifikat?: string | undefined;
+  lead_time_tgl_persetujuan_kan?: string | undefined;
+  lead_time_tgl_persetujuan_notif_st_dua?: string | undefined;
+  lead_time_tgl_review_penugasan_st_dua?: string | undefined;
   status_data?: number;
   create_date?: string;
   cycle_date?: string;
@@ -54,6 +76,8 @@ export interface AllProject {
   cycle_user?: number;
   nama_akreditasi?: string;
   nama_tahapan?: string;
+  leadTime?: string;
+  sla?: string;
 }
 
 export interface MenuProject {
