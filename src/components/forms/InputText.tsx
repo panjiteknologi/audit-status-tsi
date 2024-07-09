@@ -13,6 +13,7 @@ interface InputTextProps {
   errorMessage?: string | undefined;
   values?: string;
   name?: string;
+  disabled?: boolean;
 }
 
 const InputText = ({
@@ -23,6 +24,7 @@ const InputText = ({
   errorMessage,
   values,
   name,
+  disabled,
 }: InputTextProps) => {
   return (
     <FormControl defaultValue="" required>
@@ -40,6 +42,7 @@ const InputText = ({
             height: 20,
           },
         }}
+        disabled={disabled}
       />
       {error && (
         <FormHelperText error id="standard-weight-helper-text">
