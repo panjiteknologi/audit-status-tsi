@@ -451,37 +451,37 @@ const ModalDetail = ({
                           note: values?.note_tgl_penyelesaian_capa_st_satu,
                         },
                         {
-                          label: "Tanggal Review Penugasan ST Dua",
+                          label: "Tanggal Review Penugasan",
                           name: "tgl_review_penugasan_st_dua",
                           value: values?.tgl_review_penugasan_st_dua,
                           note: values?.note_tgl_review_penugasan_st_dua,
                         },
                         {
-                          label: "Tanggal Pengiriman Notifikasi ST Dua",
+                          label: "Tanggal Pengiriman Notifikasi",
                           name: "tgl_pengiriman_notif_st_dua",
                           value: values?.tgl_pengiriman_notif_st_dua,
                           note: values?.note_tgl_pengiriman_notif_st_dua,
                         },
                         {
-                          label: "Tanggal Persetujuan Notifikasi ST Dua",
+                          label: "Tanggal Persetujuan Notifikasi",
                           name: "tgl_persetujuan_notif_st_dua",
                           value: values?.tgl_persetujuan_notif_st_dua,
                           note: values?.note_tgl_persetujuan_notif_st_dua,
                         },
                         {
-                          label: "Tanggal Pengiriman Audit Plan ST Dua",
+                          label: "Tanggal Pengiriman Audit Plan",
                           name: "tgl_pengiriman_audit_plan_st_dua",
                           value: values?.tgl_pengiriman_audit_plan_st_dua,
                           note: values?.note_tgl_pengiriman_audit_plan_st_dua,
                         },
                         {
-                          label: "Tanggal Pelaksanaan Audit ST Dua",
+                          label: "Tanggal Pelaksanaan Audit",
                           name: "tgl_pelaksanaan_audit_st_dua",
                           value: values?.tgl_pelaksanaan_audit_st_dua,
                           note: values?.note_tgl_pelaksanaan_audit_st_dua,
                         },
                         {
-                          label: "Tanggal Penyelesaian CAPA ST Dua",
+                          label: "Tanggal Penyelesaian CAPA",
                           name: "tgl_penyelesaian_capa_st_dua",
                           value: values?.tgl_penyelesaian_capa_st_dua,
                           note: values?.note_tgl_penyelesaian_capa_st_dua,
@@ -520,6 +520,7 @@ const ModalDetail = ({
                         <React.Fragment key={index}>
                           <Grid item xs={12} sm={6}>
                             <InputDate
+                              disabled={value ? true : false}
                               selectedDate={value ? moment(value) : null}
                               value={
                                 values.tgl_apl_form_or_request
@@ -548,6 +549,7 @@ const ModalDetail = ({
                               onChange={handleChange}
                               onBlur={handleBlur}
                               name={`note_${name}`}
+                              disabled={note ? true : false}
                             />
                           </Grid>
                         </React.Fragment>
@@ -564,43 +566,37 @@ const ModalDetail = ({
                             note: values?.note_tgl_apl_form_or_request,
                           },
                           {
-                            label: "Tanggal Review Penugasan ST Dua",
+                            label: "Tanggal Review Penugasan",
                             name: "tgl_review_penugasan_st_dua",
                             value: values?.tgl_review_penugasan_st_dua,
                             note: values?.note_tgl_review_penugasan_st_dua,
                           },
                           {
-                            label: "Tanggal Kontrak",
-                            name: "tgl_kontrak",
-                            value: values?.tgl_kontrak,
-                            note: values?.note_tgl_kontrak,
-                          },
-                          {
-                            label: "Tanggal Pengiriman Notifikasi ST Dua",
+                            label: "Tanggal Pengiriman Notifikasi",
                             name: "tgl_pengiriman_notif_st_dua",
                             value: values?.tgl_pengiriman_notif_st_dua,
                             note: values?.note_tgl_pengiriman_notif_st_dua,
                           },
                           {
-                            label: "Tanggal Persetujuan Notifikasi ST Dua",
+                            label: "Tanggal Persetujuan Notifikasi",
                             name: "tgl_persetujuan_notif_st_dua",
                             value: values?.tgl_persetujuan_notif_st_dua,
                             note: values?.note_tgl_persetujuan_notif_st_dua,
                           },
                           {
-                            label: "Tanggal Pengiriman Audit Plan ST Dua",
+                            label: "Tanggal Pengiriman Audit Plan",
                             name: "tgl_pengiriman_audit_plan_st_dua",
                             value: values?.tgl_pengiriman_audit_plan_st_dua,
                             note: values?.note_tgl_pengiriman_audit_plan_st_dua,
                           },
                           {
-                            label: "Tanggal Pelaksanaan Audit ST Dua",
+                            label: "Tanggal Pelaksanaan Audit",
                             name: "tgl_pelaksanaan_audit_st_dua",
                             value: values?.tgl_pelaksanaan_audit_st_dua,
                             note: values?.note_tgl_pelaksanaan_audit_st_dua,
                           },
                           {
-                            label: "Tanggal Penyelesaian CAPA ST Dua",
+                            label: "Tanggal Penyelesaian CAPA",
                             name: "tgl_penyelesaian_capa_st_dua",
                             value: values?.tgl_penyelesaian_capa_st_dua,
                             note: values?.note_tgl_penyelesaian_capa_st_dua,
@@ -639,6 +635,7 @@ const ModalDetail = ({
                           <React.Fragment key={index}>
                             <Grid item xs={12} sm={6}>
                               <InputDate
+                                disabled={value ? true : false}
                                 selectedDate={value ? moment(value) : null}
                                 value={
                                   values.tgl_apl_form_or_request
@@ -668,6 +665,7 @@ const ModalDetail = ({
                                 onChange={handleChange}
                                 onBlur={handleBlur}
                                 name={`note_${name}`}
+                                disabled={note ? true : false}
                               />
                             </Grid>
                           </React.Fragment>
