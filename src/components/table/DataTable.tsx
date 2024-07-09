@@ -52,7 +52,7 @@ const BoldTableCell = styled(TableCell)(() => ({
 }));
 
 const ScrollableTableCell = styled(TableCell)(() => ({
-  minWidth: "200px",
+  minWidth: "250px",
 }));
 
 const HiddenScrollbarTableContainer = styled(TableContainer)(() => ({
