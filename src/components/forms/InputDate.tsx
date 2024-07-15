@@ -1,14 +1,13 @@
-import React, { SetStateAction } from "react";
+import React from "react";
 import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import TextField from "@mui/material/TextField";
-import { Moment } from "moment";
-import { colors } from "@mui/material";
+import moment, { Moment } from "moment";
 
 interface InputDateProps {
   label: string;
-  selectedDate: Moment;
-  handleDateChange: (newDate: SetStateAction<Moment>) => void;
+  selectedDate: Moment | null;
+  handleDateChange: (newDate: Moment | null) => void;
   disabled?: boolean;
 }
 
@@ -18,10 +17,14 @@ const InputDate: React.FC<InputDateProps> = ({
   handleDateChange,
   disabled,
 }) => {
+  const isDateDisabled = (date: Moment) => {
+    return !date.isSame(moment(), "day");
+  };
+
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <DatePicker
-        renderInput={(props) => (
+        renderInput={(props: any) => (
           <TextField
             {...props}
             InputProps={{
@@ -33,7 +36,8 @@ const InputDate: React.FC<InputDateProps> = ({
         )}
         label={label}
         value={selectedDate}
-        onChange={(newDate) => handleDateChange(newDate)}
+        onChange={(newDate) => handleDateChange(newDate as Moment)}
+        shouldDisableDate={isDateDisabled}
         sx={{
           width: "100%",
         }}
