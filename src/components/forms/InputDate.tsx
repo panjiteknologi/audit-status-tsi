@@ -3,6 +3,8 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import TextField from "@mui/material/TextField";
 import moment, { Moment } from "moment";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import { InputAdornment } from "@mui/material";
 
 interface InputDateProps {
   label: string;
@@ -18,22 +20,32 @@ const InputDate: React.FC<InputDateProps> = ({
   disabled,
 }) => {
   const isDateDisabled = (date: Moment) => {
-    return !date.isSame(moment(), "day");
+    return !date.isSame(moment(), "day") && !selectedDate;
   };
 
   return (
     <LocalizationProvider dateAdapter={AdapterMoment}>
       <DatePicker
-        renderInput={(props: any) => (
-          <TextField
-            {...props}
-            InputProps={{
-              style: {
-                height: 20,
-              },
-            }}
-          />
-        )}
+        slots={{
+          textField: (props: any) => (
+            <TextField
+              {...props}
+              InputProps={{
+                ...props.InputProps,
+                readOnly: true,
+                style: {
+                  height: 40,
+                },
+                endAdornment: (
+                  <InputAdornment position="end">
+                    {props.InputProps?.endAdornment}
+                  </InputAdornment>
+                ),
+                onKeyDown: (e) => e.preventDefault(),
+              }}
+            />
+          ),
+        }}
         label={label}
         value={selectedDate}
         onChange={(newDate) => handleDateChange(newDate as Moment)}

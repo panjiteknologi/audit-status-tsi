@@ -441,7 +441,8 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_review_penugasan_st_satu
+                            !values?.tgl_apl_form_or_request ||
+                            (!add && !!data?.tgl_review_penugasan_st_satu)
                               ? true
                               : false
                           }
@@ -473,7 +474,10 @@ const ModalDetail = ({
 
                       <Grid item xs={12} sm={6}>
                         <InputDate
-                          disabled={!add && data?.tgl_kontrak ? true : false}
+                          disabled={
+                            !values?.tgl_review_penugasan_st_satu ||
+                            (!add && !!data?.tgl_kontrak)
+                          }
                           selectedDate={
                             values?.tgl_kontrak
                               ? moment(values.tgl_kontrak)
@@ -503,9 +507,8 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_pengiriman_notif_st_satu
-                              ? true
-                              : false
+                            !values?.tgl_kontrak ||
+                            (!add && !!data?.tgl_pengiriman_notif_st_satu)
                           }
                           selectedDate={
                             values?.tgl_pengiriman_notif_st_satu
@@ -536,9 +539,8 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_persetujuan_notif_st_satu
-                              ? true
-                              : false
+                            !values?.tgl_pengiriman_notif_st_satu ||
+                            (!add && !!data?.tgl_persetujuan_notif_st_satu)
                           }
                           selectedDate={
                             values?.tgl_persetujuan_notif_st_satu
@@ -569,9 +571,8 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_pengiriman_audit_plan_st_satu
-                              ? true
-                              : false
+                            !values?.tgl_persetujuan_notif_st_satu ||
+                            (!add && !!data?.tgl_pengiriman_audit_plan_st_satu)
                           }
                           selectedDate={
                             values?.tgl_pengiriman_audit_plan_st_satu
@@ -604,9 +605,8 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_pelaksanaan_audit_st_satu
-                              ? true
-                              : false
+                            !values?.tgl_pengiriman_audit_plan_st_satu ||
+                            (!add && !!data?.tgl_pelaksanaan_audit_st_satu)
                           }
                           selectedDate={
                             values?.tgl_pelaksanaan_audit_st_satu
@@ -637,9 +637,8 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_penyelesaian_capa_st_satu
-                              ? true
-                              : false
+                            !values?.tgl_pelaksanaan_audit_st_satu ||
+                            (!add && !!data?.tgl_penyelesaian_capa_st_satu)
                           }
                           selectedDate={
                             values?.tgl_penyelesaian_capa_st_satu
@@ -670,207 +669,202 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_review_penugasan_st_dua
-                              ? true
-                              : false
+                            !values?.tgl_penyelesaian_capa_st_satu ||
+                            (!add && !!data?.tgl_review_penugasan_st_satu)
                           }
                           selectedDate={
-                            values?.tgl_review_penugasan_st_dua
-                              ? moment(values.tgl_review_penugasan_st_dua)
+                            values?.tgl_review_penugasan_st_satu
+                              ? moment(values.tgl_review_penugasan_st_satu)
                               : null
                           }
                           handleDateChange={(newDate) => {
                             const selectedDate = newDate?.format("YYYY-MM-DD");
                             const currentTime = moment().format("HH:mm:ss");
                             setFieldValue(
-                              "tgl_review_penugasan_st_dua",
+                              "tgl_review_penugasan_st_satu",
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Review Penugasan ST Dua"
+                          label="Tanggal Review Penugasan ST Satu"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Review Penugasan ST Dua`}
-                          values={values?.note_tgl_review_penugasan_st_dua}
+                          label={`Catatan Tanggal Review Penugasan ST Satu`}
+                          values={values?.note_tgl_review_penugasan_st_satu}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          name="note_tgl_review_penugasan_st_dua"
+                          name="note_tgl_review_penugasan_st_satu"
                         />
                       </Grid>
 
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_pengiriman_notif_st_dua
-                              ? true
-                              : false
+                            !values?.tgl_review_penugasan_st_satu ||
+                            (!add && !!data?.tgl_pengiriman_notif_st_satu)
                           }
                           selectedDate={
-                            values?.tgl_pengiriman_notif_st_dua
-                              ? moment(values.tgl_pengiriman_notif_st_dua)
+                            values?.tgl_pengiriman_notif_st_satu
+                              ? moment(values.tgl_pengiriman_notif_st_satu)
                               : null
                           }
                           handleDateChange={(newDate) => {
                             const selectedDate = newDate?.format("YYYY-MM-DD");
                             const currentTime = moment().format("HH:mm:ss");
                             setFieldValue(
-                              "tgl_pengiriman_notif_st_dua",
+                              "tgl_pengiriman_notif_st_satu",
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Pengiriman Notifikasi ST Dua"
+                          label="Tanggal Pengiriman Notifikasi ST Satu"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Pengiriman Notifikasi ST Dua`}
-                          values={values?.note_tgl_pengiriman_notif_st_dua}
+                          label={`Catatan Tanggal Pengiriman Notifikasi ST Satu`}
+                          values={values?.note_tgl_pengiriman_notif_st_satu}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          name="note_tgl_pengiriman_notif_st_dua"
+                          name="note_tgl_pengiriman_notif_st_satu"
                         />
                       </Grid>
 
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_persetujuan_notif_st_dua
-                              ? true
-                              : false
+                            !values?.tgl_pengiriman_notif_st_satu ||
+                            (!add && !!data?.tgl_persetujuan_notif_st_satu)
                           }
                           selectedDate={
-                            values?.tgl_persetujuan_notif_st_dua
-                              ? moment(values.tgl_persetujuan_notif_st_dua)
+                            values?.tgl_persetujuan_notif_st_satu
+                              ? moment(values.tgl_persetujuan_notif_st_satu)
                               : null
                           }
                           handleDateChange={(newDate) => {
                             const selectedDate = newDate?.format("YYYY-MM-DD");
                             const currentTime = moment().format("HH:mm:ss");
                             setFieldValue(
-                              "tgl_persetujuan_notif_st_dua",
+                              "tgl_persetujuan_notif_st_satu",
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Persetujuan Notifikasi ST Dua"
+                          label="Tanggal Persetujuan Notifikasi ST Satu"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
                           label={`Catatan Tanggal Persetujuan Notifikasi ST Dua`}
-                          values={values?.note_tgl_persetujuan_notif_st_dua}
+                          values={values?.note_tgl_persetujuan_notif_st_satu}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          name="note_tgl_persetujuan_notif_st_dua"
+                          name="note_tgl_persetujuan_notif_st_satu"
                         />
                       </Grid>
 
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_pengiriman_audit_plan_st_dua
-                              ? true
-                              : false
+                            !values?.tgl_persetujuan_notif_st_satu ||
+                            (!add && !!data?.tgl_pengiriman_audit_plan_st_satu)
                           }
                           selectedDate={
-                            values?.tgl_pengiriman_audit_plan_st_dua
-                              ? moment(values.tgl_pengiriman_audit_plan_st_dua)
+                            values?.tgl_pengiriman_audit_plan_st_satu
+                              ? moment(values.tgl_pengiriman_audit_plan_st_satu)
                               : null
                           }
                           handleDateChange={(newDate) => {
                             const selectedDate = newDate?.format("YYYY-MM-DD");
                             const currentTime = moment().format("HH:mm:ss");
                             setFieldValue(
-                              "tgl_pengiriman_audit_plan_st_dua",
+                              "tgl_pengiriman_audit_plan_st_satu",
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Pengiriman Audit Plan ST Dua"
+                          label="Tanggal Pengiriman Audit Plan ST Satu"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Pengiriman Audit Plan ST Dua`}
-                          values={values?.note_tgl_pengiriman_audit_plan_st_dua}
+                          label={`Catatan Tanggal Pengiriman Audit Plan ST Satu`}
+                          values={
+                            values?.note_tgl_pengiriman_audit_plan_st_satu
+                          }
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          name="note_tgl_pengiriman_audit_plan_st_dua"
+                          name="note_tgl_pengiriman_audit_plan_st_satu"
                         />
                       </Grid>
 
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_pelaksanaan_audit_st_dua
-                              ? true
-                              : false
+                            !values?.tgl_pengiriman_audit_plan_st_satu ||
+                            (!add && !!data?.tgl_pelaksanaan_audit_st_satu)
                           }
                           selectedDate={
-                            values?.tgl_pelaksanaan_audit_st_dua
-                              ? moment(values.tgl_pelaksanaan_audit_st_dua)
+                            values?.tgl_pelaksanaan_audit_st_satu
+                              ? moment(values.tgl_pelaksanaan_audit_st_satu)
                               : null
                           }
                           handleDateChange={(newDate) => {
                             const selectedDate = newDate?.format("YYYY-MM-DD");
                             const currentTime = moment().format("HH:mm:ss");
                             setFieldValue(
-                              "tgl_pelaksanaan_audit_st_dua",
+                              "tgl_pelaksanaan_audit_st_satu",
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Pelaksanaan Audit ST Dua"
+                          label="Tanggal Pelaksanaan Audit ST Satu"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Pelaksanaan Audit ST Dua`}
-                          values={values?.note_tgl_pelaksanaan_audit_st_dua}
+                          label={`Catatan Tanggal Pelaksanaan Audit ST Satu`}
+                          values={values?.note_tgl_pelaksanaan_audit_st_satu}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          name="note_tgl_pelaksanaan_audit_st_dua"
+                          name="note_tgl_pelaksanaan_audit_st_satu"
                         />
                       </Grid>
 
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_penyelesaian_capa_st_dua
-                              ? true
-                              : false
+                            !values?.tgl_pelaksanaan_audit_st_satu ||
+                            (!add && !!data?.tgl_penyelesaian_capa_st_satu)
                           }
                           selectedDate={
-                            values?.tgl_penyelesaian_capa_st_dua
-                              ? moment(values.tgl_penyelesaian_capa_st_dua)
+                            values?.tgl_penyelesaian_capa_st_satu
+                              ? moment(values.tgl_penyelesaian_capa_st_satu)
                               : null
                           }
                           handleDateChange={(newDate) => {
                             const selectedDate = newDate?.format("YYYY-MM-DD");
                             const currentTime = moment().format("HH:mm:ss");
                             setFieldValue(
-                              "tgl_penyelesaian_capa_st_dua",
+                              "tgl_penyelesaian_capa_st_satu",
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Penyelesaian CAPA ST Dua"
+                          label="Tanggal Penyelesaian CAPA ST Satu"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Penyelesaian CAPA ST Dua`}
-                          values={values?.note_tgl_penyelesaian_capa_st_dua}
+                          label={`Catatan Tanggal Penyelesaian CAPA ST Satu`}
+                          values={values?.note_tgl_penyelesaian_capa_st_satu}
                           onChange={handleChange}
                           onBlur={handleBlur}
-                          name="note_tgl_penyelesaian_capa_st_dua"
+                          name="note_tgl_penyelesaian_capa_st_satu"
                         />
                       </Grid>
 
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_pengiriman_draft_sertifikat
-                              ? true
-                              : false
+                            !values?.tgl_penyelesaian_capa_st_satu ||
+                            (!add && !!data?.tgl_pengiriman_draft_sertifikat)
                           }
                           selectedDate={
                             values?.tgl_pengiriman_draft_sertifikat
@@ -901,9 +895,8 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_persetujuan_draft_sertifikat
-                              ? true
-                              : false
+                            !values?.tgl_pengiriman_draft_sertifikat ||
+                            (!add && !!data?.tgl_persetujuan_draft_sertifikat)
                           }
                           selectedDate={
                             values?.tgl_persetujuan_draft_sertifikat
@@ -934,7 +927,8 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_pengajuan_ke_kan ? true : false
+                            !values?.tgl_persetujuan_draft_sertifikat ||
+                            (!add && !!data?.tgl_pengajuan_ke_kan)
                           }
                           selectedDate={
                             values?.tgl_pengajuan_ke_kan
@@ -965,7 +959,8 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_persetujuan_kan ? true : false
+                            !values?.tgl_pengajuan_ke_kan ||
+                            (!add && !!data?.tgl_persetujuan_kan)
                           }
                           selectedDate={
                             values?.tgl_persetujuan_kan
@@ -996,7 +991,8 @@ const ModalDetail = ({
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !add && data?.tgl_kirim_sertifikat ? true : false
+                            !values?.tgl_persetujuan_kan ||
+                            (!add && !!data?.tgl_kirim_sertifikat)
                           }
                           selectedDate={
                             values?.tgl_kirim_sertifikat
@@ -1064,7 +1060,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_review_penugasan_st_dua
+                              !values?.tgl_apl_form_or_request ||
+                              (!add && !!data?.tgl_review_penugasan_st_dua)
                                 ? true
                                 : false
                             }
@@ -1098,7 +1095,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_pengiriman_notif_st_dua
+                              !values?.tgl_review_penugasan_st_dua ||
+                              (!add && !!data?.tgl_pengiriman_notif_st_dua)
                                 ? true
                                 : false
                             }
@@ -1132,7 +1130,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_persetujuan_notif_st_dua
+                              !values?.tgl_pengiriman_notif_st_dua ||
+                              (!add && !!data?.tgl_persetujuan_notif_st_dua)
                                 ? true
                                 : false
                             }
@@ -1166,7 +1165,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_pengiriman_audit_plan_st_dua
+                              !values?.tgl_persetujuan_notif_st_dua ||
+                              (!add && !!data?.tgl_pengiriman_audit_plan_st_dua)
                                 ? true
                                 : false
                             }
@@ -1204,7 +1204,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_pelaksanaan_audit_st_dua
+                              !values?.tgl_pengiriman_audit_plan_st_dua ||
+                              (!add && !!data?.tgl_pelaksanaan_audit_st_dua)
                                 ? true
                                 : false
                             }
@@ -1238,7 +1239,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_penyelesaian_capa_st_dua
+                              !values?.tgl_pelaksanaan_audit_st_dua ||
+                              (!add && !!data?.tgl_penyelesaian_capa_st_dua)
                                 ? true
                                 : false
                             }
@@ -1272,7 +1274,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_review_penugasan_st_dua
+                              !values?.tgl_penyelesaian_capa_st_dua ||
+                              (!add && !!data?.tgl_review_penugasan_st_dua)
                                 ? true
                                 : false
                             }
@@ -1306,7 +1309,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_pengiriman_notif_st_dua
+                              !values?.tgl_review_penugasan_st_dua ||
+                              (!add && !!data?.tgl_pengiriman_notif_st_dua)
                                 ? true
                                 : false
                             }
@@ -1340,7 +1344,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_persetujuan_notif_st_dua
+                              !values?.tgl_pengiriman_notif_st_dua ||
+                              (!add && !!data?.tgl_persetujuan_notif_st_dua)
                                 ? true
                                 : false
                             }
@@ -1374,7 +1379,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_pengiriman_audit_plan_st_dua
+                              !values?.tgl_persetujuan_notif_st_dua ||
+                              (!add && !!data?.tgl_pengiriman_audit_plan_st_dua)
                                 ? true
                                 : false
                             }
@@ -1412,7 +1418,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_pelaksanaan_audit_st_dua
+                              !values?.tgl_pengiriman_audit_plan_st_dua ||
+                              (!add && !!data?.tgl_pelaksanaan_audit_st_dua)
                                 ? true
                                 : false
                             }
@@ -1446,7 +1453,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_penyelesaian_capa_st_dua
+                              !values?.tgl_pelaksanaan_audit_st_dua ||
+                              (!add && !!data?.tgl_penyelesaian_capa_st_dua)
                                 ? true
                                 : false
                             }
@@ -1480,7 +1488,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_pengiriman_draft_sertifikat
+                              !values?.tgl_penyelesaian_capa_st_dua ||
+                              (!add && !!data?.tgl_pengiriman_draft_sertifikat)
                                 ? true
                                 : false
                             }
@@ -1516,7 +1525,8 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_persetujuan_draft_sertifikat
+                              !values?.tgl_pengiriman_draft_sertifikat ||
+                              (!add && !!data?.tgl_persetujuan_draft_sertifikat)
                                 ? true
                                 : false
                             }
@@ -1554,7 +1564,10 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_pengajuan_ke_kan ? true : false
+                              !values?.tgl_persetujuan_draft_sertifikat ||
+                              (!add && !!data?.tgl_pengajuan_ke_kan)
+                                ? true
+                                : false
                             }
                             selectedDate={
                               values?.tgl_pengajuan_ke_kan
@@ -1586,7 +1599,10 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_persetujuan_kan ? true : false
+                              !values?.tgl_pengajuan_ke_kan ||
+                              (!add && !!data?.tgl_persetujuan_kan)
+                                ? true
+                                : false
                             }
                             selectedDate={
                               values?.tgl_persetujuan_kan
@@ -1618,7 +1634,10 @@ const ModalDetail = ({
                         <Grid item xs={12} sm={6}>
                           <InputDate
                             disabled={
-                              !add && data?.tgl_kirim_sertifikat ? true : false
+                              !values?.tgl_persetujuan_kan ||
+                              (!add && !!data?.tgl_kirim_sertifikat)
+                                ? true
+                                : false
                             }
                             selectedDate={
                               values?.tgl_kirim_sertifikat
