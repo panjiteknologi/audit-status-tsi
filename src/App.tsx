@@ -8,21 +8,27 @@ import ScrollTop from "@/components/ScrollTop";
 import Snackbar from "@/components/@extended/Snackbar";
 import Notistack from "@/components/third-party/Notistack";
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
 // auth provider
 import { JWTProvider as AuthProvider } from "@contexts/JWTContext";
+
+const queryClient = new QueryClient();
 
 function App() {
   return (
     <ThemeCustomization>
       <ScrollTop>
-        <AuthProvider>
-          <>
-            <Notistack>
-              <RouterProvider router={router} />
-              <Snackbar />
-            </Notistack>
-          </>
-        </AuthProvider>
+        <QueryClientProvider client={queryClient}>
+          <AuthProvider>
+            <>
+              <Notistack>
+                <RouterProvider router={router} />
+                <Snackbar />
+              </Notistack>
+            </>
+          </AuthProvider>
+        </QueryClientProvider>
       </ScrollTop>
     </ThemeCustomization>
   );

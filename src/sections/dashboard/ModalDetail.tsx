@@ -23,7 +23,6 @@ import { Formik } from "formik";
 import InputText from "@/components/forms/InputText";
 import InputDate from "@/components/forms/InputDate";
 import moment, { Moment } from "moment";
-
 interface ModalDetailProps {
   disabled: boolean;
   loadingBtn: boolean;

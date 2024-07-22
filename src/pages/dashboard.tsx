@@ -38,6 +38,7 @@ import IlustrationNotFound from "../assets/ilustration/il-notfound.svg";
 import IlustrationNotAccountAccess from "../assets/ilustration/il-access.svg";
 import useAuth from "@/hooks/useAuth";
 import { useNavigate } from "react-router";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-notchedOutline": {
@@ -54,10 +55,9 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 const Dashboard = () => {
   const navigation = useNavigate();
   const { isLoggedIn } = useAuth();
+  const queryClient = useQueryClient();
 
   const [value, setValue] = useState<string>("");
-
-  const [allProject, setAllProject] = useState<AllProject[]>([]);
   const [filteredData, setFilteredData] = useState<AllProject[]>([]);
   const [selectedProject, setSelectedProject] = useState(null);
 
@@ -79,21 +79,25 @@ const Dashboard = () => {
 
   const [message, setMessage] = useState<string>("");
 
-  const getAllProject = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(BASE_URL + GET_ALL_PROJECT);
-      if (response?.data?.data) {
-        setTimeout(() => {
-          setLoading(false);
-          setAllProject(response?.data?.data);
-          setFilteredData(response?.data?.data);
-        }, 1000);
+  const { data: allProject = [] } = useQuery({
+    queryKey: ["allProjects"],
+    queryFn: async () => {
+      try {
+        const response = await axios.get(BASE_URL + GET_ALL_PROJECT);
+        setLoading(false);
+        return response?.data?.data;
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+        setLoading(false);
+        return [];
+      } finally {
+        setLoading(false);
       }
-    } catch (error) {
-      setLoading(false);
-    }
-  };
+    },
+    refetchOnWindowFocus: true,
+    refetchIntervalInBackground: true,
+    refetchInterval: 500,
+  });
 
   const getAkreditasi = async () => {
     try {
@@ -139,16 +143,17 @@ const Dashboard = () => {
     }
   };
 
-  const handleSearch = (e: any) => {
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     const searchValue = e.target.value.toLowerCase();
-    const filtered = allProject.filter((item) =>
+    setValue(searchValue);
+
+    const filtered = allProject.filter((item: AllProject) =>
       Object.values(item).some(
         (field) =>
           typeof field === "string" && field.toLowerCase().includes(searchValue)
       )
     );
     setFilteredData(filtered);
-    setValue(e.target.value);
   };
 
   const handleClearSearch = () => {
@@ -161,70 +166,74 @@ const Dashboard = () => {
     setShowModal(true);
   };
 
+  const mutation = useMutation({
+    mutationFn: async (values: AllProject) => {
+      const idUser = window.localStorage.getItem("idUser");
+      const token = window.localStorage.getItem("serviceToken");
+      const data = { id_user: idUser, ...values };
+
+      return add
+        ? axios.post(BASE_URL + ADD_PROJECT, data, {
+            headers: { Authorization: token },
+          })
+        : axios.post(BASE_URL + UPDATE_PROJECT, data, {
+            headers: { Authorization: token },
+          });
+    },
+    onSuccess: () => {
+      setDisabled(false);
+      setLoadingBtn(false);
+      setShowModal(false);
+      setShowModalVerification(true);
+      setError(false);
+      setMessage(
+        add
+          ? "Congratulations, you can add auditor!"
+          : "Congratulations, you can update auditor!"
+      );
+      queryClient.invalidateQueries({ queryKey: ["allProjects"] });
+    },
+    onError: () => {
+      setDisabled(false);
+      setLoadingBtn(false);
+      setShowModal(false);
+      setShowModalVerification(true);
+      setError(true);
+      setMessage(
+        add
+          ? "Sorry, you can't add auditor!"
+          : "Sorry, you can't update auditor!"
+      );
+    },
+  });
+
   const onSubmit = async (values: AllProject) => {
     setDisabled(true);
     setLoadingBtn(true);
-
-    try {
-      const idUser = window.localStorage.getItem("idUser");
-      const token = window.localStorage.getItem("serviceToken");
-
-      const data = {
-        id_user: idUser,
-        ...values,
-      };
-
-      const response = add
-        ? await axios.post(BASE_URL + ADD_PROJECT, data, {
-            headers: {
-              Authorization: token,
-            },
-          })
-        : await axios.post(BASE_URL + UPDATE_PROJECT, data, {
-            headers: {
-              Authorization: token,
-            },
-          });
-
-      if (response) {
-        setTimeout(() => {
-          setDisabled(false);
-          setLoadingBtn(false);
-          setShowModal(false);
-          setShowModalVerification(true);
-          setError(false);
-          setMessage(
-            add
-              ? "Congratulations, you can add auditor!"
-              : "Congratulations, you can update auditor!"
-          );
-          getAllProject();
-        }, 500);
-      }
-    } catch (error) {
-      setTimeout(() => {
-        setDisabled(false);
-        setLoadingBtn(false);
-        setError(true);
-        setShowModal(false);
-        setShowModalVerification(true);
-        setMessage(
-          add
-            ? "Sorry, you cant add auditor!"
-            : "Sorry, you cant update auditor!"
-        );
-        getAllProject();
-      }, 500);
-    }
+    mutation.mutate(values);
   };
 
   useEffect(() => {
-    getAllProject();
+    if (allProject) {
+      setFilteredData(allProject);
+    }
+
     getAkreditasi();
     getStandard();
     getStatusPembayaran();
     getTahapan();
-  }, []);
+  }, [allProject]);
+
+  useEffect(() => {
+    if (value === "") {
+      setFilteredData(allProject);
+    }
+
+    getAkreditasi();
+    getStandard();
+    getStatusPembayaran();
+    getTahapan();
+  }, [value, allProject]);
 
   return (
     <React.Fragment>
