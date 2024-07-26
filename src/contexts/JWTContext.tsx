@@ -1,5 +1,3 @@
-/* eslint-disable no-unsafe-optional-chaining */
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode, createContext, useEffect, useReducer } from "react";
 import { jwtDecode } from "jwt-decode";
 import { LOGIN, LOGOUT } from "@contexts/auth-reducer/actions";
@@ -116,27 +114,6 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
 
     return data;
   };
-
-  // const logout = async () => {
-  //   const id = window.localStorage.getItem("idUser");
-  //   const serviceToken = window.localStorage.getItem("serviceToken");
-
-  //   const data = {
-  //     master_employee_id: id,
-  //   };
-
-  //   const response = await axios.post(BASE_URL + API_LOGOUT, data, {
-  //     headers: {
-  //       Authorization: serviceToken,
-  //     },
-  //   });
-  //   if (response) {
-  //     setSession(null);
-  //     dispatch({ type: LOGOUT, payload });
-  //     window.localStorage.removeItem("idUser");
-  //     window.localStorage.removeItem("serviceToken");
-  //   }
-  // };
 
   const logout = () => {
     setSession(null);
