@@ -669,6 +669,198 @@ const ModalDetail = ({
                         <InputDate
                           disabled={
                             !values?.tgl_penyelesaian_capa_st_satu ||
+                            (!add && !!data?.tgl_review_penugasan_st_dua)
+                          }
+                          selectedDate={
+                            values?.tgl_review_penugasan_st_dua
+                              ? moment(values.tgl_review_penugasan_st_dua)
+                              : null
+                          }
+                          handleDateChange={(newDate) => {
+                            const selectedDate = newDate?.format("YYYY-MM-DD");
+                            const currentTime = moment().format("HH:mm:ss");
+                            setFieldValue(
+                              "tgl_review_penugasan_st_dua",
+                              selectedDate + " " + currentTime
+                            );
+                          }}
+                          label="Tanggal Review Penugasan"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <InputText
+                          label={`Catatan Tanggal Review Penugasan`}
+                          values={values?.note_tgl_review_penugasan_st_dua}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name="note_tgl_penyelesaian_capa_st_dua"
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6}>
+                        <InputDate
+                          disabled={
+                            !values?.tgl_review_penugasan_st_dua ||
+                            (!add && !!data?.tgl_pengiriman_notif_st_dua)
+                          }
+                          selectedDate={
+                            values?.tgl_pengiriman_notif_st_dua
+                              ? moment(values.tgl_pengiriman_notif_st_dua)
+                              : null
+                          }
+                          handleDateChange={(newDate) => {
+                            const selectedDate = newDate?.format("YYYY-MM-DD");
+                            const currentTime = moment().format("HH:mm:ss");
+                            setFieldValue(
+                              "tgl_pengiriman_notif_st_dua",
+                              selectedDate + " " + currentTime
+                            );
+                          }}
+                          label="Tanggal Pengiriman Notifikasi"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <InputText
+                          label={`Catatan Tanggal Pengiriman Notifikasi`}
+                          values={values?.note_tgl_pengiriman_notif_st_dua}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name="note_tgl_pengiriman_notif_st_dua"
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6}>
+                        <InputDate
+                          disabled={
+                            !values?.tgl_pengiriman_notif_st_dua ||
+                            (!add && !!data?.tgl_persetujuan_notif_st_dua)
+                          }
+                          selectedDate={
+                            values?.tgl_persetujuan_notif_st_dua
+                              ? moment(values.tgl_persetujuan_notif_st_dua)
+                              : null
+                          }
+                          handleDateChange={(newDate) => {
+                            const selectedDate = newDate?.format("YYYY-MM-DD");
+                            const currentTime = moment().format("HH:mm:ss");
+                            setFieldValue(
+                              "tgl_persetujuan_notif_st_dua",
+                              selectedDate + " " + currentTime
+                            );
+                          }}
+                          label="Tanggal Persetujuan Notifikasi"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <InputText
+                          label={`Catatan Tanggal Persetujuan Notifikasi`}
+                          values={values?.note_tgl_persetujuan_notif_st_dua}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name="note_tgl_persetujuan_notif_st_dua"
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6}>
+                        <InputDate
+                          disabled={
+                            !values?.tgl_persetujuan_notif_st_dua ||
+                            (!add && !!data?.tgl_pengiriman_audit_plan_st_dua)
+                          }
+                          selectedDate={
+                            values?.tgl_pengiriman_audit_plan_st_dua
+                              ? moment(values.tgl_pengiriman_audit_plan_st_dua)
+                              : null
+                          }
+                          handleDateChange={(newDate) => {
+                            const selectedDate = newDate?.format("YYYY-MM-DD");
+                            const currentTime = moment().format("HH:mm:ss");
+                            setFieldValue(
+                              "tgl_pengiriman_audit_plan_st_dua",
+                              selectedDate + " " + currentTime
+                            );
+                          }}
+                          label="Tanggal Pengiriman Audit Plan"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <InputText
+                          label={`Catatan Tanggal Pengiriman Audit Plan`}
+                          values={values?.note_tgl_pengiriman_audit_plan_st_dua}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name="note_tgl_pengiriman_audit_plan_st_dua"
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6}>
+                        <InputDate
+                          disabled={
+                            !values?.tgl_pengiriman_audit_plan_st_dua ||
+                            (!add && !!data?.tgl_pelaksanaan_audit_st_dua)
+                          }
+                          selectedDate={
+                            values?.tgl_pelaksanaan_audit_st_dua
+                              ? moment(values.tgl_pelaksanaan_audit_st_dua)
+                              : null
+                          }
+                          handleDateChange={(newDate) => {
+                            const selectedDate = newDate?.format("YYYY-MM-DD");
+                            const currentTime = moment().format("HH:mm:ss");
+                            setFieldValue(
+                              "tgl_pelaksanaan_audit_st_dua",
+                              selectedDate + " " + currentTime
+                            );
+                          }}
+                          label="Tanggal Pelaksanaan Audit"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <InputText
+                          label={`Catatan Tanggal Pelaksanaan Audit`}
+                          values={values?.note_tgl_pelaksanaan_audit_st_dua}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name="note_tgl_pelaksanaan_audit_st_dua"
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6}>
+                        <InputDate
+                          disabled={
+                            !values?.tgl_pelaksanaan_audit_st_dua ||
+                            (!add && !!data?.tgl_penyelesaian_capa_st_dua)
+                          }
+                          selectedDate={
+                            values?.tgl_penyelesaian_capa_st_dua
+                              ? moment(values.tgl_penyelesaian_capa_st_dua)
+                              : null
+                          }
+                          handleDateChange={(newDate) => {
+                            const selectedDate = newDate?.format("YYYY-MM-DD");
+                            const currentTime = moment().format("HH:mm:ss");
+                            setFieldValue(
+                              "tgl_penyelesaian_capa_st_dua",
+                              selectedDate + " " + currentTime
+                            );
+                          }}
+                          label="Tanggal Penyelesaian CAPA"
+                        />
+                      </Grid>
+                      <Grid item xs={12} sm={6}>
+                        <InputText
+                          label={`Catatan Tanggal Penyelesaian CAPA`}
+                          values={values?.note_tgl_penyelesaian_capa_st_dua}
+                          onChange={handleChange}
+                          onBlur={handleBlur}
+                          name="note_tgl_penyelesaian_capa_st_dua"
+                        />
+                      </Grid>
+
+                      <Grid item xs={12} sm={6}>
+                        <InputDate
+                          disabled={
+                            !values?.tgl_penyelesaian_capa_st_dua ||
                             (!add && !!data?.tgl_pengiriman_draft_sertifikat)
                           }
                           selectedDate={
