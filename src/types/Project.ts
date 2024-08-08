@@ -1,3 +1,11 @@
+export type Standar = {
+  id_project: number
+  id_standar: number
+  nama_standar: string
+  project_detail_standar_id: number
+  status: number
+}
+
 export interface AllProject {
   status_pembayaran_id?: string | number | readonly string[] | undefined;
   nama_status_pembayaran?: string | any;
@@ -6,7 +14,7 @@ export interface AllProject {
   id_project?: number;
   nama_perusahaan?: string | any;
   nama_sales_or_crr?: string | any;
-  standar?: [];
+  standar?: Standar[];
   akreditasi?: number;
   tahapan?: string | any;
   tgl_kontrak?: string | any;

@@ -1,6 +1,8 @@
 import React, { SetStateAction, useState } from "react";
+import { MobileView, BrowserView } from 'react-device-detect'
 import { AllProject } from "@/types/Project";
 import CardInfo from "./CardInfo";
+import TableInfo from "./TableInfo";
 
 interface DashboardSectionsProps {
   data: AllProject[] | null;
@@ -25,21 +27,28 @@ const DashboardSections = ({
 
   return (
     <React.Fragment>
-      {data?.map((items, index) => {
-        return (
-          <CardInfo
-            key={index}
-            onEdit={() => {
-              setAdd(false);
-              openModal(items as SetStateAction<null>);
-            }}
-            items={items}
-            open={open}
-            handleClick={handleClick}
-            index={index}
-          />
-        );
-      })}
+      <MobileView>
+        {data?.map((items, index) => {
+          return (
+            <CardInfo
+              key={index}
+              onEdit={() => {
+                setAdd(false);
+                openModal(items as SetStateAction<null>);
+              }}
+              items={items}
+              open={open}
+              handleClick={handleClick}
+              index={index}
+            />
+          );
+        })}
+      </MobileView>
+      <BrowserView>
+        <TableInfo
+          data={data || []}
+        />
+      </BrowserView>
     </React.Fragment>
   );
 };
