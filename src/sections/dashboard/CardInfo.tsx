@@ -123,37 +123,37 @@ const CardInfo = ({
       leadTime: items?.lead_time_tgl_penyelesaian_capa_st_satu,
     },
     {
-      tahapan: "Tanggal Review Penugasan",
+      tahapan: "Tanggal Review Penugasan Dua",
       tanggalStatus: items?.tgl_review_penugasan_st_dua,
       catatan: items?.note_tgl_review_penugasan_st_dua,
       leadTime: items?.lead_time_tgl_review_penugasan_st_dua,
     },
     {
-      tahapan: "Tanggal Pengiriman Notifikasi",
+      tahapan: "Tanggal Pengiriman Notifikasi Dua",
       tanggalStatus: items?.tgl_pengiriman_notif_st_dua,
       catatan: items?.note_tgl_pengiriman_notif_st_dua,
       leadTime: items?.lead_time_tgl_pengiriman_notif_st_dua,
     },
     {
-      tahapan: "Tanggal Persetujuan Notifikasi",
+      tahapan: "Tanggal Persetujuan Notifikasi Dua",
       tanggalStatus: items?.tgl_persetujuan_notif_st_dua,
       catatan: items?.note_tgl_persetujuan_notif_st_dua,
       leadTime: items?.lead_time_tgl_persetujuan_notif_st_dua,
     },
     {
-      tahapan: "Tanggal Pengiriman Audit Plan",
+      tahapan: "Tanggal Pengiriman Audit Plan Dua",
       tanggalStatus: items?.tgl_pengiriman_audit_plan_st_dua,
       catatan: items?.note_tgl_pengiriman_audit_plan_st_dua,
       leadTime: items?.lead_time_tgl_pengiriman_audit_plan_st_dua,
     },
     {
-      tahapan: "Tanggal Pelaksanaan Audit",
+      tahapan: "Tanggal Pelaksanaan Audit Dua",
       tanggalStatus: items?.tgl_pelaksanaan_audit_st_dua,
       catatan: items?.note_tgl_pelaksanaan_audit_st_dua,
       leadTime: items?.lead_time_tgl_pelaksanaan_audit_st_dua,
     },
     {
-      tahapan: "Tanggal Penyelesaian CAPA",
+      tahapan: "Tanggal Penyelesaian CAPA Dua",
       tanggalStatus: items?.tgl_penyelesaian_capa_st_dua,
       catatan: items?.note_tgl_penyelesaian_capa_st_dua,
       leadTime: items?.lead_time_tgl_penyelesaian_capa_st_dua,
@@ -284,7 +284,7 @@ const CardInfo = ({
   const { isLoggedIn } = useAuth();
 
   return (
-    <Grid item xs={4} sx={{ marginTop: 4 }}>
+    <Grid item xs={4} sx={{ marginTop: 1 }}>
       <MainCard
         btnHeader={true}
         isLogin={isLoggedIn}
