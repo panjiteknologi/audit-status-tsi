@@ -3,7 +3,6 @@ import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import TextField from "@mui/material/TextField";
 import moment, { Moment } from "moment";
-import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import { InputAdornment } from "@mui/material";
 
 interface InputDateProps {
@@ -35,6 +34,7 @@ const InputDate: React.FC<InputDateProps> = ({
                 readOnly: true,
                 style: {
                   height: 40,
+                  color: "#000",
                 },
                 endAdornment: (
                   <InputAdornment position="end">
@@ -54,6 +54,8 @@ const InputDate: React.FC<InputDateProps> = ({
           width: "100%",
         }}
         disabled={disabled}
+        disablePast={true}
+        disableFuture={true}
       />
     </LocalizationProvider>
   );
