@@ -1,47 +1,99 @@
-export const HeadTable = [
+export const dataTahapanAudit = [
   {
-    id: 1,
-    title: "Tanggal Application Form / Request",
+    tahapan: "Aplication Form or Request",
   },
   {
-    id: 2,
-    title: "Tanggal Review / Penugasan",
+    tahapan: "Review Penugasan ST Satu",
   },
   {
-    id: 3,
-    title: "Tanggal Pengiriman Notification",
+    tahapan: "Kontrak",
   },
   {
-    id: 4,
-    title: "Tanggal Persetujuan Notification",
+    tahapan: "Pengiriman Notifikasi ST Satu",
   },
   {
-    id: 5,
-    title: "Tanggal Pelaksanaan Audit",
+    tahapan: "Persetujuan Notifikasi ST Satu",
   },
   {
-    id: 6,
-    title: "Tanggal Penyelesaian CAPA",
+    tahapan: "Pengiriman Audit Plan ST Satu",
   },
   {
-    id: 7,
-    title: "Tanggal Pengiriman Draft Sertifikat",
+    tahapan: "Pelaksanaan Audit ST Satu",
   },
   {
-    id: 8,
-    title: "Tanggal Persetujuan Draft Sertifikat",
+    tahapan: "Penyelesaian CAPA ST Satu",
   },
   {
-    id: 9,
-    title: "Tanggal Pengajuan ke KAN",
+    tahapan: "Review Penugasan Dua",
   },
   {
-    id: 10,
-    title: "Status Pembayaran",
+    tahapan: "Pengiriman Notifikasi Dua",
   },
   {
-    id: 11,
-    title: "Tanggal Kirim Sertifikat",
+    tahapan: "Persetujuan Notifikasi Dua",
+  },
+  {
+    tahapan: "Pengiriman Audit Plan Dua",
+  },
+  {
+    tahapan: "Pelaksanaan Audit Dua",
+  },
+  {
+    tahapan: "Penyelesaian CAPA Dua",
+  },
+  {
+    tahapan: "Pengiriman Draft Sertifikat",
+  },
+  {
+    tahapan: "Persetujuan Draft Sertifikat",
+  },
+  {
+    tahapan: "Pengajuan ke KAN",
+  },
+  {
+    tahapan: "Persetujuan KAN",
+  },
+  {
+    tahapan: "Kirim Sertifikat",
+  },
+];
+
+export const dataTahapanNonAudit = [
+  {
+    tahapan: "Aplication Form or Request",
+  },
+  {
+    tahapan: "Review Penugasan",
+  },
+  {
+    tahapan: "Pengiriman Notifikasi",
+  },
+  {
+    tahapan: "Persetujuan Notifikasi",
+  },
+  {
+    tahapan: "Pengiriman Audit Plan",
+  },
+  {
+    tahapan: "Pelaksanaan Audit",
+  },
+  {
+    tahapan: "Penyelesaian CAPA",
+  },
+  {
+    tahapan: "Pengiriman Draft Sertifikat",
+  },
+  {
+    tahapan: "Persetujuan Draft Sertifikat",
+  },
+  {
+    tahapan: "Pengajuan ke KAN",
+  },
+  {
+    tahapan: "Persetujuan KAN",
+  },
+  {
+    tahapan: "Kirim Sertifikat",
   },
 ];
 
