@@ -684,12 +684,12 @@ const ModalDetail = ({
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Review Penugasan"
+                          label="Tanggal Review Penugasan Dua"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Review Penugasan`}
+                          label={`Catatan Tanggal Review Penugasan Dua`}
                           values={values?.note_tgl_review_penugasan_st_dua}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -716,12 +716,12 @@ const ModalDetail = ({
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Pengiriman Notifikasi"
+                          label="Tanggal Pengiriman Notifikasi Dua"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Pengiriman Notifikasi`}
+                          label={`Catatan Tanggal Pengiriman Notifikasi Dua`}
                           values={values?.note_tgl_pengiriman_notif_st_dua}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -748,12 +748,12 @@ const ModalDetail = ({
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Persetujuan Notifikasi"
+                          label="Tanggal Persetujuan Notifikasi Dua"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Persetujuan Notifikasi`}
+                          label={`Catatan Tanggal Persetujuan Notifikasi Dua`}
                           values={values?.note_tgl_persetujuan_notif_st_dua}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -780,12 +780,12 @@ const ModalDetail = ({
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Pengiriman Audit Plan"
+                          label="Tanggal Pengiriman Audit Plan Dua"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Pengiriman Audit Plan`}
+                          label={`Catatan Tanggal Pengiriman Audit Plan Dua`}
                           values={values?.note_tgl_pengiriman_audit_plan_st_dua}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -812,12 +812,12 @@ const ModalDetail = ({
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Pelaksanaan Audit"
+                          label="Tanggal Pelaksanaan Audit Dua"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Pelaksanaan Audit`}
+                          label={`Catatan Tanggal Pelaksanaan Audit Dua`}
                           values={values?.note_tgl_pelaksanaan_audit_st_dua}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -844,12 +844,12 @@ const ModalDetail = ({
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Penyelesaian CAPA"
+                          label="Tanggal Penyelesaian CAPA Dua"
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Penyelesaian CAPA`}
+                          label={`Catatan Tanggal Penyelesaian CAPA Dua`}
                           values={values?.note_tgl_penyelesaian_capa_st_dua}
                           onChange={handleChange}
                           onBlur={handleBlur}
