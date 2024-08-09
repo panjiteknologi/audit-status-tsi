@@ -54,7 +54,6 @@ const InputDate: React.FC<InputDateProps> = ({
           width: "100%",
         }}
         disabled={disabled}
-        disablePast={true}
         disableFuture={true}
       />
     </LocalizationProvider>
