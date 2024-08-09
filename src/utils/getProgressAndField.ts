@@ -51,37 +51,37 @@ function getFieldAudit(field: AllProject) {
       leadTime: field?.lead_time_tgl_penyelesaian_capa_st_satu,
     },
     {
-      tahapan: "Tanggal Review Penugasan Dua",
+      tahapan: "Tanggal Review Penugasan ST Dua",
       tanggalStatus: field?.tgl_review_penugasan_st_dua,
       catatan: field?.note_tgl_review_penugasan_st_dua,
       leadTime: field?.lead_time_tgl_review_penugasan_st_dua,
     },
     {
-      tahapan: "Tanggal Pengiriman Notifikasi Dua",
+      tahapan: "Tanggal Pengiriman Notifikasi ST Dua",
       tanggalStatus: field?.tgl_pengiriman_notif_st_dua,
       catatan: field?.note_tgl_pengiriman_notif_st_dua,
       leadTime: field?.lead_time_tgl_pengiriman_notif_st_dua,
     },
     {
-      tahapan: "Tanggal Persetujuan Notifikasi Dua",
+      tahapan: "Tanggal Persetujuan Notifikasi ST Dua",
       tanggalStatus: field?.tgl_persetujuan_notif_st_dua,
       catatan: field?.note_tgl_persetujuan_notif_st_dua,
       leadTime: field?.lead_time_tgl_persetujuan_notif_st_dua,
     },
     {
-      tahapan: "Tanggal Pengiriman Audit Plan Dua",
+      tahapan: "Tanggal Pengiriman Audit Plan ST Dua",
       tanggalStatus: field?.tgl_pengiriman_audit_plan_st_dua,
       catatan: field?.note_tgl_pengiriman_audit_plan_st_dua,
       leadTime: field?.lead_time_tgl_pengiriman_audit_plan_st_dua,
     },
     {
-      tahapan: "Tanggal Pelaksanaan Audit Dua",
+      tahapan: "Tanggal Pelaksanaan Audit ST Dua",
       tanggalStatus: field?.tgl_pelaksanaan_audit_st_dua,
       catatan: field?.note_tgl_pelaksanaan_audit_st_dua,
       leadTime: field?.lead_time_tgl_pelaksanaan_audit_st_dua,
     },
     {
-      tahapan: "Tanggal Penyelesaian CAPA Dua",
+      tahapan: "Tanggal Penyelesaian CAPA ST Dua",
       tanggalStatus: field?.tgl_penyelesaian_capa_st_dua,
       catatan: field?.note_tgl_penyelesaian_capa_st_dua,
       leadTime: field?.lead_time_tgl_penyelesaian_capa_st_dua,
@@ -205,7 +205,6 @@ export function getlatestProgress(field: AllProject) {
         ? -1
         : 1
     )[0];
-
   const latestProgress = getField(field)
     .filter((item) => item.tanggalStatus)
     .sort((a, b) =>
@@ -235,4 +234,24 @@ export function getDataTable(field: AllProject) {
   }
 
   return null
+}
+
+export function getNextStep(field: AllProject) {
+  const latest = `Tanggal ${getlatestProgress(field)}`;
+
+  if (field?.tahapan === 1) {
+    const indexInitialAudit = getFieldAudit(field).findIndex((item) => item.tahapan === latest) + 1
+    const isDone = indexInitialAudit > getFieldAudit(field).length - 1
+
+    return isDone ? "DONE" : getFieldAudit(field)[indexInitialAudit]?.tahapan?.replace("Tanggal ", "")
+  }
+
+  if (field?.tahapan > 1) {
+    const indexSurveillance = getField(field).findIndex((item) => item.tahapan === latest) + 1
+    const isDone = indexSurveillance > getField(field).length - 1
+
+    return isDone ? "DONE" : getField(field)[indexSurveillance]?.tahapan?.replace("Tanggal ", "")
+  }
+
+  return "-"
 }

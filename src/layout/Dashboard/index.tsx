@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom";
 
 // material-ui
 import { useTheme } from "@mui/material/styles";
-import { useMediaQuery, Box, Container, Toolbar } from "@mui/material";
+import { useMediaQuery, Box, Toolbar } from "@mui/material";
 
 // project import
 import Drawer from "./Drawer";
@@ -30,7 +30,7 @@ const DashboardLayout = () => {
   const matchDownXL = useMediaQuery(theme.breakpoints.down("xl"));
   const downLG = useMediaQuery(theme.breakpoints.down("lg"));
 
-  const { container, miniDrawer, menuOrientation } = useConfig();
+  const { miniDrawer, menuOrientation } = useConfig();
 
   const isHorizontal =
     menuOrientation === MenuOrientation.HORIZONTAL && !downLG;
@@ -62,7 +62,7 @@ const DashboardLayout = () => {
               }}
             >
               <Toolbar sx={{ mt: isHorizontal ? 8 : "inherit" }} />
-              <Container
+              {/* <Container
                 maxWidth={container ? "xl" : false}
                 sx={{
                   ...(container && { px: { xs: 0, sm: 2 } }),
@@ -71,11 +71,11 @@ const DashboardLayout = () => {
                   display: "flex",
                   flexDirection: "column",
                 }}
-              >
-                <Breadcrumbs />
-                <Outlet />
-                <Footer />
-              </Container>
+              > */}
+              <Breadcrumbs />
+              <Outlet />
+              <Footer />
+              {/* </Container> */}
             </Box>
           </Box>
         </AuthGuard>
@@ -93,7 +93,7 @@ const DashboardLayout = () => {
             }}
           >
             <Toolbar sx={{ mt: isHorizontal ? 8 : "inherit" }} />
-            <Container
+            {/* <Container
               maxWidth={container ? "xl" : false}
               sx={{
                 ...(container && { px: { xs: 0, sm: 2 } }),
@@ -102,11 +102,11 @@ const DashboardLayout = () => {
                 display: "flex",
                 flexDirection: "column",
               }}
-            >
-              <Breadcrumbs />
-              <Outlet />
-              <Footer />
-            </Container>
+            > */}
+            <Breadcrumbs />
+            <Outlet />
+            <Footer />
+            {/* </Container> */}
           </Box>
         </Box>
       )}

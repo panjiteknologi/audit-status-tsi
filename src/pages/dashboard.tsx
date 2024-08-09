@@ -343,7 +343,7 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-          new Date(b.tanggalStatus as string)
+            new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
@@ -352,7 +352,7 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-          new Date(b.tanggalStatus as string)
+            new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
@@ -372,18 +372,18 @@ const Dashboard = () => {
         }) ||
         item?.tahapan === 1
         ? Object.values(latestProgressAudit)?.some((field) => {
-            return (
-              typeof field === "string" &&
-              field.toLowerCase().includes(searchValue)
-            );
-          })
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        })
         : item?.tahapan > 1 &&
-            Object.values(latestProgress)?.some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            });
+        Object.values(latestProgress)?.some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        });
     });
     setFilteredData(filtered);
   };
@@ -406,11 +406,11 @@ const Dashboard = () => {
 
       return add
         ? axios.post(BASE_URL + ADD_PROJECT, data, {
-            headers: { Authorization: token },
-          })
+          headers: { Authorization: token },
+        })
         : axios.post(BASE_URL + UPDATE_PROJECT, data, {
-            headers: { Authorization: token },
-          });
+          headers: { Authorization: token },
+        });
     },
     onSuccess: () => {
       setDisabled(false);
@@ -478,35 +478,8 @@ const Dashboard = () => {
           marginBottom: 2,
         }}
       >
-        {isLoggedIn ? (
+        {isLoggedIn && (
           <Typography variant="h4">Audit Status System</Typography>
-        ) : (
-          <StyledTextField
-            placeholder="Search"
-            type="text"
-            variant="outlined"
-            fullWidth
-            size="medium"
-            style={{ borderRadius: "20px", marginRight: 6 }}
-            sx={{ backgroundColor: "white" }}
-            onChange={handleSearch}
-            value={value}
-            InputProps={{
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
-              endAdornment: value && (
-                <IconButton
-                  aria-label="clear search"
-                  onClick={handleClearSearch}
-                >
-                  <CancelIcon />
-                </IconButton>
-              ),
-            }}
-          />
         )}
 
         {isLoggedIn && (
@@ -580,17 +553,19 @@ const Dashboard = () => {
         <React.Fragment>
           {filteredData ? (
             <React.Fragment>
-              <Typography
-                variant="h6"
-                style={{
-                  marginTop: 16,
-                  color: "#000",
-                  fontWeight: "bold",
-                  fontSize: 10,
-                }}
-              >
-                Total: {filteredData?.length ? filteredData?.length : 0} Project
-              </Typography>
+              {isLoggedIn && (
+                <Typography
+                  variant="h6"
+                  style={{
+                    marginTop: 16,
+                    color: "#000",
+                    fontWeight: "bold",
+                    fontSize: 10,
+                  }}
+                >
+                  Total: {filteredData?.length ? filteredData?.length : 0} Project
+                </Typography>
+              )}
 
               <DashboardSections
                 data={filteredData}
@@ -701,8 +676,8 @@ const Dashboard = () => {
                   ? "Failed Add Form"
                   : "Successfully Add Form"
                 : error
-                ? "Failed Update Form"
-                : "Successfully Update Form"
+                  ? "Failed Update Form"
+                  : "Successfully Update Form"
               : " Sorry, you haven't logged in yet, please log in."}
           </DialogTitle>
           {!isLoggedIn && (
