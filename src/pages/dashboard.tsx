@@ -343,7 +343,7 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-            new Date(b.tanggalStatus as string)
+          new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
@@ -352,38 +352,53 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-            new Date(b.tanggalStatus as string)
+          new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
 
-      return Object.values(item).some((field) => {
-        return (
-          typeof field === "string" && field.toLowerCase().includes(searchValue)
-        );
-      }) ||
-        item?.standar?.some((standar) => {
-          return Object.values(standar).some((field) => {
+      return item?.tahapan === 1
+        ? Object.values(latestProgressAudit)?.some((field) => {
             return (
               typeof field === "string" &&
               field.toLowerCase().includes(searchValue)
             );
-          });
-        }) ||
-        item?.tahapan === 1
-        ? Object.values(latestProgressAudit)?.some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        })
-        : item?.tahapan > 1 &&
-        Object.values(latestProgress)?.some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        });
+          }) ||
+            Object.values(item).some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            }) ||
+            item?.standar?.some((standar) => {
+              return Object.values(standar).some((field) => {
+                return (
+                  typeof field === "string" &&
+                  field.toLowerCase().includes(searchValue)
+                );
+              });
+            })
+        : (item?.tahapan > 1 &&
+            Object.values(latestProgress)?.some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            })) ||
+            Object.values(item).some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            }) ||
+            item?.standar?.some((standar) => {
+              return Object.values(standar).some((field) => {
+                return (
+                  typeof field === "string" &&
+                  field.toLowerCase().includes(searchValue)
+                );
+              });
+            });
     });
     setFilteredData(filtered);
   };
@@ -406,11 +421,11 @@ const Dashboard = () => {
 
       return add
         ? axios.post(BASE_URL + ADD_PROJECT, data, {
-          headers: { Authorization: token },
-        })
+            headers: { Authorization: token },
+          })
         : axios.post(BASE_URL + UPDATE_PROJECT, data, {
-          headers: { Authorization: token },
-        });
+            headers: { Authorization: token },
+          });
     },
     onSuccess: () => {
       setDisabled(false);
@@ -563,7 +578,8 @@ const Dashboard = () => {
                     fontSize: 10,
                   }}
                 >
-                  Total: {filteredData?.length ? filteredData?.length : 0} Project
+                  Total: {filteredData?.length ? filteredData?.length : 0}{" "}
+                  Project
                 </Typography>
               )}
 
@@ -676,8 +692,8 @@ const Dashboard = () => {
                   ? "Failed Add Form"
                   : "Successfully Add Form"
                 : error
-                  ? "Failed Update Form"
-                  : "Successfully Update Form"
+                ? "Failed Update Form"
+                : "Successfully Update Form"
               : " Sorry, you haven't logged in yet, please log in."}
           </DialogTitle>
           {!isLoggedIn && (
