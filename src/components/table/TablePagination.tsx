@@ -6,7 +6,7 @@ import { FormControl, Grid, MenuItem, Pagination, Select, SelectChangeEvent, Sta
 // ==============================|| TABLE PAGINATION ||============================== //
 
 interface TablePaginationProps {
-  getPageCount: () => any,
+  getPageCount: () => number,
   setPageIndex: (value: number) => void,
   setPageSize: (value: number) => void,
   getState: () => any,

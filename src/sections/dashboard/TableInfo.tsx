@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, useEffect, useMemo, useState } from 'react';
 import MainCard from '@/components/MainCard'
 import { AllProject, Standar } from '@/types/Project';
 import ScrollX from '@/components/ScrollX';
@@ -87,9 +87,9 @@ const TableInfo = ({ data }: TableInfoProps) => {
             label = standar?.map(((item) => item.nama_standar)).join(', ') as string
           }
 
-          return standar?.map((item) => {
+          return standar?.map((item, index) => {
             return (
-              <Chip label={item.nama_standar} sx={{ m: 0.2, fontSize: 18 }} color='primary' variant='outlined' />
+              <Chip key={index} label={item.nama_standar} sx={{ m: 0.2, fontSize: 18 }} color='primary' variant='outlined' />
             )
           })
         },
@@ -171,7 +171,7 @@ const TableInfo = ({ data }: TableInfoProps) => {
     columns,
     state: {
       globalFilter,
-      sorting
+      sorting,
     },
     onSortingChange: setSorting,
     getRowCanExpand: () => true,
@@ -182,6 +182,23 @@ const TableInfo = ({ data }: TableInfoProps) => {
     getSortedRowModel: getSortedRowModel(),
     onGlobalFilterChange: setGlobalFilter,
   });
+
+
+  useEffect(() => {
+    const dataLength = data.length
+
+    const intervalId = setInterval(() => {
+      const pageSize = table.getState().pagination.pageSize
+      const pageIndex = table.getState().pagination.pageIndex
+      const maxPage = dataLength / pageSize
+
+      table.setPageIndex(pageIndex < (maxPage - 1) ? pageIndex + 1 : 0)
+
+    }, 5000);
+
+    // Membersihkan interval saat komponen di-unmount
+    return () => clearInterval(intervalId);
+  }, [data]);
 
   let headers = [];
   table.getAllColumns().map((columns) =>
