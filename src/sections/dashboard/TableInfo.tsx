@@ -194,7 +194,7 @@ const TableInfo = ({ data }: TableInfoProps) => {
 
       table.setPageIndex(pageIndex < (maxPage - 1) ? pageIndex + 1 : 0)
 
-    }, 5000);
+    }, 30000);
 
     // Membersihkan interval saat komponen di-unmount
     return () => clearInterval(intervalId);
