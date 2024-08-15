@@ -13,7 +13,7 @@ import AuthLogin from "@/sections/auth/auth-forms/AuthLogin";
 import { useState } from "react";
 import ilustrationSuccess from "../assets/ilustration/il-success.svg";
 import ilustrationServerDown from "../assets/ilustration/il-server-down.svg";
-import CloseButton from "@/sections/dashboard/CloseButton";
+import CloseButton from "@/sections/input/CloseButton";
 
 const Login = () => {
   const [showModal, setShowModal] = useState(false);
