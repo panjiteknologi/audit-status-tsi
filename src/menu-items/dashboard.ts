@@ -1,9 +1,10 @@
 // assets
-import { WalletOutlined } from "@mui/icons-material";
+import { DashboardOutlined, EditNote } from "@mui/icons-material";
 import { MenuType } from ".";
 
 const icons = {
-  dashboard: WalletOutlined,
+  dashboard: DashboardOutlined,
+  input: EditNote
 };
 
 const dashboard: MenuType = {
@@ -13,10 +14,17 @@ const dashboard: MenuType = {
   children: [
     {
       id: "dashboard",
-      title: "dashboard",
+      title: "Dashboard",
       url: "/",
       type: "item",
       icon: icons.dashboard,
+    },
+    {
+      id: "input",
+      title: "Input",
+      url: "/input",
+      type: "item",
+      icon: icons.input,
     },
   ],
 };

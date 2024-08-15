@@ -1,4 +1,3 @@
-import { User } from "@/types/Project";
 import { formatIdr } from "@/utils/formatIdr";
 import {
   Box,
@@ -12,7 +11,7 @@ import {
 import dayjs from "dayjs";
 
 interface CardContentProps {
-  items: User;
+  items: any;
   gajiProrate: number;
   totalPendapatan: number;
   totalPotongan: number;

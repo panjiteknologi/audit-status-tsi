@@ -7,6 +7,7 @@ import DashboardLayout from "@/layout/Dashboard";
 
 const AuthLogin = Loadable(lazy(() => import("@/pages")));
 const Dashboard = Loadable(lazy(() => import("@/pages/dashboard")));
+const Input = Loadable(lazy(() => import("@/pages/input")));
 
 const router = createBrowserRouter(
   [
@@ -27,6 +28,16 @@ const router = createBrowserRouter(
         {
           path: "/",
           element: <Dashboard />,
+        },
+      ],
+    },
+    {
+      path: "/",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/input",
+          element: <Input />,
         },
       ],
     },

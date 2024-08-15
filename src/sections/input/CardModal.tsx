@@ -1,10 +1,10 @@
 import MainCard from "@/components/MainCard";
 import { Grid } from "@mui/material";
-import { User } from "@/types/Project";
+// import { User } from "@/types/Project";
 import CardContent from "./CardContent";
 interface CardModalProps {
   item: string;
-  items: User;
+  items: any;
   gajiProrate: number;
   totalPendapatan: number;
   totalPotongan: number;
