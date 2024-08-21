@@ -4,6 +4,7 @@ import { createBrowserRouter } from "react-router-dom";
 import Loadable from "@/components/Loadable";
 import AuthLayout from "@/layout/Auth";
 import DashboardLayout from "@/layout/Dashboard";
+import ScopeLibrary from "@/pages/scope-library";
 
 const AuthLogin = Loadable(lazy(() => import("@/pages")));
 const Dashboard = Loadable(lazy(() => import("@/pages/dashboard")));
@@ -38,6 +39,16 @@ const router = createBrowserRouter(
         {
           path: "/input",
           element: <Input />,
+        },
+      ],
+    },
+    {
+      path: "/scope-library",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/scope-library",
+          element: <ScopeLibrary />,
         },
       ],
     },

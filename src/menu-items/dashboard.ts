@@ -1,15 +1,17 @@
 // assets
+import LiveHelpIcon from "@mui/icons-material/LiveHelp";
 import { DashboardOutlined, EditNote } from "@mui/icons-material";
 import { MenuType } from ".";
 
 const icons = {
   dashboard: DashboardOutlined,
-  input: EditNote
+  input: EditNote,
+  scope: LiveHelpIcon,
 };
 
 const dashboard: MenuType = {
   id: "group-dashboard",
-  title: "Dashboard",
+  title: "Menu",
   type: "group",
   children: [
     {
@@ -25,6 +27,13 @@ const dashboard: MenuType = {
       url: "/input",
       type: "item",
       icon: icons.input,
+    },
+    {
+      id: "scope library",
+      title: "Scope Library",
+      url: "/scope-library",
+      type: "item",
+      icon: icons.scope,
     },
   ],
 };
