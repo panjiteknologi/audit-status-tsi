@@ -1,9 +1,6 @@
 import React, { SetStateAction, useState } from "react";
-import { MobileView, BrowserView } from 'react-device-detect'
 import { AllProject } from "@/types/Project";
 import CardInfo from "./CardInfo";
-import TableInfo from "../dashboard/TableInfo";
-import useAuth from "@/hooks/useAuth";
 
 interface DashboardSectionsProps {
   data: AllProject[] | null;

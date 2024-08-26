@@ -1,6 +1,3 @@
-import { SetStateAction, useState } from "react";
-import { AllProject } from "@/types/Project";
-import TableInfo from "./TableInfo";
 import { BrowserView, MobileView } from "react-device-detect";
 import { ReactNode, SetStateAction, SyntheticEvent, useState } from "react";
 import { AllProject } from "@/types/Project";
@@ -8,6 +5,7 @@ import TableInfo from "./TableInfo";
 import ChartInfo from "./ChartInfo";
 import { Box, Tab, Tabs } from "@mui/material";
 import { TableChartRounded, BarChartRounded } from "@mui/icons-material"
+import CardInfo from "../input/CardInfo";
 
 function TabPanel({ children, value, index, ...other }: { children: ReactNode, value: number, index: number }) {
   return (
@@ -34,6 +32,7 @@ const DashboardSections = ({
   data
 }: DashboardSectionsProps) => {
   const [open, setOpen] = useState<boolean[]>(Array(data?.length).fill(false));
+  const [value, setValue] = useState<number>(0);
 
   const handleClick = (index: number) => {
     setOpen((prevOpen) => {
@@ -41,7 +40,7 @@ const DashboardSections = ({
       newOpen[index] = !newOpen[index];
       return newOpen;
     });
-  const [value, setValue] = useState<number>(0);
+  }
 
   const handleChange = (event: SyntheticEvent<Element, Event>, newValue: number) => {
     setValue(newValue);
