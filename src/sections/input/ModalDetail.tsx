@@ -231,7 +231,9 @@ const ModalDetail = ({
             akreditasi: Yup.string()
               .min(1, "At least one standar is required")
               .required("Akreditasi is required"),
-            tahapan: Yup.string().required("Tahapan is required"),
+            tahapan: Yup.string()
+              .min(1, "At least one standar is required")
+              .required("Tahapan is required"),
           })}
           onSubmit={async (values: any) => {
             onHandleSubmit(values);
@@ -246,6 +248,10 @@ const ModalDetail = ({
             values,
             setFieldValue,
           }) => {
+            const akre = dataAkreditasi?.find(
+              (items) => items?.id_akreditasi === values?.akreditasi
+            );
+
             return (
               <form noValidate onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
@@ -954,12 +960,12 @@ const ModalDetail = ({
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Pengajuan ke KAN"
+                          label={`Tanggal Pengajuan ke ${values?.akreditasi}`}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Pengajuan ke KAN`}
+                          label={`Catatan Tanggal Pengajuan ke ${values?.akreditasi}`}
                           values={values?.note_tgl_pengajuan_ke_kan}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -986,12 +992,12 @@ const ModalDetail = ({
                               selectedDate + " " + currentTime
                             );
                           }}
-                          label="Tanggal Persetujuan KAN"
+                          label={`Tanggal Persetujuan ke ${akre?.nama_akreditasi}`}
                         />
                       </Grid>
                       <Grid item xs={12} sm={6}>
                         <InputText
-                          label={`Catatan Tanggal Persetujuan KAN`}
+                          label={`Catatan Tanggal Persetujuan ke ${akre?.nama_akreditasi}`}
                           values={values?.note_tgl_persetujuan_kan}
                           onChange={handleChange}
                           onBlur={handleBlur}
@@ -1380,12 +1386,12 @@ const ModalDetail = ({
                                 selectedDate + " " + currentTime
                               );
                             }}
-                            label="Tanggal Pengajuan ke KAN"
+                            label={`Tanggal Pengajuan ke ${akre?.nama_akreditasi}`}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                           <InputText
-                            label={`Catatan Tanggal Pengajuan ke KAN`}
+                            label={`Catatan Tanggal Pengajuan ke ${akre?.nama_akreditasi}`}
                             values={values?.note_tgl_pengajuan_ke_kan}
                             onChange={handleChange}
                             onBlur={handleBlur}
@@ -1415,12 +1421,12 @@ const ModalDetail = ({
                                 selectedDate + " " + currentTime
                               );
                             }}
-                            label="Tanggal Persetujuan KAN"
+                            label={`Tanggal Persetujuan ke ${akre?.nama_akreditasi}`}
                           />
                         </Grid>
                         <Grid item xs={12} sm={6}>
                           <InputText
-                            label={`Catatan Tanggal Persetujuan KAN`}
+                            label={`Catatan Tanggal Persetujuan ke ${akre?.nama_akreditasi}`}
                             values={values?.note_tgl_persetujuan_kan}
                             onChange={handleChange}
                             onBlur={handleBlur}
