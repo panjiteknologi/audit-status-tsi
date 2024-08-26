@@ -32,20 +32,13 @@ const Input = () => {
     if (allProject) {
       setFilteredData(allProject);
     }
-
-    // getAkreditasi();
-    // getStandard();
-    // getStatusPembayaran();
-    // getTahapan();
   }, [allProject]);
 
   return (
     <div>
-      <DashboardSections
-        data={filteredData}
-      />
+      <DashboardSections data={filteredData} />
     </div>
-  )
-}
+  );
+};
 
-export default Input
+export default Input;

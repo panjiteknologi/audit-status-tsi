@@ -74,7 +74,7 @@ const AuthLogin = ({
               setError(false);
               setStatus({ success: true });
               setSubmitting(false);
-              navigate("/");
+              navigate("/dashboard");
             }
           } catch (err: any) {
             setShowModal(true);

@@ -13,7 +13,7 @@ const CardInfo = ({}: CardInfoProps) => {
         btnHeader={true}
         isLogin={isLoggedIn}
         bgHeaderColor={"gray"}
-        titleBtnHeader={"How to add auditor ?"}
+        titleBtnHeader={"How to add audit status ?"}
         iconRight={false}
       >
         <Box
@@ -23,7 +23,7 @@ const CardInfo = ({}: CardInfoProps) => {
             borderColor: "gray",
           }}
         >
-          <Typography>Please go to dashboard menu for add auditor</Typography>
+          <Typography>Please go to input menu for add audit status</Typography>
         </Box>
       </MainCard>
     </Grid>

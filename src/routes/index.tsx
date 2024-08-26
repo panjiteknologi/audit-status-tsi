@@ -13,7 +13,7 @@ const Input = Loadable(lazy(() => import("@/pages/input")));
 const router = createBrowserRouter(
   [
     {
-      path: "/Login",
+      path: "/",
       element: <AuthLayout />,
       children: [
         {
@@ -23,17 +23,17 @@ const router = createBrowserRouter(
       ],
     },
     {
-      path: "/",
+      path: "/dashboard",
       element: <DashboardLayout />,
       children: [
         {
-          path: "/",
+          path: "/dashboard",
           element: <Dashboard />,
         },
       ],
     },
     {
-      path: "/",
+      path: "/input",
       element: <DashboardLayout />,
       children: [
         {
