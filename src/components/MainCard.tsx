@@ -127,7 +127,9 @@ const MainCard = forwardRef(
                           backgroundColor: bgHeaderColor,
                           justifyContent: "space-between",
                         }
-                      : null
+                      : {
+                          backgroundColor: bgHeaderColor,
+                        }
                   }
                 >
                   <CardHeader

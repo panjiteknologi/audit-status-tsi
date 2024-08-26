@@ -1,10 +1,10 @@
 export type Standar = {
-  id_project: number
-  id_standar: number
-  nama_standar: string
-  project_detail_standar_id: number
-  status: number
-}
+  id_project: number;
+  id_standar: number;
+  nama_standar: string;
+  project_detail_standar_id: number;
+  status: number;
+};
 
 export interface AllProject {
   status_pembayaran_id?: string | number | readonly string[] | undefined;
@@ -86,6 +86,7 @@ export interface AllProject {
   nama_tahapan?: string;
   leadTime?: string;
   sla?: string;
+  customer_id?: string;
 }
 
 export interface MenuProject {

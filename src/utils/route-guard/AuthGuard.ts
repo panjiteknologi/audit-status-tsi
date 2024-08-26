@@ -1,8 +1,8 @@
-import { useEffect, ReactNode } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, ReactNode } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // project import
-import useAuth from '@/hooks/useAuth';
+import useAuth from "@/hooks/useAuth";
 
 // ==============================|| AUTH GUARD ||============================== //
 
@@ -13,11 +13,11 @@ const AuthGuard = ({ children }: { children: ReactNode }) => {
 
   useEffect(() => {
     if (!isLoggedIn) {
-      navigate('', {
+      navigate("/", {
         state: {
-          from: location.pathname
+          from: location.pathname,
         },
-        replace: true
+        replace: true,
       });
     }
   }, [isLoggedIn, navigate, location]);

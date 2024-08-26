@@ -103,6 +103,7 @@ const ModalDetail = ({
         <Formik
           initialValues={{
             create_date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
+            customer_id: add ? "" : data?.customer_id || "",
             id_project: data?.id_project,
             nama_perusahaan: add ? "" : data?.nama_perusahaan || "",
             nama_sales_or_crr: add ? "" : data?.nama_sales_or_crr || "",
@@ -227,7 +228,9 @@ const ModalDetail = ({
             standar: Yup.array()
               .min(1, "At least one standar is required")
               .required("Standar is required"),
-            akreditasi: Yup.string().required("Akreditasi is required"),
+            akreditasi: Yup.string()
+              .min(1, "At least one standar is required")
+              .required("Akreditasi is required"),
             tahapan: Yup.string().required("Tahapan is required"),
           })}
           onSubmit={async (values: any) => {
@@ -246,6 +249,17 @@ const ModalDetail = ({
             return (
               <form noValidate onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
+                  <Grid item xs={12}>
+                    <InputText
+                      label="Customer ID"
+                      values={values?.customer_id}
+                      onBlur={handleBlur}
+                      onChange={handleChange}
+                      name="customer_id"
+                      error={Boolean(touched.customer_id && errors.customer_id)}
+                      errorMessage={errors.customer_id as string}
+                    />
+                  </Grid>
                   <Grid item xs={12}>
                     <InputText
                       label="Nama Perusahaan"

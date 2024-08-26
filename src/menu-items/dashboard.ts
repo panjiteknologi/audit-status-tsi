@@ -4,18 +4,18 @@ import { MenuType } from ".";
 
 const icons = {
   dashboard: DashboardOutlined,
-  input: EditNote
+  input: EditNote,
 };
 
 const dashboard: MenuType = {
   id: "group-dashboard",
-  title: "Dashboard",
+  title: "Menu",
   type: "group",
   children: [
     {
       id: "dashboard",
       title: "Dashboard",
-      url: "/",
+      url: "/dashboard",
       type: "item",
       icon: icons.dashboard,
     },
