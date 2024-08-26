@@ -1,3 +1,7 @@
+import { SetStateAction, useState } from "react";
+import { AllProject } from "@/types/Project";
+import TableInfo from "./TableInfo";
+import { BrowserView, MobileView } from "react-device-detect";
 import { ReactNode, SetStateAction, SyntheticEvent, useState } from "react";
 import { AllProject } from "@/types/Project";
 import TableInfo from "./TableInfo";
@@ -29,6 +33,14 @@ interface DashboardSectionsProps {
 const DashboardSections = ({
   data
 }: DashboardSectionsProps) => {
+  const [open, setOpen] = useState<boolean[]>(Array(data?.length).fill(false));
+
+  const handleClick = (index: number) => {
+    setOpen((prevOpen) => {
+      const newOpen = [...prevOpen];
+      newOpen[index] = !newOpen[index];
+      return newOpen;
+    });
   const [value, setValue] = useState<number>(0);
 
   const handleChange = (event: SyntheticEvent<Element, Event>, newValue: number) => {
@@ -37,6 +49,24 @@ const DashboardSections = ({
 
   return (
     <>
+      <MobileView>
+        {data?.map((items, index) => {
+          return (
+            <CardInfo
+              key={index}
+              items={items}
+              index={index}
+              open={open}
+              handleClick={handleClick}
+            />
+          );
+        })}
+      </MobileView>
+      <BrowserView>
+        <TableInfo
+          data={data || []}
+        />
+      </BrowserView>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Table" icon={<TableChartRounded />} iconPosition="start" {...a11yProps(0)} />

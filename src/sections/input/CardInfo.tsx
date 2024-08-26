@@ -20,7 +20,7 @@ import { getDataTable, getlatestProgress } from "@/utils/getProgressAndField";
 
 interface CardInfoProps {
   items: AllProject;
-  onEdit: () => void;
+  onEdit?: () => void;
   open: boolean[];
   index: number;
   handleClick: (index: number) => void;
