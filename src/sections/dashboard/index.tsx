@@ -48,24 +48,6 @@ const DashboardSections = ({
 
   return (
     <>
-      <MobileView>
-        {data?.map((items, index) => {
-          return (
-            <CardInfo
-              key={index}
-              items={items}
-              index={index}
-              open={open}
-              handleClick={handleClick}
-            />
-          );
-        })}
-      </MobileView>
-      <BrowserView>
-        <TableInfo
-          data={data || []}
-        />
-      </BrowserView>
       <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">
           <Tab label="Table" icon={<TableChartRounded />} iconPosition="start" {...a11yProps(0)} />
@@ -75,9 +57,24 @@ const DashboardSections = ({
 
       {/* Table Panel */}
       <TabPanel value={value} index={0}>
-        <TableInfo
-          data={data || []}
-        />
+        <MobileView>
+          {data?.map((items, index) => {
+            return (
+              <CardInfo
+                key={index}
+                items={items}
+                index={index}
+                open={open}
+                handleClick={handleClick}
+              />
+            );
+          })}
+        </MobileView>
+        <BrowserView>
+          <TableInfo
+            data={data || []}
+          />
+        </BrowserView>
       </TabPanel>
 
       {/* Chart Panel */}
