@@ -424,7 +424,7 @@ const ModalDetail = ({
                     </Grid>
                   </React.Fragment>
 
-                  {values?.tahapan === 1 ? (
+                  {values?.tahapan === 1 || values?.tahapan === 7 ? (
                     <React.Fragment>
                       <Grid item xs={12} sm={6}>
                         <InputDate

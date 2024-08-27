@@ -212,7 +212,7 @@ export function getlatestProgress(field: AllProject) {
         : 1
     )[0];
 
-  if (latestProgressAudit && field?.tahapan === 1) {
+  if (latestProgressAudit && (field?.tahapan === 1 || field?.tahapan === 7)) {
     return `${latestProgressAudit.tahapan?.replace("Tanggal ", "")}`;
   }
 
@@ -224,7 +224,7 @@ export function getlatestProgress(field: AllProject) {
 }
 
 export function getDataTable(field: AllProject) {
-  if (field?.tahapan === 1) {
+  if (field?.tahapan === 1 || field?.tahapan === 7) {
     return getFieldAudit(field);
   }
 
@@ -238,7 +238,7 @@ export function getDataTable(field: AllProject) {
 export function getNextStep(field: AllProject) {
   const latest = `Tanggal ${getlatestProgress(field)}`;
 
-  if (field?.tahapan === 1) {
+  if (field?.tahapan === 1 || field?.tahapan === 7) {
     const indexInitialAudit =
       getFieldAudit(field).findIndex((item) => item.tahapan === latest) + 1;
     const isDone = indexInitialAudit > getFieldAudit(field).length - 1;
