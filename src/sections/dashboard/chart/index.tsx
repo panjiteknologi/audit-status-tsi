@@ -4,6 +4,8 @@ import CardAnalytic from "./CardAnalytic";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isoWeek from "dayjs/plugin/isoWeek";
+import SalesBarChart from "./SalesBarChart";
+import SalesPieChart from "./SalesPieChart";
 
 // extend plugin dayjs
 dayjs.extend(isBetween);
@@ -20,11 +22,11 @@ interface ChartDashboardProps {
 }
 
 const ChartDashboard = ({ data }: ChartDashboardProps) => {
+  const current = data;
+
   const startOfThisWeek = dayjs().startOf("isoWeek"); // Get the start of the current week (Monday)
   const startOfLastWeek = startOfThisWeek.subtract(1, "week"); // Get the start of the previous week (Monday)
   const endOfLastWeek = startOfThisWeek.subtract(1, "day"); // Get the end of the previous week (Sunday)
-
-  console.log("DATA : ", data);
 
   const totalProjects: AllProject[] = data;
   const totalInitialAudit: AllProject[] = data?.filter(
@@ -71,6 +73,44 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
     };
   };
 
+  const salesNameWithTotal = current.reduce(
+    (acc: AllProject[], curr: AllProject) => {
+      const existing = acc.find(
+        (item) => item?.nama_sales_or_crr === curr.nama_sales_or_crr
+      );
+
+      if (existing) {
+        if (existing.total !== undefined) {
+          existing.total += 1;
+        }
+      } else {
+        acc.push({ nama_sales_or_crr: curr.nama_sales_or_crr, total: 1 });
+      }
+
+      return acc;
+    },
+    []
+  );
+
+  const acreditationWithTotal = current.reduce(
+    (acc: AllProject[], curr: AllProject) => {
+      const existing = acc.find(
+        (item) => item?.nama_akreditasi === curr.nama_akreditasi
+      );
+
+      if (existing) {
+        if (existing.total !== undefined) {
+          existing.total += 1;
+        }
+      } else {
+        acc.push({ nama_akreditasi: curr.nama_akreditasi, total: 1 });
+      }
+
+      return acc;
+    },
+    []
+  );
+
   return (
     <Grid container rowSpacing={4.5} columnSpacing={2.75}>
       {/* row 1 */}
@@ -107,6 +147,21 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
           count={totalSurveillanceII.length}
           data={dataCardAnalytics(totalSurveillanceII)}
         />
+      </Grid>
+
+      {/* row 1 */}
+      <Grid item xs={12} sx={{ mb: -2.25 }}>
+        <Typography variant="h5" color="darkblue">
+          Chart
+        </Typography>
+      </Grid>
+
+      <Grid item xs={12} md={7} lg={8}>
+        <SalesBarChart data={salesNameWithTotal} />
+      </Grid>
+
+      <Grid item xs={12} md={5} lg={4}>
+        <SalesPieChart data={acreditationWithTotal} />
       </Grid>
     </Grid>
   );
