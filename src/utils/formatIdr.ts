@@ -5,3 +5,9 @@ export function formatIdr(price: number) {
     .format()
     .replace(/\.00$/, "");
 }
+
+export function formatNumber(num: number) {
+  return currency(num || 0, { separator: ".", symbol: "" })
+    .format()
+    .replace(/\.00$/, "");
+}

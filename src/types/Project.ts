@@ -86,7 +86,7 @@ export interface AllProject {
   nama_tahapan?: string;
   leadTime?: string;
   sla?: string;
-  customer_id?: string;
+  total?: number;
 }
 
 export interface MenuProject {
