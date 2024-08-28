@@ -18,42 +18,46 @@ import { getToken, messaging } from "./firebase.config";
 const queryClient = new QueryClient();
 
 function App() {
-  if (navigator.serviceWorker) {
-    navigator.serviceWorker
-      .register("/public/firebase-messaging-sw.js")
-      .then(function (registration) {})
-      .catch(console.log);
-  }
+  // if (navigator.serviceWorker) {
+  //   navigator.serviceWorker
+  //     .register("/firebase-messaging-sw.js")
+  //     .then(function (registration) {
+  //       console.log("Register SW firebase : ", registration);
+  //     })
+  //     .catch((err) => {
+  //       console.log("ERR SW firebase : ", err);
+  //     });
+  // }
 
-  if (window.Notification) {
-    if (Notification.permission === "granted") {
-    } else if (Notification.permission !== "denied") {
-      Notification.requestPermission((permission) => {
-        if (permission === "granted") {
-        }
-      });
-    }
-  }
+  // if (window.Notification) {
+  //   if (Notification.permission === "granted") {
+  //   } else if (Notification.permission !== "denied") {
+  //     Notification.requestPermission((permission) => {
+  //       if (permission === "granted") {
+  //       }
+  //     });
+  //   }
+  // }
 
-  const requestPermission = async () => {
-    try {
-      const currentToken = await getToken(messaging, {
-        vapidKey:
-          "BA89eSnxoKdl7apjC1etxWm9oepFzBDeC44iRVgV8TI-ENz2kSWjPT-T5_NOqcRy8dXddGZ2lFoibdRSxHbMipY",
-      });
-      if (currentToken) {
-        console.log("FCM Token:", currentToken);
-      } else {
-        console.log("No registration token available.");
-      }
-    } catch (error) {
-      console.error("Error getting registration token.", error);
-    }
-  };
+  // const requestPermission = async () => {
+  //   try {
+  //     const currentToken = await getToken(messaging, {
+  //       vapidKey:
+  //         "BA89eSnxoKdl7apjC1etxWm9oepFzBDeC44iRVgV8TI-ENz2kSWjPT-T5_NOqcRy8dXddGZ2lFoibdRSxHbMipY",
+  //     });
+  //     if (currentToken) {
+  //       console.log("FCM Token:", currentToken);
+  //     } else {
+  //       console.log("No registration token available.");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error getting registration token.", error);
+  //   }
+  // };
 
-  useEffect(() => {
-    requestPermission();
-  }, []);
+  // useEffect(() => {
+  //   requestPermission();
+  // }, []);
 
   return (
     <ThemeCustomization>
