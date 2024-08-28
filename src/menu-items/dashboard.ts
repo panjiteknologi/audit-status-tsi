@@ -1,10 +1,12 @@
 // assets
-import { DashboardOutlined, EditNote } from "@mui/icons-material";
+import { DashboardOutlined, EditNote, Language, ForestRounded } from "@mui/icons-material";
 import { MenuType } from ".";
 
 const icons = {
   dashboard: DashboardOutlined,
   input: EditNote,
+  iso: Language,
+  ispo: ForestRounded
 };
 
 const dashboard: MenuType = {
@@ -20,11 +22,18 @@ const dashboard: MenuType = {
       icon: icons.dashboard,
     },
     {
-      id: "input",
-      title: "Input",
-      url: "/input",
+      id: "iso",
+      title: "ISO",
+      url: "/iso",
       type: "item",
-      icon: icons.input,
+      icon: icons.iso,
+    },
+    {
+      id: "ispo",
+      title: "ISPO",
+      url: "/ispo",
+      type: "item",
+      icon: icons.ispo,
     },
   ],
 };

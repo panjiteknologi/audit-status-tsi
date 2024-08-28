@@ -1,4 +1,4 @@
-import InputSections from "@/sections/input";
+import InputSections from "@/sections/iso";
 import {
   Button,
   Dialog,
@@ -28,9 +28,9 @@ import {
   GET_TAHAPAN,
   UPDATE_PROJECT,
 } from "@/contexts/JWTContext";
-import ModalDetail from "@/sections/input/ModalDetail";
+import ModalDetail from "@/sections/iso/ModalDetail";
 import { AllProject, MenuProject } from "@/types/Project";
-import CloseButton from "@/sections/input/CloseButton";
+import CloseButton from "@/sections/iso/CloseButton";
 import IlustrationConfirmation from "../assets/ilustration/il-confirmation.svg";
 import IlustrationCancel from "../assets/ilustration/il-notfound.svg";
 import IlustrationLoading from "../assets/ilustration/il-loading.svg";
@@ -343,7 +343,7 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-          new Date(b.tanggalStatus as string)
+            new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
@@ -352,53 +352,53 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-          new Date(b.tanggalStatus as string)
+            new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
 
       return item?.tahapan === 1
         ? Object.values(latestProgressAudit)?.some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        Object.values(item).some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        item?.standar?.some((standar) => {
+          return Object.values(standar).some((field) => {
             return (
               typeof field === "string" &&
               field.toLowerCase().includes(searchValue)
             );
-          }) ||
-            Object.values(item).some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            }) ||
-            item?.standar?.some((standar) => {
-              return Object.values(standar).some((field) => {
-                return (
-                  typeof field === "string" &&
-                  field.toLowerCase().includes(searchValue)
-                );
-              });
-            })
+          });
+        })
         : (item?.tahapan > 1 &&
-            Object.values(latestProgress)?.some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            })) ||
-            Object.values(item).some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            }) ||
-            item?.standar?.some((standar) => {
-              return Object.values(standar).some((field) => {
-                return (
-                  typeof field === "string" &&
-                  field.toLowerCase().includes(searchValue)
-                );
-              });
-            });
+          Object.values(latestProgress)?.some((field) => {
+            return (
+              typeof field === "string" &&
+              field.toLowerCase().includes(searchValue)
+            );
+          })) ||
+        Object.values(item).some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        item?.standar?.some((standar) => {
+          return Object.values(standar).some((field) => {
+            return (
+              typeof field === "string" &&
+              field.toLowerCase().includes(searchValue)
+            );
+          });
+        });
     });
     setFilteredData(filtered);
   };
@@ -421,11 +421,11 @@ const Dashboard = () => {
 
       return add
         ? axios.post(BASE_URL + ADD_PROJECT, data, {
-            headers: { Authorization: token },
-          })
+          headers: { Authorization: token },
+        })
         : axios.post(BASE_URL + UPDATE_PROJECT, data, {
-            headers: { Authorization: token },
-          });
+          headers: { Authorization: token },
+        });
     },
     onSuccess: () => {
       setDisabled(false);
@@ -692,8 +692,8 @@ const Dashboard = () => {
                   ? "Failed Add Form"
                   : "Successfully Add Form"
                 : error
-                ? "Failed Update Form"
-                : "Successfully Update Form"
+                  ? "Failed Update Form"
+                  : "Successfully Update Form"
               : " Sorry, you haven't logged in yet, please log in."}
           </DialogTitle>
           {!isLoggedIn && (

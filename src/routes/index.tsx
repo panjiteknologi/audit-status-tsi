@@ -8,7 +8,8 @@ import ScopeLibrary from "@/pages/scope-library";
 
 const AuthLogin = Loadable(lazy(() => import("@/pages")));
 const Dashboard = Loadable(lazy(() => import("@/pages/dashboard")));
-const Input = Loadable(lazy(() => import("@/pages/input")));
+const ISO = Loadable(lazy(() => import("@/pages/iso")));
+const ISPO = Loadable(lazy(() => import("@/pages/ispo")));
 
 const router = createBrowserRouter(
   [
@@ -33,12 +34,22 @@ const router = createBrowserRouter(
       ],
     },
     {
-      path: "/input",
+      path: "/iso",
       element: <DashboardLayout />,
       children: [
         {
-          path: "/input",
-          element: <Input />,
+          path: "/iso",
+          element: <ISO />,
+        },
+      ],
+    },
+    {
+      path: "/ispo",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/ispo",
+          element: <ISPO />,
         },
       ],
     },
