@@ -14,11 +14,11 @@ const SalesBarChart = ({ data }: { data: AllProject[] }) => {
     | ApexAxisChartSeries
     | ApexNonAxisChartSeries
     | undefined = [
-    {
-      name: "Total Sales",
-      data: sales_value?.map((n) => Number(n)),
-    },
-  ];
+      {
+        name: "Total Sales",
+        data: sales_value?.map((n) => Number(n)),
+      },
+    ];
 
   const primary = theme.palette.primary[400];
 
@@ -95,7 +95,7 @@ const SalesBarChart = ({ data }: { data: AllProject[] }) => {
   return (
     <MainCard sx={{ minHeight: 475 }}>
       <Typography variant="h6" color="textSecondary">
-        Bar Chart
+        Sales
       </Typography>
       <Box>
         <Box id="chart">

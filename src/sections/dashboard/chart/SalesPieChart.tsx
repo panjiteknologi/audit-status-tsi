@@ -96,7 +96,7 @@ const SalesPieChart = ({ data }: SalesPieChartProps) => {
   return (
     <MainCard>
       <Typography variant="h6" color="textSecondary">
-        Pie Chart
+        Akreditasi
       </Typography>
       <Box id="chart" mt={4} sx={{ bgcolor: "transparent" }}>
         {data?.length > 0 ? (
