@@ -7,6 +7,7 @@ export type Standar = {
 };
 
 export interface AllProject {
+  customer_id?: number | string;
   status_pembayaran_id?: string | number | readonly string[] | undefined;
   nama_status_pembayaran?: string | any;
   tanggalStatus?: any;
