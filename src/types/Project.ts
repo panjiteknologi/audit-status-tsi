@@ -44,8 +44,16 @@ export interface AllProject {
   note_tgl_pelaksanaan_audit_st_dua?: string | undefined;
   tgl_penyelesaian_capa_st_satu?: string;
   note_tgl_penyelesaian_capa_st_satu?: string | undefined;
+  tgl_proses_review_tahap_satu?: string; // for ISPO
+  note_tgl_proses_review_tahap_satu?: string | undefined; // for ISPO
+  tgl_pengambilan_keputusan_tahap_satu?: string; // for ISPO
+  note_tgl_pengambilan_keputusan_tahap_satu?: string | undefined; // for ISPO
   tgl_penyelesaian_capa_st_dua?: string;
   note_tgl_penyelesaian_capa_st_dua?: string | undefined;
+  tgl_proses_review_tahap_dua?: string; // for ISPO
+  note_tgl_proses_review_tahap_dua?: string | undefined; // for ISPO
+  tgl_pengambilan_keputusan_tahap_dua?: string; // for ISPO
+  note_tgl_pengambilan_keputusan_tahap_dua?: string | undefined; // for ISPO
   tgl_pengiriman_draft_sertifikat?: string;
   note_tgl_pengiriman_draft_sertifikat?: string | undefined;
   tgl_persetujuan_draft_sertifikat?: string;

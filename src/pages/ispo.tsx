@@ -344,7 +344,7 @@ const Ispo = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-          new Date(b.tanggalStatus as string)
+            new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
@@ -353,53 +353,53 @@ const Ispo = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-          new Date(b.tanggalStatus as string)
+            new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
 
       return item?.tahapan === 1
         ? Object.values(latestProgressAudit)?.some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        Object.values(item).some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        item?.standar?.some((standar) => {
+          return Object.values(standar).some((field) => {
             return (
               typeof field === "string" &&
               field.toLowerCase().includes(searchValue)
             );
-          }) ||
-            Object.values(item).some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            }) ||
-            item?.standar?.some((standar) => {
-              return Object.values(standar).some((field) => {
-                return (
-                  typeof field === "string" &&
-                  field.toLowerCase().includes(searchValue)
-                );
-              });
-            })
+          });
+        })
         : (item?.tahapan > 1 &&
-            Object.values(latestProgress)?.some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            })) ||
-            Object.values(item).some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            }) ||
-            item?.standar?.some((standar) => {
-              return Object.values(standar).some((field) => {
-                return (
-                  typeof field === "string" &&
-                  field.toLowerCase().includes(searchValue)
-                );
-              });
-            });
+          Object.values(latestProgress)?.some((field) => {
+            return (
+              typeof field === "string" &&
+              field.toLowerCase().includes(searchValue)
+            );
+          })) ||
+        Object.values(item).some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        item?.standar?.some((standar) => {
+          return Object.values(standar).some((field) => {
+            return (
+              typeof field === "string" &&
+              field.toLowerCase().includes(searchValue)
+            );
+          });
+        });
     });
     setFilteredData(filtered);
   };
@@ -418,15 +418,23 @@ const Ispo = () => {
     mutationFn: async (values: AllProject) => {
       const idUser = window.localStorage.getItem("idUser");
       const token = window.localStorage.getItem("serviceToken");
-      const data = { id_user: idUser, ...values };
+      const data = {
+        id_user: idUser,
+        standar: [
+          {
+            "id_standar": "9"
+          }
+        ],
+        ...values
+      };
 
       return add
         ? axios.post(BASE_URL + ADD_ISPO, data, {
-            headers: { Authorization: token },
-          })
+          headers: { Authorization: token },
+        })
         : axios.post(BASE_URL + UPDATE_ISPO, data, {
-            headers: { Authorization: token },
-          });
+          headers: { Authorization: token },
+        });
     },
     onSuccess: () => {
       setDisabled(false);
@@ -626,6 +634,7 @@ const Ispo = () => {
           dataTahapan={dataTahapan}
           dataStatusPembayaran={dataStatusPembayaran}
           onHandleSubmit={onSubmit}
+          origin='ispo'
         />
       )}
 
@@ -693,8 +702,8 @@ const Ispo = () => {
                   ? "Failed Add Form"
                   : "Successfully Add Form"
                 : error
-                ? "Failed Update Form"
-                : "Successfully Update Form"
+                  ? "Failed Update Form"
+                  : "Successfully Update Form"
               : " Sorry, you haven't logged in yet, please log in."}
           </DialogTitle>
           {!isLoggedIn && (

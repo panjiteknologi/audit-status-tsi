@@ -3,6 +3,7 @@ import {
   Autocomplete,
   Box,
   Button,
+  Chip,
   CircularProgress,
   FormControl,
   FormHelperText,
@@ -23,6 +24,7 @@ import { Formik } from "formik";
 import InputText from "@/components/forms/InputText";
 import InputDate from "@/components/forms/InputDate";
 import moment, { Moment } from "moment";
+
 interface ModalDetailProps {
   disabled: boolean;
   loadingBtn: boolean;
@@ -35,6 +37,7 @@ interface ModalDetailProps {
   dataStatusPembayaran: MenuProject[];
   dataTahapan: MenuProject[];
   onHandleSubmit: (values: AllProject) => void;
+  origin: 'iso' | 'ispo';
 }
 
 const ModalDetail = ({
@@ -49,6 +52,7 @@ const ModalDetail = ({
   dataStatusPembayaran,
   dataTahapan,
   onHandleSubmit,
+  origin
 }: ModalDetailProps) => {
   const theme = useTheme();
   const sm = useMediaQuery(theme.breakpoints.down("sm"));
@@ -80,6 +84,8 @@ const ModalDetail = ({
     }
   }, []);
 
+  console.log('DATA Modal : ', data)
+
   return (
     <Modal
       open={showdashboard}
@@ -98,7 +104,7 @@ const ModalDetail = ({
           textAlign="center"
           marginBottom={4}
         >
-          {add ? "Add Audit System" : "Update Audit System"}
+          {add ? `Add Audit System ${origin.toUpperCase()}` : `Update Audit System ${origin.toUpperCase()}`}
         </Typography>
         <Formik
           initialValues={{
@@ -184,12 +190,42 @@ const ModalDetail = ({
             note_tgl_penyelesaian_capa_st_satu: add
               ? ""
               : data?.note_tgl_penyelesaian_capa_st_satu || "",
+            // ============ | ISPO ONLY | ============
+            // ---- after capa st satu ----
+            tgl_proses_review_tahap_satu: add
+              ? ""
+              : data?.tgl_proses_review_tahap_satu,
+            note_tgl_proses_review_tahap_satu: add
+              ? ""
+              : data?.note_tgl_proses_review_tahap_satu,
+            tgl_pengambilan_keputusan_tahap_satu: add
+              ? ""
+              : data?.tgl_pengambilan_keputusan_tahap_satu,
+            note_tgl_pengambilan_keputusan_tahap_satu: add
+              ? ""
+              : data?.note_tgl_pengambilan_keputusan_tahap_satu,
+            // ============ | ISPO ONLY | ============
             tgl_penyelesaian_capa_st_dua: add
               ? ""
               : data?.tgl_penyelesaian_capa_st_dua || "",
             note_tgl_penyelesaian_capa_st_dua: add
               ? ""
               : data?.note_tgl_penyelesaian_capa_st_dua || "",
+            // ============ | ISPO ONLY | ============
+            // ---- after capa st dua ----
+            tgl_proses_review_tahap_dua: add
+              ? ""
+              : data?.tgl_proses_review_tahap_dua,
+            note_tgl_proses_review_tahap_dua: add
+              ? ""
+              : data?.note_tgl_proses_review_tahap_dua,
+            tgl_pengambilan_keputusan_tahap_dua: add
+              ? ""
+              : data?.tgl_pengambilan_keputusan_tahap_dua,
+            note_tgl_pengambilan_keputusan_tahap_dua: add
+              ? ""
+              : data?.note_tgl_pengambilan_keputusan_tahap_dua,
+            // ============ | ISPO ONLY | ============
             tgl_pengiriman_draft_sertifikat: add
               ? ""
               : data?.tgl_pengiriman_draft_sertifikat || "",
@@ -293,34 +329,42 @@ const ModalDetail = ({
                     />
                   </Grid>
                   <Grid item xs={12}>
-                    <FormControl fullWidth>
-                      <Autocomplete
-                        multiple
-                        id="tags-standard"
-                        options={dataStandard}
-                        getOptionLabel={(option) => option.nama_standar}
-                        renderInput={(params) => (
-                          <TextField
-                            {...params}
-                            label="Standar"
-                            placeholder="Standar"
-                          />
+                    {origin === 'iso' && (
+                      <FormControl fullWidth>
+                        <Autocomplete
+                          multiple
+                          id="tags-standard"
+                          options={dataStandard}
+                          getOptionLabel={(option) => option.nama_standar}
+                          renderInput={(params) => (
+                            <TextField
+                              {...params}
+                              label="Standar"
+                              placeholder="Standar"
+                            />
+                          )}
+                          value={values.standar || []}
+                          onBlur={handleBlur}
+                          onChange={(_, newValue) => {
+                            setFieldValue("standar", newValue);
+                          }}
+                        />
+                        {touched.standar && errors.standar && (
+                          <FormHelperText
+                            error
+                            id="standard-weight-helper-text-standar"
+                          >
+                            {errors.standar as string}
+                          </FormHelperText>
                         )}
-                        value={values.standar || []}
-                        onBlur={handleBlur}
-                        onChange={(_, newValue) => {
-                          setFieldValue("standar", newValue);
-                        }}
-                      />
-                      {touched.standar && errors.standar && (
-                        <FormHelperText
-                          error
-                          id="standard-weight-helper-text-standar"
-                        >
-                          {errors.standar as string}
-                        </FormHelperText>
-                      )}
-                    </FormControl>
+                      </FormControl>
+                    )}
+                    {origin === 'ispo' && (
+                      <>
+                        <InputLabel>Standar</InputLabel>
+                        <Chip label='ISPO' variant="combined" size="medium" />
+                      </>
+                    )}
                   </Grid>
                   <Grid item xs={12}>
                     <FormControl fullWidth>
@@ -389,7 +433,7 @@ const ModalDetail = ({
                           name="status_pembayaran"
                           error={Boolean(
                             touched.status_pembayaran &&
-                              errors.status_pembayaran
+                            errors.status_pembayaran
                           )}
                         >
                           {dataStatusPembayaran.map((item, index) => (
@@ -418,7 +462,7 @@ const ModalDetail = ({
                         name="note_status_pembayaran"
                         error={Boolean(
                           touched.note_status_pembayaran &&
-                            errors.note_status_pembayaran
+                          errors.note_status_pembayaran
                         )}
                       />
                     </Grid>
@@ -461,7 +505,7 @@ const ModalDetail = ({
                         <InputDate
                           disabled={
                             !values?.tgl_apl_form_or_request ||
-                            (!add && !!data?.tgl_review_penugasan_st_satu)
+                              (!add && !!data?.tgl_review_penugasan_st_satu)
                               ? true
                               : false
                           }
@@ -685,6 +729,80 @@ const ModalDetail = ({
                         />
                       </Grid>
 
+                      {/* ====================== | ISPO ONLY - Start | ====================== */}
+                      {origin === 'ispo' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputDate
+                            disabled={
+                              !values?.tgl_penyelesaian_capa_st_satu ||
+                              (!add && !!data?.tgl_proses_review_tahap_satu)
+                            }
+                            selectedDate={
+                              values?.tgl_proses_review_tahap_satu
+                                ? moment(values.tgl_proses_review_tahap_satu)
+                                : null
+                            }
+                            handleDateChange={(newDate) => {
+                              const selectedDate = newDate?.format("YYYY-MM-DD");
+                              const currentTime = moment().format("HH:mm:ss");
+                              setFieldValue(
+                                "tgl_proses_review_tahap_satu",
+                                selectedDate + " " + currentTime
+                              );
+                            }}
+                            label="Tanggal Proses Review Tahap Satu"
+                          />
+                        </Grid>
+                      )}
+                      {origin === 'ispo' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputText
+                            label={`Catatan Tanggal Proses Review Tahap Satu`}
+                            values={values?.note_tgl_proses_review_tahap_satu}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name="note_tgl_proses_review_tahap_satu"
+                          />
+                        </Grid>
+                      )}
+
+                      {origin === 'ispo' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputDate
+                            disabled={
+                              !values?.tgl_proses_review_tahap_satu ||
+                              (!add && !!data?.tgl_pengambilan_keputusan_tahap_satu)
+                            }
+                            selectedDate={
+                              values?.tgl_pengambilan_keputusan_tahap_satu
+                                ? moment(values.tgl_pengambilan_keputusan_tahap_satu)
+                                : null
+                            }
+                            handleDateChange={(newDate) => {
+                              const selectedDate = newDate?.format("YYYY-MM-DD");
+                              const currentTime = moment().format("HH:mm:ss");
+                              setFieldValue(
+                                "tgl_pengambilan_keputusan_tahap_satu",
+                                selectedDate + " " + currentTime
+                              );
+                            }}
+                            label="Tanggal Pengambilan Keputusan Tahap Satu"
+                          />
+                        </Grid>
+                      )}
+                      {origin === 'ispo' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputText
+                            label={`Catatan Tanggal Pengambilan Kemputusan Tahap Satu`}
+                            values={values?.note_tgl_pengambilan_keputusan_tahap_satu}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name="note_tgl_pengambilan_keputusan_tahap_satu"
+                          />
+                        </Grid>
+                      )}
+                      {/* ====================== | ISPO ONLY - End | ====================== */}
+
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
@@ -716,6 +834,80 @@ const ModalDetail = ({
                           name="note_tgl_penyelesaian_capa_st_dua"
                         />
                       </Grid>
+
+                      {/* ====================== | ISPO ONLY - Start | ====================== */}
+                      {origin === 'ispo' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputDate
+                            disabled={
+                              !values?.tgl_proses_review_tahap_dua ||
+                              (!add && !!data?.tgl_proses_review_tahap_dua)
+                            }
+                            selectedDate={
+                              values?.tgl_proses_review_tahap_dua
+                                ? moment(values.tgl_proses_review_tahap_dua)
+                                : null
+                            }
+                            handleDateChange={(newDate) => {
+                              const selectedDate = newDate?.format("YYYY-MM-DD");
+                              const currentTime = moment().format("HH:mm:ss");
+                              setFieldValue(
+                                "tgl_proses_review_tahap_dua",
+                                selectedDate + " " + currentTime
+                              );
+                            }}
+                            label="Tanggal Proses Review Tahap Dua"
+                          />
+                        </Grid>
+                      )}
+                      {origin === 'ispo' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputText
+                            label={`Catatan Tanggal Proses Review Tahap Dua`}
+                            values={values?.note_tgl_proses_review_tahap_dua}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name="note_tgl_proses_review_tahap_dua"
+                          />
+                        </Grid>
+                      )}
+
+                      {origin === 'ispo' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputDate
+                            disabled={
+                              !values?.tgl_pengambilan_keputusan_tahap_dua ||
+                              (!add && !!data?.tgl_pengambilan_keputusan_tahap_dua)
+                            }
+                            selectedDate={
+                              values?.tgl_pengambilan_keputusan_tahap_dua
+                                ? moment(values.tgl_pengambilan_keputusan_tahap_dua)
+                                : null
+                            }
+                            handleDateChange={(newDate) => {
+                              const selectedDate = newDate?.format("YYYY-MM-DD");
+                              const currentTime = moment().format("HH:mm:ss");
+                              setFieldValue(
+                                "tgl_pengambilan_keputusan_tahap_dua",
+                                selectedDate + " " + currentTime
+                              );
+                            }}
+                            label="Tanggal Pengambilan Keputusan Tahap Dua"
+                          />
+                        </Grid>
+                      )}
+                      {origin === 'ispo' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputText
+                            label={`Catatan Tanggal Pengambilan Kemputusan Tahap Dua`}
+                            values={values?.note_tgl_pengambilan_keputusan_tahap_dua}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name="note_tgl_pengambilan_keputusan_tahap_dua"
+                          />
+                        </Grid>
+                      )}
+                      {/* ====================== | ISPO ONLY - End | ====================== */}
 
                       <Grid item xs={12} sm={6}>
                         <InputDate
@@ -941,69 +1133,79 @@ const ModalDetail = ({
                         />
                       </Grid>
 
-                      <Grid item xs={12} sm={6}>
-                        <InputDate
-                          disabled={
-                            !values?.tgl_persetujuan_draft_sertifikat ||
-                            (!add && !!data?.tgl_pengajuan_ke_kan)
-                          }
-                          selectedDate={
-                            values?.tgl_pengajuan_ke_kan
-                              ? moment(values.tgl_pengajuan_ke_kan)
-                              : null
-                          }
-                          handleDateChange={(newDate) => {
-                            const selectedDate = newDate?.format("YYYY-MM-DD");
-                            const currentTime = moment().format("HH:mm:ss");
-                            setFieldValue(
-                              "tgl_pengajuan_ke_kan",
-                              selectedDate + " " + currentTime
-                            );
-                          }}
-                          label={`Tanggal Pengajuan ke ${values?.akreditasi}`}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <InputText
-                          label={`Catatan Tanggal Pengajuan ke ${values?.akreditasi}`}
-                          values={values?.note_tgl_pengajuan_ke_kan}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          name="note_tgl_pengajuan_ke_kan"
-                        />
-                      </Grid>
+                      {/* ====================== | ISO ONLY - Start | ====================== */}
+                      {origin === 'iso' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputDate
+                            disabled={
+                              !values?.tgl_persetujuan_draft_sertifikat ||
+                              (!add && !!data?.tgl_pengajuan_ke_kan)
+                            }
+                            selectedDate={
+                              values?.tgl_pengajuan_ke_kan
+                                ? moment(values.tgl_pengajuan_ke_kan)
+                                : null
+                            }
+                            handleDateChange={(newDate) => {
+                              const selectedDate = newDate?.format("YYYY-MM-DD");
+                              const currentTime = moment().format("HH:mm:ss");
+                              setFieldValue(
+                                "tgl_pengajuan_ke_kan",
+                                selectedDate + " " + currentTime
+                              );
+                            }}
+                            label={`Tanggal Pengajuan ke ${values?.akreditasi}`}
+                          />
+                        </Grid>
+                      )}
+                      {origin === 'iso' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputText
+                            label={`Catatan Tanggal Pengajuan ke ${values?.akreditasi}`}
+                            values={values?.note_tgl_pengajuan_ke_kan}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name="note_tgl_pengajuan_ke_kan"
+                          />
+                        </Grid>
+                      )}
 
-                      <Grid item xs={12} sm={6}>
-                        <InputDate
-                          disabled={
-                            !values?.tgl_pengajuan_ke_kan ||
-                            (!add && !!data?.tgl_persetujuan_kan)
-                          }
-                          selectedDate={
-                            values?.tgl_persetujuan_kan
-                              ? moment(values.tgl_persetujuan_kan)
-                              : null
-                          }
-                          handleDateChange={(newDate) => {
-                            const selectedDate = newDate?.format("YYYY-MM-DD");
-                            const currentTime = moment().format("HH:mm:ss");
-                            setFieldValue(
-                              "tgl_persetujuan_kan",
-                              selectedDate + " " + currentTime
-                            );
-                          }}
-                          label={`Tanggal Persetujuan ke ${akre?.nama_akreditasi}`}
-                        />
-                      </Grid>
-                      <Grid item xs={12} sm={6}>
-                        <InputText
-                          label={`Catatan Tanggal Persetujuan ke ${akre?.nama_akreditasi}`}
-                          values={values?.note_tgl_persetujuan_kan}
-                          onChange={handleChange}
-                          onBlur={handleBlur}
-                          name="note_tgl_persetujuan_kan"
-                        />
-                      </Grid>
+                      {origin === 'iso' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputDate
+                            disabled={
+                              !values?.tgl_pengajuan_ke_kan ||
+                              (!add && !!data?.tgl_persetujuan_kan)
+                            }
+                            selectedDate={
+                              values?.tgl_persetujuan_kan
+                                ? moment(values.tgl_persetujuan_kan)
+                                : null
+                            }
+                            handleDateChange={(newDate) => {
+                              const selectedDate = newDate?.format("YYYY-MM-DD");
+                              const currentTime = moment().format("HH:mm:ss");
+                              setFieldValue(
+                                "tgl_persetujuan_kan",
+                                selectedDate + " " + currentTime
+                              );
+                            }}
+                            label={`Tanggal Persetujuan ke ${akre?.nama_akreditasi}`}
+                          />
+                        </Grid>
+                      )}
+                      {origin === 'iso' && (
+                        <Grid item xs={12} sm={6}>
+                          <InputText
+                            label={`Catatan Tanggal Persetujuan ke ${akre?.nama_akreditasi}`}
+                            values={values?.note_tgl_persetujuan_kan}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name="note_tgl_persetujuan_kan"
+                          />
+                        </Grid>
+                      )}
+                      {/* ====================== | ISO ONLY - End | ====================== */}
 
                       <Grid item xs={12} sm={6}>
                         <InputDate
@@ -1078,7 +1280,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_apl_form_or_request ||
-                              (!add && !!data?.tgl_review_penugasan_st_dua)
+                                (!add && !!data?.tgl_review_penugasan_st_dua)
                                 ? true
                                 : false
                             }
@@ -1113,7 +1315,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_review_penugasan_st_dua ||
-                              (!add && !!data?.tgl_pengiriman_notif_st_dua)
+                                (!add && !!data?.tgl_pengiriman_notif_st_dua)
                                 ? true
                                 : false
                             }
@@ -1148,7 +1350,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_pengiriman_notif_st_dua ||
-                              (!add && !!data?.tgl_persetujuan_notif_st_dua)
+                                (!add && !!data?.tgl_persetujuan_notif_st_dua)
                                 ? true
                                 : false
                             }
@@ -1183,15 +1385,15 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_persetujuan_notif_st_dua ||
-                              (!add && !!data?.tgl_pengiriman_audit_plan_st_dua)
+                                (!add && !!data?.tgl_pengiriman_audit_plan_st_dua)
                                 ? true
                                 : false
                             }
                             selectedDate={
                               values?.tgl_pengiriman_audit_plan_st_dua
                                 ? moment(
-                                    values.tgl_pengiriman_audit_plan_st_dua
-                                  )
+                                  values.tgl_pengiriman_audit_plan_st_dua
+                                )
                                 : null
                             }
                             handleDateChange={(newDate) => {
@@ -1222,7 +1424,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_pengiriman_audit_plan_st_dua ||
-                              (!add && !!data?.tgl_pelaksanaan_audit_st_dua)
+                                (!add && !!data?.tgl_pelaksanaan_audit_st_dua)
                                 ? true
                                 : false
                             }
@@ -1257,7 +1459,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_pelaksanaan_audit_st_dua ||
-                              (!add && !!data?.tgl_penyelesaian_capa_st_dua)
+                                (!add && !!data?.tgl_penyelesaian_capa_st_dua)
                                 ? true
                                 : false
                             }
@@ -1292,7 +1494,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_penyelesaian_capa_st_dua ||
-                              (!add && !!data?.tgl_pengiriman_draft_sertifikat)
+                                (!add && !!data?.tgl_pengiriman_draft_sertifikat)
                                 ? true
                                 : false
                             }
@@ -1329,15 +1531,15 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_pengiriman_draft_sertifikat ||
-                              (!add && !!data?.tgl_persetujuan_draft_sertifikat)
+                                (!add && !!data?.tgl_persetujuan_draft_sertifikat)
                                 ? true
                                 : false
                             }
                             selectedDate={
                               values?.tgl_persetujuan_draft_sertifikat
                                 ? moment(
-                                    values.tgl_persetujuan_draft_sertifikat
-                                  )
+                                  values.tgl_persetujuan_draft_sertifikat
+                                )
                                 : null
                             }
                             handleDateChange={(newDate) => {
@@ -1368,7 +1570,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_persetujuan_draft_sertifikat ||
-                              (!add && !!data?.tgl_pengajuan_ke_kan)
+                                (!add && !!data?.tgl_pengajuan_ke_kan)
                                 ? true
                                 : false
                             }
@@ -1403,7 +1605,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_pengajuan_ke_kan ||
-                              (!add && !!data?.tgl_persetujuan_kan)
+                                (!add && !!data?.tgl_persetujuan_kan)
                                 ? true
                                 : false
                             }
@@ -1438,7 +1640,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_persetujuan_kan ||
-                              (!add && !!data?.tgl_kirim_sertifikat)
+                                (!add && !!data?.tgl_kirim_sertifikat)
                                 ? true
                                 : false
                             }
@@ -1487,10 +1689,10 @@ const ModalDetail = ({
                             size={14}
                             sx={{ marginRight: 1 }}
                           />
-                          {add ? "Add" : "Update"}
+                          {add ? `Add ${origin.toUpperCase()}` : `Update ${origin.toUpperCase()}`}
                         </>
                       ) : (
-                        <>{add ? "Add" : "Update"}</>
+                        <>{add ? `Add ${origin.toUpperCase()}` : `Update ${origin.toUpperCase()}`}</>
                       )}
                     </Button>
                   </Grid>
