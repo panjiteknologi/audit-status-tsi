@@ -7,6 +7,7 @@ export type Standar = {
 };
 
 export interface AllProject {
+  customer_id?: number | string;
   status_pembayaran_id?: string | number | readonly string[] | undefined;
   nama_status_pembayaran?: string | any;
   tanggalStatus?: any;
@@ -43,8 +44,16 @@ export interface AllProject {
   note_tgl_pelaksanaan_audit_st_dua?: string | undefined;
   tgl_penyelesaian_capa_st_satu?: string;
   note_tgl_penyelesaian_capa_st_satu?: string | undefined;
+  tgl_proses_review_tahap_satu?: string; // for ISPO
+  note_tgl_proses_review_tahap_satu?: string | undefined; // for ISPO
+  tgl_pengambilan_keputusan_tahap_satu?: string; // for ISPO
+  note_tgl_pengambilan_keputusan_tahap_satu?: string | undefined; // for ISPO
   tgl_penyelesaian_capa_st_dua?: string;
   note_tgl_penyelesaian_capa_st_dua?: string | undefined;
+  tgl_proses_review_tahap_dua?: string; // for ISPO
+  note_tgl_proses_review_tahap_dua?: string | undefined; // for ISPO
+  tgl_pengambilan_keputusan_tahap_dua?: string; // for ISPO
+  note_tgl_pengambilan_keputusan_tahap_dua?: string | undefined; // for ISPO
   tgl_pengiriman_draft_sertifikat?: string;
   note_tgl_pengiriman_draft_sertifikat?: string | undefined;
   tgl_persetujuan_draft_sertifikat?: string;
@@ -65,9 +74,13 @@ export interface AllProject {
   lead_time_tgl_pengiriman_audit_plan_st_satu?: string | undefined;
   lead_time_tgl_pelaksanaan_audit_st_satu?: string | undefined;
   lead_time_tgl_penyelesaian_capa_st_satu?: string | undefined;
+  lead_time_tgl_proses_review_tahap_satu?: string | undefined;
+  lead_time_tgl_pengambilan_keputusan_tahap_satu?: string | undefined;
   lead_time_project_finish?: string | undefined;
   lead_time_tgl_kirim_sertifikat?: string | undefined;
   lead_time_tgl_pelaksanaan_audit_st_dua?: string | undefined;
+  lead_time_tgl_proses_review_tahap_dua?: string | undefined;
+  lead_time_tgl_pengambilan_keputusan_tahap_dua?: string | undefined;
   lead_time_tgl_pengajuan_ke_kan?: string | undefined;
   lead_time_tgl_pengiriman_audit_plan_st_dua?: string | undefined;
   lead_time_tgl_pengiriman_draft_sertifikat?: string | undefined;

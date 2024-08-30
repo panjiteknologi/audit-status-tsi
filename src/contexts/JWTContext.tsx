@@ -16,7 +16,9 @@ export const GET_STANDARD = "get_standar";
 export const GET_STATUS_PEMBAYARAN = "get_status_pembayaran";
 export const GET_TAHAPAN = "get_tahapan";
 export const ADD_PROJECT = "add_project";
+export const ADD_ISPO = "add_project_ispo";
 export const UPDATE_PROJECT = "update_project";
+export const UPDATE_ISPO = "update_project_ispo";
 
 // ==============================|| JWT CONTEXT & PROVIDER ||============================== //
 
