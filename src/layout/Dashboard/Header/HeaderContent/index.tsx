@@ -9,6 +9,7 @@ import useConfig from "@/hooks/useConfig";
 import DrawerHeader from "@/layout/Dashboard/Drawer/DrawerHeader";
 
 import { MenuOrientation } from "@/config";
+import Notification from "./Notification";
 
 // ==============================|| HEADER - CONTENT ||============================== //
 
@@ -27,7 +28,7 @@ const HeaderContent = () => {
 
       {downLG && <Box sx={{ width: "100%", ml: 1 }} />}
 
-      {/* <Notification /> */}
+      <Notification />
       {!downLG && <Profile />}
       {downLG && <MobileSection />}
     </>

@@ -115,3 +115,13 @@ export interface MenuProject {
   id: string;
   name: string;
 }
+
+export interface AllNotification {
+  id_notifikasi: number;
+  id_project: number;
+  field_update: null;
+  message_notif: string;
+  role_penerima: string;
+  status_notif: number;
+  create_date: string;
+}
