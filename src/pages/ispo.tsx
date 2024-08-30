@@ -197,6 +197,20 @@ const Ispo = () => {
           catatan: item?.note_tgl_penyelesaian_capa_st_satu,
           leadTime: item?.lead_time_tgl_penyelesaian_capa_st_satu,
         },
+        // ===== ISPO | Start =====
+        {
+          tahapan: "Tanggal Proses Review Tahap Satu",
+          tanggalStatus: item?.tgl_proses_review_tahap_satu,
+          catatan: item?.note_tgl_proses_review_tahap_satu,
+          leadTime: item?.lead_time_tgl_proses_review_tahap_satu,
+        },
+        {
+          tahapan: "Tanggal Pengambilan Keputusan Tahap Satu",
+          tanggalStatus: item?.tgl_pengambilan_keputusan_tahap_satu,
+          catatan: item?.note_tgl_pengambilan_keputusan_tahap_satu,
+          leadTime: item?.lead_time_tgl_pengambilan_keputusan_tahap_satu,
+        },
+        // ===== ISPO | End =====
         {
           tahapan: "Tanggal Review Penugasan Dua",
           tanggalStatus: item?.tgl_review_penugasan_st_dua,
@@ -228,11 +242,25 @@ const Ispo = () => {
           leadTime: item?.lead_time_tgl_pelaksanaan_audit_st_dua,
         },
         {
-          tahapan: "Tanggal Penyelesaian CAPA Dua",
+          tahapan: "Tanggal Penyelesaian CAPA ST Dua",
           tanggalStatus: item?.tgl_penyelesaian_capa_st_dua,
           catatan: item?.note_tgl_penyelesaian_capa_st_dua,
           leadTime: item?.lead_time_tgl_penyelesaian_capa_st_dua,
         },
+        // ===== ISPO | Start =====
+        {
+          tahapan: "Tanggal Proses Review Tahap Dua",
+          tanggalStatus: item?.tgl_proses_review_tahap_dua,
+          catatan: item?.note_tgl_proses_review_tahap_dua,
+          leadTime: item?.lead_time_tgl_proses_review_tahap_dua,
+        },
+        {
+          tahapan: "Tanggal Pengambilan Keputusan Tahap Dua",
+          tanggalStatus: item?.tgl_pengambilan_keputusan_tahap_dua,
+          catatan: item?.note_tgl_pengambilan_keputusan_tahap_dua,
+          leadTime: item?.lead_time_tgl_pengambilan_keputusan_tahap_dua,
+        },
+        // ===== ISPO | End =====
         {
           tahapan: "Tanggal Pengiriman Draft Sertifikat",
           tanggalStatus: item?.tgl_pengiriman_draft_sertifikat,
@@ -244,18 +272,6 @@ const Ispo = () => {
           tanggalStatus: item?.tgl_persetujuan_draft_sertifikat,
           catatan: item?.note_tgl_persetujuan_draft_sertifikat,
           leadTime: item?.lead_time_tgl_persetujuan_draft_sertifikat,
-        },
-        {
-          tahapan: "Tanggal Pengajuan ke KAN",
-          tanggalStatus: item?.tgl_pengajuan_ke_kan,
-          catatan: item?.note_tgl_pengajuan_ke_kan,
-          leadTime: item?.lead_time_tgl_pengajuan_ke_kan,
-        },
-        {
-          tahapan: "Tanggal Persetujuan KAN",
-          tanggalStatus: item?.tgl_persetujuan_kan,
-          catatan: item?.note_tgl_persetujuan_kan,
-          leadTime: item?.lead_time_tgl_persetujuan_kan,
         },
         {
           tahapan: "Tanggal Kirim Sertifikat",
@@ -308,6 +324,20 @@ const Ispo = () => {
           catatan: item?.note_tgl_penyelesaian_capa_st_dua,
           leadTime: item?.lead_time_tgl_penyelesaian_capa_st_dua,
         },
+        // ===== ISPO | Start =====
+        {
+          tahapan: "Tanggal Proses Review Tahap Dua",
+          tanggalStatus: item?.tgl_proses_review_tahap_dua,
+          catatan: item?.note_tgl_proses_review_tahap_dua,
+          leadTime: item?.lead_time_tgl_proses_review_tahap_dua,
+        },
+        {
+          tahapan: "Tanggal Pengambilan Keputusan Tahap Dua",
+          tanggalStatus: item?.tgl_pengambilan_keputusan_tahap_dua,
+          catatan: item?.note_tgl_pengambilan_keputusan_tahap_dua,
+          leadTime: item?.lead_time_tgl_pengambilan_keputusan_tahap_dua,
+        },
+        // ===== ISPO | End =====
         {
           tahapan: "Tanggal Pengiriman Draft Sertifikat",
           tanggalStatus: item?.tgl_pengiriman_draft_sertifikat,
@@ -321,18 +351,6 @@ const Ispo = () => {
           leadTime: item?.lead_time_tgl_persetujuan_draft_sertifikat,
         },
         {
-          tahapan: "Tanggal Pengajuan ke KAN",
-          tanggalStatus: item?.tgl_pengajuan_ke_kan,
-          catatan: item?.note_tgl_pengajuan_ke_kan,
-          leadTime: item?.lead_time_tgl_pengajuan_ke_kan,
-        },
-        {
-          tahapan: "Tanggal Persetujuan KAN",
-          tanggalStatus: item?.tgl_persetujuan_kan,
-          catatan: item?.note_tgl_persetujuan_kan,
-          leadTime: item?.lead_time_tgl_persetujuan_kan,
-        },
-        {
           tahapan: "Tanggal Kirim Sertifikat",
           tanggalStatus: item?.tgl_kirim_sertifikat,
           catatan: item?.note_tgl_kirim_sertifikat,
@@ -344,7 +362,7 @@ const Ispo = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-            new Date(b.tanggalStatus as string)
+          new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
@@ -353,53 +371,52 @@ const Ispo = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-            new Date(b.tanggalStatus as string)
+          new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
 
-      return item?.tahapan === 1
+      return item?.tahapan === 1 || item?.tahapan === 7
         ? Object.values(latestProgressAudit)?.some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        }) ||
-        Object.values(item).some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        }) ||
-        item?.standar?.some((standar) => {
-          return Object.values(standar).some((field) => {
             return (
               typeof field === "string" &&
               field.toLowerCase().includes(searchValue)
             );
-          });
-        })
-        : (item?.tahapan > 1 &&
-          Object.values(latestProgress)?.some((field) => {
+          }) ||
+            Object.values(item).some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            }) ||
+            item?.standar?.some((standar) => {
+              return Object.values(standar).some((field) => {
+                return (
+                  typeof field === "string" &&
+                  field.toLowerCase().includes(searchValue)
+                );
+              });
+            })
+        : Object.values(latestProgress)?.some((field) => {
             return (
               typeof field === "string" &&
               field.toLowerCase().includes(searchValue)
             );
-          })) ||
-        Object.values(item).some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        }) ||
-        item?.standar?.some((standar) => {
-          return Object.values(standar).some((field) => {
-            return (
-              typeof field === "string" &&
-              field.toLowerCase().includes(searchValue)
-            );
-          });
-        });
+          }) ||
+            Object.values(item).some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            }) ||
+            item?.standar?.some((standar) => {
+              return Object.values(standar).some((field) => {
+                return (
+                  typeof field === "string" &&
+                  field.toLowerCase().includes(searchValue)
+                );
+              });
+            });
     });
     setFilteredData(filtered);
   };
@@ -420,21 +437,34 @@ const Ispo = () => {
       const token = window.localStorage.getItem("serviceToken");
       const data = {
         id_user: idUser,
+        is_ispo: "1",
         standar: [
           {
-            "id_standar": "9"
-          }
+            id_standar: "9",
+          },
         ],
-        ...values
+        ...values,
       };
+
+      if (data.tahapan !== 1 || data.tahapan !== 7) {
+        delete data.tgl_proses_review_tahap_satu;
+        delete data.note_tgl_proses_review_tahap_satu;
+        delete data.tgl_pengambilan_keputusan_tahap_satu;
+        delete data.note_tgl_pengambilan_keputusan_tahap_satu;
+      }
+
+      delete data.tgl_pengajuan_ke_kan;
+      delete data.note_tgl_pengajuan_ke_kan;
+      delete data.tgl_persetujuan_kan;
+      delete data.note_tgl_persetujuan_kan;
 
       return add
         ? axios.post(BASE_URL + ADD_ISPO, data, {
-          headers: { Authorization: token },
-        })
+            headers: { Authorization: token },
+          })
         : axios.post(BASE_URL + UPDATE_ISPO, data, {
-          headers: { Authorization: token },
-        });
+            headers: { Authorization: token },
+          });
     },
     onSuccess: () => {
       setDisabled(false);
@@ -634,7 +664,7 @@ const Ispo = () => {
           dataTahapan={dataTahapan}
           dataStatusPembayaran={dataStatusPembayaran}
           onHandleSubmit={onSubmit}
-          origin='ispo'
+          origin="ispo"
         />
       )}
 
@@ -702,8 +732,8 @@ const Ispo = () => {
                   ? "Failed Add Form"
                   : "Successfully Add Form"
                 : error
-                  ? "Failed Update Form"
-                  : "Successfully Update Form"
+                ? "Failed Update Form"
+                : "Successfully Update Form"
               : " Sorry, you haven't logged in yet, please log in."}
           </DialogTitle>
           {!isLoggedIn && (

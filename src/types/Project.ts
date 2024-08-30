@@ -74,9 +74,13 @@ export interface AllProject {
   lead_time_tgl_pengiriman_audit_plan_st_satu?: string | undefined;
   lead_time_tgl_pelaksanaan_audit_st_satu?: string | undefined;
   lead_time_tgl_penyelesaian_capa_st_satu?: string | undefined;
+  lead_time_tgl_proses_review_tahap_satu?: string | undefined;
+  lead_time_tgl_pengambilan_keputusan_tahap_satu?: string | undefined;
   lead_time_project_finish?: string | undefined;
   lead_time_tgl_kirim_sertifikat?: string | undefined;
   lead_time_tgl_pelaksanaan_audit_st_dua?: string | undefined;
+  lead_time_tgl_proses_review_tahap_dua?: string | undefined;
+  lead_time_tgl_pengambilan_keputusan_tahap_dua?: string | undefined;
   lead_time_tgl_pengajuan_ke_kan?: string | undefined;
   lead_time_tgl_pengiriman_audit_plan_st_dua?: string | undefined;
   lead_time_tgl_pengiriman_draft_sertifikat?: string | undefined;
