@@ -116,7 +116,7 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
       },
     });
 
-    return data;
+    return user;
   };
 
   const logout = () => {
@@ -131,6 +131,8 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
     });
     window.localStorage.removeItem("idUser");
     window.localStorage.removeItem("serviceToken");
+    window.localStorage.removeItem("idEmployee");
+    window.localStorage.removeItem("username");
   };
 
   if (state.isInitialized !== undefined && !state.isInitialized) {

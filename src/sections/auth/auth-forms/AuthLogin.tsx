@@ -70,13 +70,41 @@ const AuthLogin = ({
           const password = values.password.trim();
           try {
             const response = await login(username, password);
-            if (response?.data?.message === "Login Successfully") {
+            if (response) {
               setError(false);
               setStatus({ success: true });
               setSubmitting(false);
-              navigate("/dashboard");
+
+              let role = response?.role;
+              let path = "/dashboard";
+
+              /** ======== | ROLE
+              1 : super_admin
+              2 : customer
+              3 : operator_iso
+              4 : operator_ispo
+              5 : operator_ict
+              6 : crm
+              7 : finance
+              8 : sales
+              9 : product_development
+              10 : auditor
+              11 : director
+              12 :  monitor
+              ======== | ROLE **/
+
+              if (role === "3") {
+                path = "/iso";
+              }
+
+              if (role === "4") {
+                path = "/ispo";
+              }
+
+              navigate(path);
             }
           } catch (err: any) {
+            console.log("Err Login : ", err);
             setShowModal(true);
             setError(true);
             setStatus({ success: false });

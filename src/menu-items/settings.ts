@@ -14,7 +14,7 @@ const settings: MenuType = {
   type: "group",
   children: [
     {
-      id: "scope library",
+      id: "scope_library",
       title: "Scope Library",
       url: "/scope-library",
       type: "item",

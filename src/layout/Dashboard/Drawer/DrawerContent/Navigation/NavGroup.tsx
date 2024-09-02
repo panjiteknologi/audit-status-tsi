@@ -1,8 +1,8 @@
-import { Dispatch, Fragment, SetStateAction, useEffect, useState } from 'react';
-import { useLocation } from 'react-router';
+import { Dispatch, Fragment, SetStateAction, useEffect, useState } from "react";
+import { useLocation } from "react-router";
 
 // material-ui
-import { useTheme, styled } from '@mui/material/styles';
+import { useTheme, styled } from "@mui/material/styles";
 import {
   Box,
   ClickAwayListener,
@@ -14,42 +14,43 @@ import {
   Paper,
   Popper,
   Typography,
-  useMediaQuery
-} from '@mui/material';
+  useMediaQuery,
+} from "@mui/material";
 
 // project import
-import NavItem from './NavItem';
-import NavCollapse from './NavCollapse';
-import SimpleBar from '@/components/third-party/SimpleBar';
-import Transitions from '@/components/@extended/Transitions';
-import { MenuOrientation, ThemeMode } from '@/config';
+import NavItem from "./NavItem";
+import NavCollapse from "./NavCollapse";
+import SimpleBar from "@/components/third-party/SimpleBar";
+import Transitions from "@/components/@extended/Transitions";
+import { MenuOrientation, ThemeMode } from "@/config";
 
-import useConfig from '@/hooks/useConfig';
-import { handlerHorizontalActiveItem, useGetMenuMaster } from '@/api/menu';
+import useConfig from "@/hooks/useConfig";
+import { handlerHorizontalActiveItem, useGetMenuMaster } from "@/api/menu";
 
 // types
-import { MainMenu, MenuType, Submenu } from '@/menu-items';
+import { MainMenu, MenuType, Submenu } from "@/menu-items";
+import useAuth from "@/hooks/useAuth";
 
 // ==============================|| NAVIGATION - LIST GROUP ||============================== //
 
 const PopperStyled = styled(Popper)(({ theme }) => ({
-  overflow: 'visible',
+  overflow: "visible",
   zIndex: 1202,
   minWidth: 180,
-  '&:before': {
+  "&:before": {
     content: '""',
-    display: 'block',
-    position: 'absolute',
+    display: "block",
+    position: "absolute",
     top: 5,
     left: 32,
     width: 12,
     height: 12,
-    transform: 'translateY(-50%) rotate(45deg)',
+    transform: "translateY(-50%) rotate(45deg)",
     zIndex: 120,
-    borderWidth: '6px',
-    borderStyle: 'solid',
-    borderColor: `${theme.palette.background.paper}  transparent transparent ${theme.palette.background.paper}`
-  }
+    borderWidth: "6px",
+    borderStyle: "solid",
+    borderColor: `${theme.palette.background.paper}  transparent transparent ${theme.palette.background.paper}`,
+  },
 }));
 
 interface NavGroupProps {
@@ -61,23 +62,79 @@ interface NavGroupProps {
   selectedItems: string;
   setSelectedLevel: Dispatch<SetStateAction<number>>;
   selectedLevel: number;
-};
+}
 
-const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, selectedItems, setSelectedLevel, selectedLevel }: NavGroupProps) => {
+const NavGroup = ({
+  item,
+  lastItem,
+  remItems,
+  lastItemId,
+  setSelectedItems,
+  selectedItems,
+  setSelectedLevel,
+  selectedLevel,
+}: NavGroupProps) => {
   const theme = useTheme();
   const { pathname } = useLocation();
+  const auth = useAuth();
 
   const { menuOrientation } = useConfig();
   const { menuMaster } = useGetMenuMaster();
   const drawerOpen = menuMaster?.isDashboardDrawerOpened;
   const selectedID = menuMaster?.openedHorizontalItem;
 
-  const downLG = useMediaQuery(theme.breakpoints.down('lg'));
+  const downLG = useMediaQuery(theme.breakpoints.down("lg"));
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [currentItem, setCurrentItem] = useState<MenuType>(item);
 
   const openMini = Boolean(anchorEl);
+
+  // ======== Formating Nav Item By Role ========
+  let navs: MainMenu[] | [] = [];
+  // let role = auth.user?.role;
+  let role = "12";
+
+  /** ======== | ROLE
+  1 : super_admin
+  2 : customer
+  3 : operator_iso
+  4 : operator_ispo
+  5 : operator_ict
+  6 : crm
+  7 : finance
+  8 : sales
+  9 : product_development
+  10 : auditor
+  11 : director
+  12 :  monitor
+  ======== | ROLE **/
+
+  if (item.children) {
+    if (
+      role === "2" ||
+      role === "6" ||
+      role === "7" ||
+      role === "8" ||
+      role === "10" ||
+      role === "12"
+    ) {
+      // for customer/sales/crm/finance/auditor/monitor
+      navs = item.children?.filter((item) => item.id === "dashboard");
+    } else if (role === "3") {
+      // for operator_iso
+      navs = item.children?.filter(
+        (item) => item.id === "iso" || item.id === "scope_library"
+      );
+    } else if (role === "4") {
+      // for operator_ispo
+      navs = item.children?.filter(
+        (item) => item.id === "ispo" || item.id === "scope_library"
+      );
+    } else {
+      navs = item.children;
+    }
+  }
 
   useEffect(() => {
     if (lastItem) {
@@ -134,15 +191,18 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
     <Icon
       style={{
         fontSize: 20,
-        stroke: '1.5',
-        color: selectedID === currentItem.id ? theme.palette.primary.main : theme.palette.secondary.dark
+        stroke: "1.5",
+        color:
+          selectedID === currentItem.id
+            ? theme.palette.primary.main
+            : theme.palette.secondary.dark,
       }}
     />
   ) : null;
 
-  const navCollapse = item.children?.map((menuItem: MainMenu) => {
+  const navCollapse = navs?.map((menuItem: MainMenu) => {
     switch (menuItem.type) {
-      case 'collapse':
+      case "collapse":
         return (
           <NavCollapse
             key={menuItem.id}
@@ -155,11 +215,16 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
             parentId={currentItem.id}
           />
         );
-      case 'item':
+      case "item":
         return <NavItem key={menuItem.id} item={menuItem} level={1} />;
       default:
         return (
-          <Typography key={menuItem.id} variant="h6" color="error" align="center">
+          <Typography
+            key={menuItem.id}
+            variant="h6"
+            color="error"
+            align="center"
+          >
             Fix - Group Collapse or Items
           </Typography>
         );
@@ -176,7 +241,7 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
 
       {itemRem?.children?.map((menu) => {
         switch (menu?.type) {
-          case 'collapse':
+          case "collapse":
             return (
               <NavCollapse
                 key={menu.id}
@@ -189,11 +254,16 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
                 selectedItems={selectedItems}
               />
             );
-          case 'item':
+          case "item":
             return <NavItem key={menu.id} item={menu} level={1} />;
           default:
             return (
-              <Typography key={menu.id} variant="h6" color="error" align="center">
+              <Typography
+                key={menu.id}
+                variant="h6"
+                color="error"
+                align="center"
+              >
                 Menu Items Error
               </Typography>
             );
@@ -205,7 +275,7 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
   // menu list collapse & items
   const items = currentItem.children?.map((menu) => {
     switch (menu?.type) {
-      case 'collapse':
+      case "collapse":
         return (
           <NavCollapse
             key={menu.id}
@@ -218,7 +288,7 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
             selectedItems={selectedItems}
           />
         );
-      case 'item':
+      case "item":
         return <NavItem key={menu.id} item={menu} level={1} />;
       default:
         return (
@@ -240,7 +310,14 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
               {item.title ? (
                 drawerOpen && (
                   <Box sx={{ pl: 3, mb: 1.5 }}>
-                    <Typography variant="subtitle2" color={theme.palette.mode === ThemeMode.DARK ? 'textSecondary' : 'text.secondary'}>
+                    <Typography
+                      variant="subtitle2"
+                      color={
+                        theme.palette.mode === ThemeMode.DARK
+                          ? "textSecondary"
+                          : "text.secondary"
+                      }
+                    >
                       {item.title}
                     </Typography>
                     {/* {item.caption && (
@@ -267,12 +344,12 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
               p: 1,
               my: 0.5,
               mr: 1,
-              display: 'flex',
-              alignItems: 'center',
-              backgroundColor: 'inherit',
-              '&.Mui-selected': {
-                bgcolor: 'transparent'
-              }
+              display: "flex",
+              alignItems: "center",
+              backgroundColor: "inherit",
+              "&.Mui-selected": {
+                bgcolor: "transparent",
+              },
             }}
             onMouseEnter={handleClick}
             onClick={handleClick}
@@ -289,7 +366,11 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
               primary={
                 <Typography
                   variant="body1"
-                  color={selectedID === currentItem.id ? theme.palette.primary.main : theme.palette.secondary.dark}
+                  color={
+                    selectedID === currentItem.id
+                      ? theme.palette.primary.main
+                      : theme.palette.secondary.dark
+                  }
                 >
                   {currentItem.id === lastItemId && currentItem.title}
                 </Typography>
@@ -302,7 +383,7 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
                 anchorEl={anchorEl}
                 placement="bottom-start"
                 style={{
-                  zIndex: 2001
+                  zIndex: 2001,
                 }}
               >
                 {({ TransitionProps }) => (
@@ -312,7 +393,7 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
                         mt: 0.5,
                         py: 1.25,
                         boxShadow: theme.shadows[8],
-                        backgroundImage: 'none'
+                        backgroundImage: "none",
                       }}
                     >
                       <ClickAwayListener onClickAway={handleClose}>
@@ -320,9 +401,9 @@ const NavGroup = ({ item, lastItem, remItems, lastItemId, setSelectedItems, sele
                           <SimpleBar
                             sx={{
                               minWidth: 200,
-                              overflowX: 'hidden',
-                              overflowY: 'auto',
-                              maxHeight: 'calc(100vh - 170px)'
+                              overflowX: "hidden",
+                              overflowY: "auto",
+                              maxHeight: "calc(100vh - 170px)",
                             }}
                           >
                             {currentItem.id !== lastItemId ? items : moreItems}
