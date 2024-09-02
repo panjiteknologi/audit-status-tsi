@@ -92,6 +92,30 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
     []
   );
 
+  const salesNameWitheLeadTime = current.reduce(
+    (acc: AllProject[], curr: AllProject) => {
+      const existing = acc.find(
+        (item) => item?.nama_sales_or_crr === curr.nama_sales_or_crr
+      );
+
+      if (existing) {
+        if (existing.lead_time_project_finish_for_chart !== undefined) {
+          existing.lead_time_project_finish_for_chart += Number(
+            curr?.lead_time_project_finish_for_chart
+          );
+        }
+      } else {
+        acc.push({
+          nama_sales_or_crr: curr.nama_sales_or_crr,
+          total: curr?.lead_time_project_finish_for_chart,
+        });
+      }
+
+      return acc;
+    },
+    []
+  );
+
   const acreditationWithTotal = current.reduce(
     (acc: AllProject[], curr: AllProject) => {
       const existing = acc.find(
@@ -157,7 +181,10 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
       </Grid>
 
       <Grid item xs={12} md={7} lg={8}>
-        <SalesBarChart data={salesNameWithTotal} />
+        <SalesBarChart
+          sales={salesNameWithTotal}
+          lead_time={salesNameWitheLeadTime}
+        />
       </Grid>
 
       <Grid item xs={12} md={5} lg={4}>
