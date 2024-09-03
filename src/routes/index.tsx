@@ -5,6 +5,7 @@ import Loadable from "@/components/Loadable";
 import AuthLayout from "@/layout/Auth";
 import DashboardLayout from "@/layout/Dashboard";
 import ScopeLibrary from "@/pages/scope-library";
+import DetailProject from "@/pages/detail-project";
 
 const AuthLogin = Loadable(lazy(() => import("@/pages")));
 const Dashboard = Loadable(lazy(() => import("@/pages/dashboard")));
@@ -60,6 +61,16 @@ const router = createBrowserRouter(
         {
           path: "/scope-library",
           element: <ScopeLibrary />,
+        },
+      ],
+    },
+    {
+      path: "/detail-project/:id",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/detail-project/:id",
+          element: <DetailProject />,
         },
       ],
     },
