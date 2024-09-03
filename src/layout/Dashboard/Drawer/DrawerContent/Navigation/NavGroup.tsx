@@ -111,25 +111,27 @@ const NavGroup = ({
 
   if (item.children) {
     if (
-      role === "2" ||
       role === "6" ||
       role === "7" ||
       role === "8" ||
       role === "10" ||
       role === "12"
     ) {
-      // for customer/sales/crm/finance/auditor/monitor
-      navs = item.children?.filter((item) => item.id === "dashboard");
+      // for sales/crm/finance/auditor/monitor
+      navs = item.children?.filter((item) => item.id === "dashboard" || item.id === "scope_library");
     } else if (role === "3") {
       // for operator_iso
       navs = item.children?.filter(
-        (item) => item.id === "iso" || item.id === "scope_library"
+        (item) => item.id !== "ispo"
       );
     } else if (role === "4") {
       // for operator_ispo
       navs = item.children?.filter(
-        (item) => item.id === "ispo" || item.id === "scope_library"
+        (item) => item.id !== "iso"
       );
+    } else if (role === '2') {
+      // for customer
+      navs = item.children?.filter((item) => item.id === "dashboard");
     } else {
       navs = item.children;
     }

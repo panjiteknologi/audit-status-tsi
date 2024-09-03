@@ -50,15 +50,8 @@ const Navigation = () => {
   ======== | ROLE **/
 
   if (menuItems.items) {
-    if (
-      role === "2" ||
-      role === "6" ||
-      role === "7" ||
-      role === "8" ||
-      role === "10" ||
-      role === "12"
-    ) {
-      // for customer/sales/crm/finance/auditor/monitor
+    if (role === "2") {
+      // for customer
       menus = menuItems.items.filter((item) => item.id === "group-dashboard");
     } else {
       menus = menuItems.items;
