@@ -33,8 +33,7 @@ const Navigation = () => {
 
   // ======== Formating Nav Item By Role ========
   let menus: MenuType[] | [] = [];
-  // let role = auth.user?.role;
-  let role = "12";
+  let role = auth.user?.role;
   /** ======== | ROLE
   1 : super_admin
   2 : customer
