@@ -1,4 +1,4 @@
-import InputSections from "@/sections/input";
+import InputSections from "@/sections/iso";
 import {
   Button,
   Dialog,
@@ -22,15 +22,15 @@ import {
   ADD_PROJECT,
   BASE_URL,
   GET_AKREDITASI,
-  GET_ALL_PROJECT,
+  GET_ALL_ISO,
   GET_STANDARD,
   GET_STATUS_PEMBAYARAN,
   GET_TAHAPAN,
   UPDATE_PROJECT,
 } from "@/contexts/JWTContext";
-import ModalDetail from "@/sections/input/ModalDetail";
+import ModalDetail from "@/sections/iso/ModalDetail";
 import { AllProject, MenuProject } from "@/types/Project";
-import CloseButton from "@/sections/input/CloseButton";
+import CloseButton from "@/sections/iso/CloseButton";
 import IlustrationConfirmation from "../assets/ilustration/il-confirmation.svg";
 import IlustrationCancel from "../assets/ilustration/il-notfound.svg";
 import IlustrationLoading from "../assets/ilustration/il-loading.svg";
@@ -83,7 +83,7 @@ const Dashboard = () => {
     queryKey: ["allProjects"],
     queryFn: async () => {
       try {
-        const response = await axios.get(BASE_URL + GET_ALL_PROJECT);
+        const response = await axios.get(BASE_URL + GET_ALL_ISO);
         setLoading(false);
         return response?.data?.data;
       } catch (error) {
@@ -105,7 +105,7 @@ const Dashboard = () => {
         setDataAkreditasi(response?.data?.data);
       }
     } catch (error) {
-      console.log("ini error get akreditasi", error);
+      setDataAkreditasi([]);
     }
   };
 
@@ -116,7 +116,7 @@ const Dashboard = () => {
         setDataStandard(response?.data?.data);
       }
     } catch (error) {
-      console.log("ini error get standard", error);
+      setDataStandard([]);
     }
   };
 
@@ -127,7 +127,7 @@ const Dashboard = () => {
         setDataStatusPembayaran(response?.data?.data);
       }
     } catch (error) {
-      console.log("ini error get status pembayaran", error);
+      setDataStatusPembayaran([]);
     }
   };
 
@@ -138,7 +138,7 @@ const Dashboard = () => {
         setDataTahapan(response?.data?.data);
       }
     } catch (error) {
-      console.log("ini error get tahapan", error);
+      setDataTahapan([]);
     }
   };
 
@@ -343,7 +343,7 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-            new Date(b.tanggalStatus as string)
+          new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
@@ -352,53 +352,53 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-            new Date(b.tanggalStatus as string)
+          new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
 
       return item?.tahapan === 1
         ? Object.values(latestProgressAudit)?.some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        }) ||
-        Object.values(item).some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        }) ||
-        item?.standar?.some((standar) => {
-          return Object.values(standar).some((field) => {
             return (
               typeof field === "string" &&
               field.toLowerCase().includes(searchValue)
             );
-          });
-        })
+          }) ||
+            Object.values(item).some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            }) ||
+            item?.standar?.some((standar) => {
+              return Object.values(standar).some((field) => {
+                return (
+                  typeof field === "string" &&
+                  field.toLowerCase().includes(searchValue)
+                );
+              });
+            })
         : (item?.tahapan > 1 &&
-          Object.values(latestProgress)?.some((field) => {
-            return (
-              typeof field === "string" &&
-              field.toLowerCase().includes(searchValue)
-            );
-          })) ||
-        Object.values(item).some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        }) ||
-        item?.standar?.some((standar) => {
-          return Object.values(standar).some((field) => {
-            return (
-              typeof field === "string" &&
-              field.toLowerCase().includes(searchValue)
-            );
-          });
-        });
+            Object.values(latestProgress)?.some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            })) ||
+            Object.values(item).some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            }) ||
+            item?.standar?.some((standar) => {
+              return Object.values(standar).some((field) => {
+                return (
+                  typeof field === "string" &&
+                  field.toLowerCase().includes(searchValue)
+                );
+              });
+            });
     });
     setFilteredData(filtered);
   };
@@ -417,15 +417,25 @@ const Dashboard = () => {
     mutationFn: async (values: AllProject) => {
       const idUser = window.localStorage.getItem("idUser");
       const token = window.localStorage.getItem("serviceToken");
-      const data = { id_user: idUser, ...values };
+      const data = { id_user: idUser, is_ispo: "0", ...values };
+
+      delete data.tgl_proses_review_tahap_satu;
+      delete data.note_tgl_proses_review_tahap_satu;
+      delete data.tgl_pengambilan_keputusan_tahap_satu;
+      delete data.note_tgl_pengambilan_keputusan_tahap_satu;
+
+      delete data.tgl_proses_review_tahap_dua;
+      delete data.note_tgl_proses_review_tahap_dua;
+      delete data.tgl_pengambilan_keputusan_tahap_dua;
+      delete data.note_tgl_pengambilan_keputusan_tahap_dua;
 
       return add
         ? axios.post(BASE_URL + ADD_PROJECT, data, {
-          headers: { Authorization: token },
-        })
+            headers: { Authorization: token },
+          })
         : axios.post(BASE_URL + UPDATE_PROJECT, data, {
-          headers: { Authorization: token },
-        });
+            headers: { Authorization: token },
+          });
     },
     onSuccess: () => {
       setDisabled(false);
@@ -625,6 +635,7 @@ const Dashboard = () => {
           dataTahapan={dataTahapan}
           dataStatusPembayaran={dataStatusPembayaran}
           onHandleSubmit={onSubmit}
+          origin="iso"
         />
       )}
 
@@ -692,8 +703,8 @@ const Dashboard = () => {
                   ? "Failed Add Form"
                   : "Successfully Add Form"
                 : error
-                  ? "Failed Update Form"
-                  : "Successfully Update Form"
+                ? "Failed Update Form"
+                : "Successfully Update Form"
               : " Sorry, you haven't logged in yet, please log in."}
           </DialogTitle>
           {!isLoggedIn && (

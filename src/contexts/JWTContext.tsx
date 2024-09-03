@@ -9,12 +9,19 @@ export const BASE_URL = "http://101.50.2.90:5454/api/v1/audit_status/";
 export const API_LOGIN = "login_user";
 export const API_LOGOUT = "logout_user";
 export const GET_ALL_PROJECT = "get_all_project";
+export const GET_ALL_ISO = "get_all_project_iso";
+export const GET_ALL_ISPO = "get_all_project_ispo";
 export const GET_AKREDITASI = "get_akreditasi";
 export const GET_STANDARD = "get_standar";
 export const GET_STATUS_PEMBAYARAN = "get_status_pembayaran";
 export const GET_TAHAPAN = "get_tahapan";
 export const ADD_PROJECT = "add_project";
+export const ADD_ISPO = "add_project_ispo";
 export const UPDATE_PROJECT = "update_project";
+export const UPDATE_ISPO = "update_project_ispo";
+export const GET_NOTIFICATION = "get_notifikasi";
+export const UPDATE_READ_NOTIFICATION = "update_read_notifikasi";
+export const GET_PROJECT_BY_ID_PROJECT = "get_project_by_id_project";
 
 // ==============================|| JWT CONTEXT & PROVIDER ||============================== //
 
@@ -112,7 +119,7 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
       },
     });
 
-    return data;
+    return user;
   };
 
   const logout = () => {
@@ -127,6 +134,8 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
     });
     window.localStorage.removeItem("idUser");
     window.localStorage.removeItem("serviceToken");
+    window.localStorage.removeItem("idEmployee");
+    window.localStorage.removeItem("username");
   };
 
   if (state.isInitialized !== undefined && !state.isInitialized) {

@@ -1,21 +1,14 @@
 import React, { SetStateAction, useState } from "react";
-import { MobileView, BrowserView } from 'react-device-detect'
 import { AllProject } from "@/types/Project";
 import CardInfo from "./CardInfo";
-import TableInfo from "../dashboard/TableInfo";
-import useAuth from "@/hooks/useAuth";
 
-interface DashboardSectionsProps {
+interface InputSectionsProps {
   data: AllProject[] | null;
   openModal?: (items: SetStateAction<null>) => void;
   setAdd?: (v: boolean) => void;
 }
 
-const DashboardSections = ({
-  data,
-  openModal,
-  setAdd,
-}: DashboardSectionsProps) => {
+const InputSections = ({ data, openModal, setAdd }: InputSectionsProps) => {
   const [open, setOpen] = useState<boolean[]>(Array(data?.length).fill(false));
 
   const handleClick = (index: number) => {
@@ -47,4 +40,4 @@ const DashboardSections = ({
   );
 };
 
-export default DashboardSections;
+export default InputSections;

@@ -4,15 +4,18 @@ import { createBrowserRouter } from "react-router-dom";
 import Loadable from "@/components/Loadable";
 import AuthLayout from "@/layout/Auth";
 import DashboardLayout from "@/layout/Dashboard";
+import ScopeLibrary from "@/pages/scope-library";
+import DetailProject from "@/pages/detail-project";
 
 const AuthLogin = Loadable(lazy(() => import("@/pages")));
 const Dashboard = Loadable(lazy(() => import("@/pages/dashboard")));
-const Input = Loadable(lazy(() => import("@/pages/input")));
+const ISO = Loadable(lazy(() => import("@/pages/iso")));
+const ISPO = Loadable(lazy(() => import("@/pages/ispo")));
 
 const router = createBrowserRouter(
   [
     {
-      path: "/Login",
+      path: "/",
       element: <AuthLayout />,
       children: [
         {
@@ -32,12 +35,42 @@ const router = createBrowserRouter(
       ],
     },
     {
-      path: "/",
+      path: "/iso",
       element: <DashboardLayout />,
       children: [
         {
-          path: "/input",
-          element: <Input />,
+          path: "/iso",
+          element: <ISO />,
+        },
+      ],
+    },
+    {
+      path: "/ispo",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/ispo",
+          element: <ISPO />,
+        },
+      ],
+    },
+    {
+      path: "/scope-library",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/scope-library",
+          element: <ScopeLibrary />,
+        },
+      ],
+    },
+    {
+      path: "/detail-project/:id",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/detail-project/:id",
+          element: <DetailProject />,
         },
       ],
     },
