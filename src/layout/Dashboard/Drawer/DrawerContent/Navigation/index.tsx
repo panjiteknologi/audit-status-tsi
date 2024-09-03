@@ -120,9 +120,6 @@ const Navigation = () => {
     }
   });
 
-  console.log("Nav Groups : ", navGroups);
-  console.log("menuItems : ", menuItems.items);
-
   return (
     <Box
       sx={{
