@@ -43,6 +43,7 @@ const payload = {
 interface jwtProps {
   id: string;
   name: string;
+  role: string;
 }
 
 const decodedToken = (serviceToken: string | null) => {
@@ -54,6 +55,7 @@ const decodedToken = (serviceToken: string | null) => {
 
   localStorage.setItem("idUser", decoded?.id);
   localStorage.setItem("username", decoded?.name);
+  localStorage.setItem("role", decoded?.role);
 
   return decoded;
 };
