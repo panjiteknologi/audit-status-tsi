@@ -21,6 +21,7 @@ export const UPDATE_PROJECT = "update_project";
 export const UPDATE_ISPO = "update_project_ispo";
 export const GET_NOTIFICATION = "get_notifikasi";
 export const UPDATE_READ_NOTIFICATION = "update_read_notifikasi";
+export const GET_PROJECT_BY_ID_PROJECT = "get_project_by_id_project";
 
 // ==============================|| JWT CONTEXT & PROVIDER ||============================== //
 
