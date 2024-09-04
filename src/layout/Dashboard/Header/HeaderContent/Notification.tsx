@@ -53,6 +53,8 @@ const Notification = () => {
   const [open, setOpen] = useState(false);
   const [clickedIndex, setClickedIndex] = useState<number | null>(null);
 
+  const [isEmpty, setIsEmpty] = useState(false);
+
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
@@ -72,17 +74,19 @@ const Notification = () => {
     queryFn: async () => {
       const token = window.localStorage.getItem("serviceToken");
       const idUser = window.localStorage.getItem("idUser");
-      const data = { id_user: idUser };
+      const role = window.localStorage.getItem("role");
+
+      const data = { id_user: idUser, role_penerima: role };
 
       try {
         const response = await axios.post(BASE_URL + GET_NOTIFICATION, data, {
           headers: { Authorization: token },
         });
+        setIsEmpty(false);
         return response?.data?.data;
       } catch (error) {
-        console.log("errr", error);
+        setIsEmpty(true);
         return [];
-      } finally {
       }
     },
     refetchOnWindowFocus: true,
@@ -217,44 +221,52 @@ const Notification = () => {
                       },
                     }}
                   >
-                    {allNotification?.map(
-                      (item: AllNotification, index: number) => {
-                        return (
-                          <ListItem
-                            key={index}
-                            onClick={() => onSubmit(item)}
-                            sx={{
-                              backgroundColor:
-                                item?.status_notif === 1 ||
-                                clickedIndex === index
-                                  ? "white"
-                                  : "#e5f5fc",
-                              borderBottom: 1,
-                              borderColor: "#d8f0fa",
-                              padding: 2,
-                              cursor: "pointer",
-                              outline: "none",
-                              ":hover": { backgroundColor: "#d8f0fa" },
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "flex-start",
-                            }}
-                          >
-                            <Typography
+                    {!isEmpty ? (
+                      allNotification?.map(
+                        (item: AllNotification, index: number) => {
+                          return (
+                            <ListItem
+                              key={index}
+                              onClick={() => onSubmit(item)}
                               sx={{
-                                fontSize: 16,
-                                color: "#EF5A6F",
-                                fontWeight: "bold",
+                                backgroundColor:
+                                  item?.status_notif === 1 ||
+                                  clickedIndex === index
+                                    ? "white"
+                                    : "#e5f5fc",
+                                borderBottom: 1,
+                                borderColor: "#d8f0fa",
+                                padding: 2,
+                                cursor: "pointer",
+                                outline: "none",
+                                ":hover": { backgroundColor: "#d8f0fa" },
+                                display: "flex",
+                                flexDirection: "column",
+                                alignItems: "flex-start",
                               }}
                             >
-                              {item?.create_date}
-                            </Typography>
-                            <Typography sx={{ fontSize: 16, color: "#000" }}>
-                              {item?.message_notif ? item?.message_notif : "-"}
-                            </Typography>
-                          </ListItem>
-                        );
-                      }
+                              <Typography
+                                sx={{
+                                  fontSize: 16,
+                                  color: "#EF5A6F",
+                                  fontWeight: "bold",
+                                }}
+                              >
+                                {item?.create_date}
+                              </Typography>
+                              <Typography sx={{ fontSize: 16, color: "#000" }}>
+                                {item?.message_notif
+                                  ? item?.message_notif
+                                  : "-"}
+                              </Typography>
+                            </ListItem>
+                          );
+                        }
+                      )
+                    ) : (
+                      <Typography sx={{ marginLeft: 2 }}>
+                        No Data Notification
+                      </Typography>
                     )}
                   </List>
                 </MainCard>
