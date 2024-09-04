@@ -15,7 +15,7 @@ const SalesPieChart = ({ data }: SalesPieChartProps) => {
   const theme = useTheme();
   const { mode } = useConfig();
 
-  const series = data?.map((item) => item.total) as number[];
+  const series = data?.map((item) => item.value) as number[];
   const labels = data?.map((item) => item.nama_akreditasi) as string[];
 
   // chart options

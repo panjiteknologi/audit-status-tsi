@@ -1,0 +1,170 @@
+import { MouseEvent, SetStateAction, useLayoutEffect, useRef, useState } from "react";
+import MainCard from '@/components/MainCard'
+import { Box, ToggleButton, ToggleButtonGroup, Typography } from '@mui/material'
+import { AllProject } from "@/types/Project";
+
+import * as am5 from "@amcharts/amcharts5";
+import * as am5xy from "@amcharts/amcharts5/xy";
+import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
+// import am5themes_Responsive from "@amcharts/amcharts5/themes/Responsive";
+import { Stack } from "@mui/material";
+
+const ChartBar = ({
+  sales,
+  lead_time,
+}: {
+  sales: AllProject[];
+  lead_time: AllProject[];
+}) => {
+  const chartRef = useRef<any>(null);
+
+  const [slot, setSlot] = useState<"sales" | "lead_time">("sales");
+
+  useLayoutEffect(() => {
+    let root = am5.Root.new("chartdiv");
+
+    root.setThemes([
+      am5themes_Animated.new(root)
+    ]);
+
+    // Create chart
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/
+    let chart = root.container.children.push(am5xy.XYChart.new(root, {
+      panX: true,
+      panY: true,
+      wheelX: "panX",
+      wheelY: "zoomX",
+      pinchZoomX: true,
+      paddingLeft: 0,
+      paddingRight: 1
+    }));
+
+    // Add cursor
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/cursor/
+    let cursor = chart.set("cursor", am5xy.XYCursor.new(root, {}));
+    cursor.lineY.set("visible", false);
+
+
+    // Create axes
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
+    let xRenderer = am5xy.AxisRendererX.new(root, {
+      minGridDistance: 30,
+      minorGridEnabled: true
+    });
+
+    xRenderer.labels.template.setAll({
+      rotation: -90,
+      centerY: am5.p50,
+      centerX: am5.p100,
+      paddingRight: 15
+    });
+
+    xRenderer.grid.template.setAll({
+      location: 1
+    })
+
+    let xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+      maxDeviation: 0.3,
+      categoryField: slot === 'sales' ? "nama_sales_or_crr" : "nama_perusahaan",
+      renderer: xRenderer,
+      tooltip: am5.Tooltip.new(root, {})
+    }));
+
+    let yRenderer = am5xy.AxisRendererY.new(root, {
+      strokeOpacity: 0.1
+    })
+
+    let yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
+      maxDeviation: 0.3,
+      renderer: yRenderer
+    }));
+
+    // Create series
+    // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
+    let series = chart.series.push(am5xy.ColumnSeries.new(root, {
+      name: "Series 1",
+      xAxis: xAxis,
+      yAxis: yAxis,
+      valueYField: "value",
+      sequencedInterpolation: true,
+      categoryXField: "nama_sales_or_crr",
+      tooltip: am5.Tooltip.new(root, {
+        labelText: "{valueY}"
+      })
+    }));
+
+    series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
+    series.columns.template.adapters.add("fill", function (fill, target) {
+      return chart.get("colors").getIndex(series.columns.indexOf(target));
+    });
+
+    series.columns.template.adapters.add("stroke", function (stroke, target) {
+      return chart.get("colors").getIndex(series.columns.indexOf(target));
+    });
+
+    xAxis.data.setAll(slot === 'sales' ? sales : lead_time);
+    series.data.setAll(slot === 'sales' ? sales : lead_time);
+
+    // Make stuff animate on load
+    series.appear(1000);
+    chart.appear(1000, 100);
+
+    chartRef.current = root;
+
+    return () => {
+      root.dispose();
+    };
+  }, [sales, lead_time, slot]);
+
+  // Group Button
+  const handleChange = (
+    event: MouseEvent<HTMLElement>,
+    newAlignment: SetStateAction<"sales" | "lead_time">
+  ) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  return (
+    <MainCard sx={{ minHeight: 475 }}>
+      <Box display="flex" justifyContent="space-between">
+        <Typography variant="h6" color="textSecondary">
+          Sales & Lead Time
+        </Typography>
+        <ToggleButtonGroup
+          exclusive
+          onChange={handleChange}
+          size="small"
+          value={slot}
+        >
+          <ToggleButton
+            disabled={slot === "sales"}
+            value="sales"
+            sx={{ px: 2, py: 0.5 }}
+          >
+            Sales
+          </ToggleButton>
+          <ToggleButton
+            disabled={slot === "lead_time"}
+            value="lead_time"
+            sx={{ px: 2, py: 0.5 }}
+          >
+            Lead Time
+          </ToggleButton>
+        </ToggleButtonGroup>
+      </Box>
+      <Box>
+        <Box id="chart">
+          {sales?.length > 0 || lead_time?.length > 0 ? (
+            <div id="chartdiv" style={{ width: '100%', height: 475 }} />
+          ) : (
+            <Stack justifyContent="center" alignItems="center" height="100%">
+              <Typography variant="subtitle1">No Data</Typography>
+            </Stack>
+          )}
+        </Box>
+      </Box>
+    </MainCard>
+  )
+}
+
+export default ChartBar
