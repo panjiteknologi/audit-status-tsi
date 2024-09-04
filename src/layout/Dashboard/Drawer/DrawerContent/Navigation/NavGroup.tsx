@@ -76,7 +76,7 @@ const NavGroup = ({
 }: NavGroupProps) => {
   const theme = useTheme();
   const { pathname } = useLocation();
-  const auth = useAuth();
+  const { user } = useAuth();
 
   const { menuOrientation } = useConfig();
   const { menuMaster } = useGetMenuMaster();
@@ -92,7 +92,7 @@ const NavGroup = ({
 
   // ======== Formating Nav Item By Role ========
   let navs: MainMenu[] | [] = [];
-  let role = auth.user?.role;
+  let role = user?.role;
 
   /** ======== | ROLE
   1 : super_admin
@@ -109,8 +109,10 @@ const NavGroup = ({
   12 :  monitor
   ======== | ROLE **/
 
+  console.log('USERx : ', user)
+
   if (item.children) {
-    if (role === "3" || role === "4") {
+    if (role === "3" || role === "5") {
       // for operator_iso & operator_ict
       navs = item.children?.filter(
         (item) => item.id !== "ispo"
