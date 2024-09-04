@@ -95,12 +95,17 @@ const ChartBar = ({
 
     series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
     series.columns.template.adapters.add("fill", function (fill, target) {
-      return chart.get("colors").getIndex(series.columns.indexOf(target));
+      return chart.get("colors")?.getIndex(series.columns.indexOf(target));
     });
 
     series.columns.template.adapters.add("stroke", function (stroke, target) {
-      return chart.get("colors").getIndex(series.columns.indexOf(target));
+      return chart.get("colors")?.getIndex(series.columns.indexOf(target));
     });
+
+    // Add scrollbar
+    chart.set("scrollbarX", am5.Scrollbar.new(root, {
+      orientation: "horizontal"
+    }));
 
     xAxis.data.setAll(slot === 'sales' ? sales : lead_time);
     series.data.setAll(slot === 'sales' ? sales : lead_time);

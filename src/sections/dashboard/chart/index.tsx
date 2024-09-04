@@ -4,9 +4,8 @@ import CardAnalytic from "./CardAnalytic";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isoWeek from "dayjs/plugin/isoWeek";
-import SalesBarChart from "./SalesBarChart";
-import SalesPieChart from "./SalesPieChart";
 import ChartBar from "./ChartBar";
+import ChartPie from "./ChartPie";
 
 // extend plugin dayjs
 dayjs.extend(isBetween);
@@ -165,10 +164,6 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
       </Grid>
 
       <Grid item xs={12} md={7} lg={8}>
-        {/* <SalesBarChart
-          sales={salesNameWithTotal}
-          lead_time={salesNameWitheLeadTime}
-        /> */}
         <ChartBar
           sales={salesNameWithTotal}
           lead_time={salesNameWitheLeadTime}
@@ -176,7 +171,7 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
       </Grid>
 
       <Grid item xs={12} md={5} lg={4}>
-        <SalesPieChart data={acreditationWithTotal} />
+        <ChartPie data={acreditationWithTotal} />
       </Grid>
     </Grid>
   );
