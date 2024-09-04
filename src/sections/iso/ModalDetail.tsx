@@ -63,10 +63,10 @@ const ModalDetail = ({
     origin === "iso"
       ? []
       : [
-          {
-            id_standar: "9",
-          },
-        ];
+        {
+          id_standar: "9",
+        },
+      ];
 
   const style = {
     position: "absolute",
@@ -444,7 +444,7 @@ const ModalDetail = ({
                           name="status_pembayaran"
                           error={Boolean(
                             touched.status_pembayaran &&
-                              errors.status_pembayaran
+                            errors.status_pembayaran
                           )}
                         >
                           {dataStatusPembayaran.map((item, index) => (
@@ -473,7 +473,7 @@ const ModalDetail = ({
                         name="note_status_pembayaran"
                         error={Boolean(
                           touched.note_status_pembayaran &&
-                            errors.note_status_pembayaran
+                          errors.note_status_pembayaran
                         )}
                       />
                     </Grid>
@@ -516,7 +516,7 @@ const ModalDetail = ({
                         <InputDate
                           disabled={
                             !values?.tgl_apl_form_or_request ||
-                            (!add && !!data?.tgl_review_penugasan_st_satu)
+                              (!add && !!data?.tgl_review_penugasan_st_satu)
                               ? true
                               : false
                           }
@@ -792,8 +792,8 @@ const ModalDetail = ({
                               selectedDate={
                                 values?.tgl_pengambilan_keputusan_tahap_satu
                                   ? moment(
-                                      values.tgl_pengambilan_keputusan_tahap_satu
-                                    )
+                                    values.tgl_pengambilan_keputusan_tahap_satu
+                                  )
                                   : null
                               }
                               handleDateChange={(newDate) => {
@@ -856,87 +856,6 @@ const ModalDetail = ({
                           name="note_tgl_penyelesaian_capa_st_dua"
                         />
                       </Grid>
-
-                      {/* ====================== | ISPO ONLY - Start | ====================== */}
-                      {origin === "ispo" && (
-                        <Grid item xs={12} sm={6}>
-                          <InputDate
-                            disabled={
-                              !values?.tgl_proses_review_tahap_dua ||
-                              (!add && !!data?.tgl_proses_review_tahap_dua)
-                            }
-                            selectedDate={
-                              values?.tgl_proses_review_tahap_dua
-                                ? moment(values.tgl_proses_review_tahap_dua)
-                                : null
-                            }
-                            handleDateChange={(newDate) => {
-                              const selectedDate =
-                                newDate?.format("YYYY-MM-DD");
-                              const currentTime = moment().format("HH:mm:ss");
-                              setFieldValue(
-                                "tgl_proses_review_tahap_dua",
-                                selectedDate + " " + currentTime
-                              );
-                            }}
-                            label="Tanggal Proses Review Tahap Dua"
-                          />
-                        </Grid>
-                      )}
-                      {origin === "ispo" && (
-                        <Grid item xs={12} sm={6}>
-                          <InputText
-                            label={`Catatan Tanggal Proses Review Tahap Dua`}
-                            values={values?.note_tgl_proses_review_tahap_dua}
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            name="note_tgl_proses_review_tahap_dua"
-                          />
-                        </Grid>
-                      )}
-
-                      {origin === "ispo" && (
-                        <Grid item xs={12} sm={6}>
-                          <InputDate
-                            disabled={
-                              !values?.tgl_pengambilan_keputusan_tahap_dua ||
-                              (!add &&
-                                !!data?.tgl_pengambilan_keputusan_tahap_dua)
-                            }
-                            selectedDate={
-                              values?.tgl_pengambilan_keputusan_tahap_dua
-                                ? moment(
-                                    values.tgl_pengambilan_keputusan_tahap_dua
-                                  )
-                                : null
-                            }
-                            handleDateChange={(newDate) => {
-                              const selectedDate =
-                                newDate?.format("YYYY-MM-DD");
-                              const currentTime = moment().format("HH:mm:ss");
-                              setFieldValue(
-                                "tgl_pengambilan_keputusan_tahap_dua",
-                                selectedDate + " " + currentTime
-                              );
-                            }}
-                            label="Tanggal Pengambilan Keputusan Tahap Dua"
-                          />
-                        </Grid>
-                      )}
-                      {origin === "ispo" && (
-                        <Grid item xs={12} sm={6}>
-                          <InputText
-                            label={`Catatan Tanggal Pengambilan Kemputusan Tahap Dua`}
-                            values={
-                              values?.note_tgl_pengambilan_keputusan_tahap_dua
-                            }
-                            onChange={handleChange}
-                            onBlur={handleBlur}
-                            name="note_tgl_pengambilan_keputusan_tahap_dua"
-                          />
-                        </Grid>
-                      )}
-                      {/* ====================== | ISPO ONLY - End | ====================== */}
 
                       <Grid item xs={12} sm={6}>
                         <InputDate
@@ -1098,10 +1017,91 @@ const ModalDetail = ({
                         />
                       </Grid>
 
+                      {/* ====================== | ISPO ONLY - Start | ====================== */}
+                      {origin === "ispo" && (
+                        <Grid item xs={12} sm={6}>
+                          <InputDate
+                            disabled={
+                              !values?.tgl_penyelesaian_capa_st_dua ||
+                              (!add && !!data?.tgl_proses_review_tahap_dua)
+                            }
+                            selectedDate={
+                              values?.tgl_proses_review_tahap_dua
+                                ? moment(values.tgl_proses_review_tahap_dua)
+                                : null
+                            }
+                            handleDateChange={(newDate) => {
+                              const selectedDate =
+                                newDate?.format("YYYY-MM-DD");
+                              const currentTime = moment().format("HH:mm:ss");
+                              setFieldValue(
+                                "tgl_proses_review_tahap_dua",
+                                selectedDate + " " + currentTime
+                              );
+                            }}
+                            label="Tanggal Proses Review Tahap Dua"
+                          />
+                        </Grid>
+                      )}
+                      {origin === "ispo" && (
+                        <Grid item xs={12} sm={6}>
+                          <InputText
+                            label={`Catatan Tanggal Proses Review Tahap Dua`}
+                            values={values?.note_tgl_proses_review_tahap_dua}
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name="note_tgl_proses_review_tahap_dua"
+                          />
+                        </Grid>
+                      )}
+
+                      {origin === "ispo" && (
+                        <Grid item xs={12} sm={6}>
+                          <InputDate
+                            disabled={
+                              !values?.tgl_pengambilan_keputusan_tahap_dua ||
+                              (!add &&
+                                !!data?.tgl_pengambilan_keputusan_tahap_dua)
+                            }
+                            selectedDate={
+                              values?.tgl_pengambilan_keputusan_tahap_dua
+                                ? moment(
+                                  values.tgl_pengambilan_keputusan_tahap_dua
+                                )
+                                : null
+                            }
+                            handleDateChange={(newDate) => {
+                              const selectedDate =
+                                newDate?.format("YYYY-MM-DD");
+                              const currentTime = moment().format("HH:mm:ss");
+                              setFieldValue(
+                                "tgl_pengambilan_keputusan_tahap_dua",
+                                selectedDate + " " + currentTime
+                              );
+                            }}
+                            label="Tanggal Pengambilan Keputusan Tahap Dua"
+                          />
+                        </Grid>
+                      )}
+                      {origin === "ispo" && (
+                        <Grid item xs={12} sm={6}>
+                          <InputText
+                            label={`Catatan Tanggal Pengambilan Kemputusan Tahap Dua`}
+                            values={
+                              values?.note_tgl_pengambilan_keputusan_tahap_dua
+                            }
+                            onChange={handleChange}
+                            onBlur={handleBlur}
+                            name="note_tgl_pengambilan_keputusan_tahap_dua"
+                          />
+                        </Grid>
+                      )}
+                      {/* ====================== | ISPO ONLY - End | ====================== */}
+
                       <Grid item xs={12} sm={6}>
                         <InputDate
                           disabled={
-                            !values?.tgl_penyelesaian_capa_st_dua ||
+                            !values?.tgl_pengambilan_keputusan_tahap_dua ||
                             (!add && !!data?.tgl_pengiriman_draft_sertifikat)
                           }
                           selectedDate={
@@ -1311,7 +1311,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_apl_form_or_request ||
-                              (!add && !!data?.tgl_review_penugasan_st_dua)
+                                (!add && !!data?.tgl_review_penugasan_st_dua)
                                 ? true
                                 : false
                             }
@@ -1346,7 +1346,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_review_penugasan_st_dua ||
-                              (!add && !!data?.tgl_pengiriman_notif_st_dua)
+                                (!add && !!data?.tgl_pengiriman_notif_st_dua)
                                 ? true
                                 : false
                             }
@@ -1381,7 +1381,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_pengiriman_notif_st_dua ||
-                              (!add && !!data?.tgl_persetujuan_notif_st_dua)
+                                (!add && !!data?.tgl_persetujuan_notif_st_dua)
                                 ? true
                                 : false
                             }
@@ -1416,15 +1416,15 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_persetujuan_notif_st_dua ||
-                              (!add && !!data?.tgl_pengiriman_audit_plan_st_dua)
+                                (!add && !!data?.tgl_pengiriman_audit_plan_st_dua)
                                 ? true
                                 : false
                             }
                             selectedDate={
                               values?.tgl_pengiriman_audit_plan_st_dua
                                 ? moment(
-                                    values.tgl_pengiriman_audit_plan_st_dua
-                                  )
+                                  values.tgl_pengiriman_audit_plan_st_dua
+                                )
                                 : null
                             }
                             handleDateChange={(newDate) => {
@@ -1455,7 +1455,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_pengiriman_audit_plan_st_dua ||
-                              (!add && !!data?.tgl_pelaksanaan_audit_st_dua)
+                                (!add && !!data?.tgl_pelaksanaan_audit_st_dua)
                                 ? true
                                 : false
                             }
@@ -1490,7 +1490,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_pelaksanaan_audit_st_dua ||
-                              (!add && !!data?.tgl_penyelesaian_capa_st_dua)
+                                (!add && !!data?.tgl_penyelesaian_capa_st_dua)
                                 ? true
                                 : false
                             }
@@ -1525,7 +1525,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_penyelesaian_capa_st_dua ||
-                              (!add && !!data?.tgl_pengiriman_draft_sertifikat)
+                                (!add && !!data?.tgl_pengiriman_draft_sertifikat)
                                 ? true
                                 : false
                             }
@@ -1562,15 +1562,15 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_pengiriman_draft_sertifikat ||
-                              (!add && !!data?.tgl_persetujuan_draft_sertifikat)
+                                (!add && !!data?.tgl_persetujuan_draft_sertifikat)
                                 ? true
                                 : false
                             }
                             selectedDate={
                               values?.tgl_persetujuan_draft_sertifikat
                                 ? moment(
-                                    values.tgl_persetujuan_draft_sertifikat
-                                  )
+                                  values.tgl_persetujuan_draft_sertifikat
+                                )
                                 : null
                             }
                             handleDateChange={(newDate) => {
@@ -1601,7 +1601,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_persetujuan_draft_sertifikat ||
-                              (!add && !!data?.tgl_pengajuan_ke_kan)
+                                (!add && !!data?.tgl_pengajuan_ke_kan)
                                 ? true
                                 : false
                             }
@@ -1636,7 +1636,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_pengajuan_ke_kan ||
-                              (!add && !!data?.tgl_persetujuan_kan)
+                                (!add && !!data?.tgl_persetujuan_kan)
                                 ? true
                                 : false
                             }
@@ -1671,7 +1671,7 @@ const ModalDetail = ({
                           <InputDate
                             disabled={
                               !values?.tgl_persetujuan_kan ||
-                              (!add && !!data?.tgl_kirim_sertifikat)
+                                (!add && !!data?.tgl_kirim_sertifikat)
                                 ? true
                                 : false
                             }
