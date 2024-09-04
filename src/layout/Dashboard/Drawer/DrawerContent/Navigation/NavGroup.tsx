@@ -110,17 +110,8 @@ const NavGroup = ({
   ======== | ROLE **/
 
   if (item.children) {
-    if (
-      role === "6" ||
-      role === "7" ||
-      role === "8" ||
-      role === "10" ||
-      role === "12"
-    ) {
-      // for sales/crm/finance/auditor/monitor
-      navs = item.children?.filter((item) => item.id === "dashboard" || item.id === "scope_library");
-    } else if (role === "3") {
-      // for operator_iso
+    if (role === "3" || role === "4") {
+      // for operator_iso & operator_ict
       navs = item.children?.filter(
         (item) => item.id !== "ispo"
       );
