@@ -92,10 +92,12 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
     []
   );
 
-  const salesNameWitheLeadTime = current.map(({ nama_perusahaan, lead_time_project_finish_for_chart }) => {
+  const salesNameWitheLeadTime = current.map(({ nama_perusahaan, lead_time_project_finish_for_chart, standar }) => {
+    const all_standar = standar?.map((item) => item.nama_standar).join(', ')
     return {
       nama_perusahaan,
-      value: lead_time_project_finish_for_chart
+      value: lead_time_project_finish_for_chart,
+      all_standar
     }
   });
 
