@@ -99,7 +99,7 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
       value: lead_time_project_finish_for_chart,
       all_standar
     }
-  });
+  }).sort((a, b) => Number(b.value) - Number(a.value));
 
   const acreditationWithTotal = current.reduce(
     (acc: AllProject[], curr: AllProject) => {

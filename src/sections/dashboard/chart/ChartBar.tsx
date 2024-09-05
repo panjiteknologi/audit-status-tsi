@@ -85,7 +85,7 @@ const ChartBar = ({
       name: "Series 1",
       xAxis: xAxis,
       yAxis: yAxis,
-      valueYField: "value",
+      valueYField: slot === 'sales' ? "value" : "value",
       sequencedInterpolation: true,
       categoryXField: slot === 'sales' ? "nama_sales_or_crr" : "nama_perusahaan",
       tooltip: am5.Tooltip.new(root, {
