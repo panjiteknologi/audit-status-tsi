@@ -89,7 +89,7 @@ const ChartBar = ({
       sequencedInterpolation: true,
       categoryXField: slot === 'sales' ? "nama_sales_or_crr" : "nama_perusahaan",
       tooltip: am5.Tooltip.new(root, {
-        labelText: slot === 'sales' ? `Sales: {valueY}` : `Lead Time: {valueY}, Standar: {all_standar}`
+        labelText: slot === 'sales' ? `Sales: {valueY}` : `Lead Time: {valueY} Hari, Standar: {all_standar}`
       })
     }));
 
