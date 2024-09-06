@@ -25,10 +25,10 @@ interface CardAnalyticProps {
 const CardAnalytic = ({ title, count, data }: CardAnalyticProps) => {
   let labelChip =
     data.gap < 0
-      ? `Turun ${data.gap}`
+      ? `Turun ${data.gap} dari`
       : data.gap > 0
-      ? `Naik ${data.gap}`
-      : `Tetap ${data.gap}`;
+        ? `Naik ${data.gap} dari`
+        : `Sama dengan`;
 
   return (
     <MainCard sx={{ p: 2.25 }}>
@@ -57,7 +57,7 @@ const CardAnalytic = ({ title, count, data }: CardAnalyticProps) => {
                   <TrendingFlatRounded style={iconSX} />
                 )
               }
-              label={`${labelChip} dari minggu lalu`}
+              label={`${labelChip} minggu lalu`}
               sx={{ ml: 1.25, pl: 1 }}
               size="small"
             />
