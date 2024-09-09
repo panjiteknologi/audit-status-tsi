@@ -52,22 +52,22 @@ const ChartBar = ({
       minorGridEnabled: true
     });
 
-    xRenderer.labels.template.setAll({
-      rotation: -90,
-      centerY: am5.p50,
-      centerX: am5.p100,
-      paddingRight: 15
-    });
+    // xRenderer.labels.template.setAll({
+    //   rotation: -90,
+    //   centerY: am5.p50,
+    //   centerX: am5.p100,
+    //   paddingRight: 15
+    // });
 
-    xRenderer.grid.template.setAll({
-      location: 1
-    })
+    // xRenderer.grid.template.setAll({
+    //   location: 1
+    // })
 
     let xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
       maxDeviation: 0.3,
       categoryField: slot === 'sales' ? "nama_sales_or_crr" : "nama_perusahaan",
       renderer: xRenderer,
-      tooltip: am5.Tooltip.new(root, {})
+      tooltip: am5.Tooltip.new(root, {}),
     }));
 
     let yRenderer = am5xy.AxisRendererY.new(root, {
@@ -86,11 +86,10 @@ const ChartBar = ({
       xAxis: xAxis,
       yAxis: yAxis,
       valueYField: slot === 'sales' ? "value" : "value",
-      sequencedInterpolation: true,
       categoryXField: slot === 'sales' ? "nama_sales_or_crr" : "nama_perusahaan",
       tooltip: am5.Tooltip.new(root, {
         labelText: slot === 'sales' ? `Sales: {valueY}` : `Lead Time: {valueY} Hari, Standar: {all_standar}`
-      })
+      }),
     }));
 
     series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
@@ -106,6 +105,13 @@ const ChartBar = ({
     chart.set("scrollbarX", am5.Scrollbar.new(root, {
       orientation: "horizontal"
     }));
+
+    // Pre-zoom the chart
+    if (slot === "lead_time") {
+      series.events.once("datavalidated", () => {
+        xAxis.zoomToIndexes(0, 4)
+      })
+    }
 
     xAxis.data.setAll(slot === 'sales' ? sales : lead_time);
     series.data.setAll(slot === 'sales' ? sales : lead_time);

@@ -21,25 +21,34 @@ const ChartPie = ({ data }: SalesPieChartProps) => {
     ]);
 
     // Create chart
-    let chart = root.container.children.push(
-      am5percent.PieChart.new(root, {
-        endAngle: 270
-      })
-    );
+    let chart = root.container.children.push(am5percent.PieChart.new(root, {
+      layout: root.verticalLayout,
+      innerRadius: am5.percent(50)
+    }));
 
     // Create series
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
-    let series = chart.series.push(
-      am5percent.PieSeries.new(root, {
-        valueField: "value",
-        categoryField: "nama_akreditasi",
-        endAngle: 270
-      })
-    );
+    let series = chart.series.push(am5percent.PieSeries.new(root, {
+      valueField: "value",
+      categoryField: "nama_akreditasi",
+      alignLabels: false
+    }));
 
-    series.states.create("hidden", {
-      endAngle: -90
+    series.labels.template.setAll({
+      textType: "circular",
+      centerX: 0,
+      centerY: 0
     });
+
+    // Create legend
+    let legend = chart.children.push(am5.Legend.new(root, {
+      centerX: am5.percent(50),
+      x: am5.percent(50),
+      marginTop: 15,
+      marginBottom: 15,
+    }));
+
+    legend.data.setAll(series.dataItems);
 
     series.data.setAll(data);
 
