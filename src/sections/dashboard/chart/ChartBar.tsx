@@ -52,16 +52,11 @@ const ChartBar = ({
       minorGridEnabled: true
     });
 
-    // xRenderer.labels.template.setAll({
-    //   rotation: -90,
-    //   centerY: am5.p50,
-    //   centerX: am5.p100,
-    //   paddingRight: 15
-    // });
-
-    // xRenderer.grid.template.setAll({
-    //   location: 1
-    // })
+    xRenderer.labels.template.setAll({
+      oversizedBehavior: "wrap",
+      textAlign: "center",
+      maxWidth: slot === 'sales' ? 95 : 150
+    })
 
     let xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
       maxDeviation: 0.3,

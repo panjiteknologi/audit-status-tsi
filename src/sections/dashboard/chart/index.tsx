@@ -7,8 +7,6 @@ import isoWeek from "dayjs/plugin/isoWeek";
 import ChartBar from "./ChartBar";
 import ChartPie from "./ChartPie";
 
-import truncateText from "@/utils/truncateText"
-
 // extend plugin dayjs
 dayjs.extend(isBetween);
 dayjs.extend(isoWeek);
@@ -86,7 +84,7 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
           existing.value += 1;
         }
       } else {
-        acc.push({ nama_sales_or_crr: truncateText(curr.nama_sales_or_crr, 10), value: 1 });
+        acc.push({ nama_sales_or_crr: curr.nama_sales_or_crr, value: 1 });
       }
 
       return acc;
@@ -97,7 +95,7 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
   const salesNameWitheLeadTime = current.map(({ nama_perusahaan, lead_time_project_finish_for_chart, standar }) => {
     const all_standar = standar?.map((item) => item.nama_standar).join(', ')
     return {
-      nama_perusahaan: truncateText(nama_perusahaan, 25),
+      nama_perusahaan: nama_perusahaan,
       value: lead_time_project_finish_for_chart,
       all_standar
     }
