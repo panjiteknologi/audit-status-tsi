@@ -8,9 +8,9 @@ import {
   TableHead,
   TableRow,
   Paper,
+  Typography,
   Box,
   Grid,
-  Typography,
 } from "@mui/material";
 import { styled } from "@mui/material/styles";
 
@@ -65,11 +65,67 @@ const HiddenScrollbarTableContainer = styled(TableContainer)(() => ({
   scrollbarWidth: "none",
 }));
 
+const getSLA = (tahapan: string) => {
+  switch (tahapan) {
+    case "Tanggal Aplication Form or Request":
+    case "Tanggal Review Penugasan ST Satu":
+    case "Tanggal Kontrak":
+    case "Tanggal Pengiriman Notifikasi ST Satu":
+    case "Tanggal Review Penugasan ST Dua":
+    case "Tanggal Pengiriman Audit Plan ST Dua":
+    case "Tanggal Pengiriman Notifikasi ST Dua":
+    case "Tanggal Pengiriman Audit Plan ST Satu":
+    case "Tanggal Persetujuan Draft Sertifikat":
+      return 2;
+    case "Tanggal Persetujuan Notifikasi ST Satu":
+    case "Tanggal Persetujuan Notifikasi ST Dua":
+    case "Tanggal Persetujuan ke KAN":
+      return 3;
+    case "Tanggal Pelaksanaan Audit ST Satu":
+    case "Tanggal Penyelesaian CAPA ST Satu":
+    case "Tanggal Pelaksanaan Audit ST Dua":
+    case "Tanggal Penyelesaian CAPA ST Dua":
+      return 5;
+    case "Tanggal Pengiriman Draft Sertifikat":
+    case "Tanggal Pengajuan ke KAN":
+    case "Tanggal Kirim Sertifikat":
+      return 1;
+    default:
+      return "-";
+  }
+};
+
+const parseTimeString = (timeString: string) => {
+  if (!timeString) {
+    return { days: 0, hours: 0, minutes: 0 };
+  }
+
+  const timeParts = timeString.split(" ");
+  let days = 0;
+  let hours = 0;
+  let minutes = 0;
+
+  for (let i = 0; i < timeParts.length; i += 2) {
+    const value = parseInt(timeParts[i], 10);
+    const unit = timeParts[i + 1];
+
+    if (unit && unit.includes("hari")) {
+      days = value;
+    } else if (unit && unit.includes("jam")) {
+      hours = value;
+    } else if (unit && unit.includes("menit")) {
+      minutes = value;
+    }
+  }
+
+  return { days, hours, minutes };
+};
 interface DataTableProps {
   data?: AllProject[] | null;
+  pathName: string;
 }
 
-const DataTable = ({ data }: DataTableProps) => {
+const DataTable = ({ data, pathName }: DataTableProps) => {
   return (
     <CustomPaper>
       <HiddenScrollbarTableContainer>
@@ -85,45 +141,15 @@ const DataTable = ({ data }: DataTableProps) => {
           </TableHead>
           <TableBody>
             {data?.map((row: AllProject, index: number) => {
-              const parseTimeString = (timeString: any) => {
-                if (!timeString) {
-                  return {
-                    days: 0,
-                    hours: 0,
-                    minutes: 0,
-                  };
-                }
-
-                const timeParts = timeString.split(" ");
-                let days = 0;
-                let hours = 0;
-                let minutes = 0;
-
-                for (let i = 0; i < timeParts.length; i += 2) {
-                  const value = parseInt(timeParts[i], 10);
-                  const unit = timeParts[i + 1];
-
-                  if (unit && unit.includes("hari")) {
-                    days = value;
-                  } else if (unit && unit.includes("jam")) {
-                    hours = value;
-                  } else if (unit && unit.includes("menit")) {
-                    minutes = value;
-                  }
-                }
-
-                return {
-                  days: days,
-                  hours: hours,
-                  minutes: minutes,
-                };
-              };
+              const sla = getSLA(row?.tahapan);
               const timeString = row?.leadTime;
-              const result = parseTimeString(timeString);
+              const result = parseTimeString(timeString as string);
 
-              const days = result?.days;
-              const hours = result?.hours;
-              const minutes = result?.minutes;
+              const totalLeadTimeInDays =
+                result.days + result.hours / 24 + result.minutes / 1440;
+              const slaInDays = sla === "-" ? Infinity : sla;
+
+              const isExceeding = slaInDays < totalLeadTimeInDays;
 
               return (
                 <StyledTableRow key={index}>
@@ -136,25 +162,58 @@ const DataTable = ({ data }: DataTableProps) => {
                       : "-"}
                   </ScrollableTableCell>
                   <ScrollableTableCell>
-                    {row?.sla ? formatDateTime(row?.sla) : "-"}
+                    {pathName === "iso" || pathName === "dashboard"
+                      ? sla !== "-"
+                        ? `${sla} Hari`
+                        : "-"
+                      : "-"}
                   </ScrollableTableCell>
                   <ScrollableTableCell>
-                    {days || hours || minutes ? (
+                    {result?.days || result?.hours || result?.minutes ? (
                       <Box>
                         <Grid container>
                           <Grid item xl={3} xs={4}>
-                            <Typography>
-                              {days ? days + " Hari" : ""}
+                            <Typography
+                              sx={{
+                                color:
+                                  pathName === "iso" || pathName === "dashboard"
+                                    ? isExceeding
+                                      ? "red"
+                                      : "inherit"
+                                    : "inherit",
+                              }}
+                            >
+                              {result?.days ? result?.days + " Hari" : "-"}
                             </Typography>
                           </Grid>
                           <Grid item xl={3} xs={4}>
-                            <Typography>
-                              {hours ? hours + " Jam" : ""}
+                            <Typography
+                              sx={{
+                                color:
+                                  pathName === "iso" || pathName === "dashboard"
+                                    ? isExceeding
+                                      ? "red"
+                                      : "inherit"
+                                    : "inherit",
+                              }}
+                            >
+                              {result?.hours ? result?.hours + " Jam" : "-"}
                             </Typography>
                           </Grid>
                           <Grid item xl={3} xs={4}>
-                            <Typography>
-                              {minutes ? minutes + " Menit" : ""}
+                            <Typography
+                              sx={{
+                                color:
+                                  pathName === "iso" || pathName === "dashboard"
+                                    ? isExceeding
+                                      ? "red"
+                                      : "inherit"
+                                    : "inherit",
+                              }}
+                            >
+                              {result?.minutes
+                                ? result?.minutes + " Menit"
+                                : "-"}
                             </Typography>
                           </Grid>
                         </Grid>

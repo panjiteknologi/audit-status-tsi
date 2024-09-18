@@ -5,7 +5,7 @@ import TableInfo from "./TableInfo";
 import ChartInfo from "./chart";
 import { Box, Tab, Tabs } from "@mui/material";
 import { TableChartRounded, BarChartRounded } from "@mui/icons-material";
-import CardInfo from "../iso/CardInfo";
+import CardInfo from "../modal-card-sections/CardInfo";
 
 function TabPanel({
   children,

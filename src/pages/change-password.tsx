@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 
 // project import
-import CloseButton from "@/sections/iso/CloseButton";
+import CloseButton from "@/sections/modal-card-sections/CloseButton";
 import { useState } from "react";
 import ilustrationSuccess from "../assets/ilustration/il-success.svg";
 import ilustrationServerDown from "../assets/ilustration/il-server-down.svg";

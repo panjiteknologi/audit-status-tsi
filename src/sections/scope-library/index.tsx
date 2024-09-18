@@ -163,7 +163,6 @@ const CustomTreeItem = React.forwardRef(function CustomTreeItem(
   props: CustomTreeItemProps,
   ref: React.Ref<HTMLLIElement>
 ) {
-  console.log("props", props);
   const { itemId, label, disabled, children, ...other } = props;
 
   const {
