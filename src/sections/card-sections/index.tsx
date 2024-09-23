@@ -2,17 +2,13 @@ import React, { SetStateAction, useState } from "react";
 import { AllProject } from "@/types/Project";
 import CardInfo from "./CardInfo";
 
-interface ModalCardSectionsProps {
+interface CardSectionsProps {
   data: AllProject[] | null;
   openModal?: (items: SetStateAction<null>) => void;
   setAdd?: (v: boolean) => void;
 }
 
-const ModalCardSections = ({
-  data,
-  openModal,
-  setAdd,
-}: ModalCardSectionsProps) => {
+const CardSections = ({ data, openModal, setAdd }: CardSectionsProps) => {
   const [open, setOpen] = useState<boolean[]>(Array(data?.length).fill(false));
 
   const handleClick = (index: number) => {
@@ -44,4 +40,4 @@ const ModalCardSections = ({
   );
 };
 
-export default ModalCardSections;
+export default CardSections;
