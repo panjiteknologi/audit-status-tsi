@@ -1,4 +1,4 @@
-import InputSections from "@/sections/iso";
+import ModalCardSections from "@/sections/modal-card-sections";
 import {
   Button,
   Dialog,
@@ -28,9 +28,9 @@ import {
   GET_TAHAPAN,
   UPDATE_PROJECT,
 } from "@/contexts/JWTContext";
-import ModalDetail from "@/sections/iso/ModalDetail";
+import ModalDetail from "@/sections/modal-card-sections/ModalDetail";
 import { AllProject, MenuProject } from "@/types/Project";
-import CloseButton from "@/sections/iso/CloseButton";
+import CloseButton from "@/sections/modal-card-sections/CloseButton";
 import IlustrationConfirmation from "../assets/ilustration/il-confirmation.svg";
 import IlustrationCancel from "../assets/ilustration/il-notfound.svg";
 import IlustrationLoading from "../assets/ilustration/il-loading.svg";
@@ -593,7 +593,7 @@ const Dashboard = () => {
                 </Typography>
               )}
 
-              <InputSections
+              <ModalCardSections
                 data={filteredData}
                 setAdd={setAdd}
                 openModal={openModal}

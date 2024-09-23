@@ -39,6 +39,7 @@ import DataTable from "@/components/table/DataTable";
 import DebouncedInput from "@/components/table/DebouncedInput";
 import TablePagination from "@/components/table/TablePagination";
 import HeaderSort from "@/components/table/HeaderSort";
+import { useLocation } from "react-router";
 
 const ItemLateProgress = styled(Paper)(() => ({
   textAlign: "left",
@@ -55,6 +56,9 @@ interface TableInfoProps {
 }
 
 const TableInfo = ({ data }: TableInfoProps) => {
+  const routes = useLocation();
+  const pathName = routes?.pathname?.substring(1);
+
   const theme = useTheme();
   const backColor = alpha(`${theme.palette.primary.lighter}`, 0.1);
 
@@ -351,7 +355,10 @@ const TableInfo = ({ data }: TableInfoProps) => {
                             borderColor: "gray",
                           }}
                         >
-                          <DataTable data={getDataTable(row.original)} />
+                          <DataTable
+                            data={getDataTable(row.original)}
+                            pathName={pathName}
+                          />
                         </Box>
                       </TableCell>
                     </TableRow>

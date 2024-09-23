@@ -109,20 +109,14 @@ const NavGroup = ({
   12 :  monitor
   ======== | ROLE **/
 
-  console.log('USERx : ', user)
-
   if (item.children) {
     if (role === "3" || role === "5") {
       // for operator_iso & operator_ict
-      navs = item.children?.filter(
-        (item) => item.id !== "ispo"
-      );
+      navs = item.children?.filter((item) => item.id !== "ispo");
     } else if (role === "4") {
       // for operator_ispo
-      navs = item.children?.filter(
-        (item) => item.id !== "iso"
-      );
-    } else if (role === '2') {
+      navs = item.children?.filter((item) => item.id !== "iso");
+    } else if (role === "2") {
       // for customer
       navs = item.children?.filter((item) => item.id === "dashboard");
     } else {
