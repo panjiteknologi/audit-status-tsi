@@ -1,5 +1,4 @@
 import { AllProject } from "@/types/Project";
-import { useLocation } from "react-router";
 
 function getFieldAudit(field: AllProject) {
   return [
@@ -198,8 +197,6 @@ function getField(field: AllProject) {
 }
 
 export function getlatestProgress(field: AllProject) {
-  const location = useLocation();
-
   const latestProgressAudit = getFieldAudit(field)
     .filter((item) => item.tanggalStatus)
     .sort((a, b) =>
@@ -215,7 +212,7 @@ export function getlatestProgress(field: AllProject) {
         : 1
     )[0];
 
-  if (location?.pathname === "ispo") {
+  if (location?.pathname === "/ispo") {
     if (latestProgressAudit && (field?.tahapan === 1 || field?.tahapan === 7)) {
       return `${latestProgressAudit.tahapan?.replace("Tanggal ", "")}`;
     }
@@ -233,7 +230,7 @@ export function getlatestProgress(field: AllProject) {
 }
 
 export function getDataTable(field: AllProject) {
-  if (location?.pathname === "ispo") {
+  if (location?.pathname === "/ispo") {
     if (field?.tahapan === 1 || field?.tahapan === 7) {
       return getFieldAudit(field);
     }
@@ -253,7 +250,7 @@ export function getDataTable(field: AllProject) {
 export function getNextStep(field: AllProject) {
   const latest = `Tanggal ${getlatestProgress(field)}`;
 
-  if (location?.pathname === "ispo") {
+  if (location?.pathname === "/ispo") {
     if (field?.tahapan === 1 || field?.tahapan === 7) {
       const indexInitialAudit =
         getFieldAudit(field).findIndex((item) => item.tahapan === latest) + 1;

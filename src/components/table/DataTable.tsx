@@ -71,19 +71,25 @@ const getSLA = (tahapan: string) => {
     case "Tanggal Review Penugasan ST Satu":
     case "Tanggal Kontrak":
     case "Tanggal Pengiriman Notifikasi ST Satu":
+    case "Tanggal Review Penugasan":
     case "Tanggal Review Penugasan ST Dua":
+    case "Tanggal Pengiriman Audit Plan":
     case "Tanggal Pengiriman Audit Plan ST Dua":
+    case "Tanggal Pengiriman Notifikasi":
     case "Tanggal Pengiriman Notifikasi ST Dua":
     case "Tanggal Pengiriman Audit Plan ST Satu":
     case "Tanggal Persetujuan Draft Sertifikat":
       return 2;
+    case "Tanggal Persetujuan Notifikasi":
     case "Tanggal Persetujuan Notifikasi ST Satu":
     case "Tanggal Persetujuan Notifikasi ST Dua":
     case "Tanggal Persetujuan ke KAN":
       return 3;
     case "Tanggal Pelaksanaan Audit ST Satu":
     case "Tanggal Penyelesaian CAPA ST Satu":
+    case "Tanggal Pelaksanaan Audit":
     case "Tanggal Pelaksanaan Audit ST Dua":
+    case "Tanggal Penyelesaian CAPA":
     case "Tanggal Penyelesaian CAPA ST Dua":
       return 5;
     case "Tanggal Pengiriman Draft Sertifikat":

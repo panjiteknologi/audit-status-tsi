@@ -37,9 +37,9 @@ import IlustrationCancel from "@/assets/ilustration/il-notfound.svg";
 import IlustrationLoading from "@/assets/ilustration/il-loading.svg";
 import IlustrationNotFound from "@/assets/ilustration/il-notfound.svg";
 import IlustrationNotAccountAccess from "@/assets/ilustration/il-access.svg";
-import ModalCardSections from "@/sections/modal-card-sections";
-import ModalDetail from "@/sections/modal-card-sections/ModalDetail";
-import CloseButton from "@/sections/modal-card-sections/CloseButton";
+import CardSections from "@/sections/card-sections";
+import ModalDetail from "@/sections/card-sections/ModalDetail";
+import CloseButton from "@/sections/card-sections/CloseButton";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-notchedOutline": {
@@ -622,7 +622,7 @@ const Ispo = () => {
                 </Typography>
               )}
 
-              <ModalCardSections
+              <CardSections
                 data={filteredData}
                 setAdd={setAdd}
                 openModal={openModal}
