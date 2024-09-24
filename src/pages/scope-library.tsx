@@ -3,6 +3,7 @@ import Box from "@mui/material/Box";
 import React from "react";
 import useAuth from "@/hooks/useAuth";
 import ScopeLibrarySections from "@/sections/scope-library";
+import { ITEMS } from "@/constant/scope";
 
 const ScopeLibrary = () => {
   const { isLoggedIn } = useAuth();
@@ -25,7 +26,7 @@ const ScopeLibrary = () => {
         )}
       </Box>
 
-      <ScopeLibrarySections />
+      <ScopeLibrarySections items={ITEMS} />
     </React.Fragment>
   );
 };

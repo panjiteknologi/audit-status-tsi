@@ -76,7 +76,7 @@ const NavGroup = ({
 }: NavGroupProps) => {
   const theme = useTheme();
   const { pathname } = useLocation();
-  const auth = useAuth();
+  const { user } = useAuth();
 
   const { menuOrientation } = useConfig();
   const { menuMaster } = useGetMenuMaster();
@@ -92,7 +92,7 @@ const NavGroup = ({
 
   // ======== Formating Nav Item By Role ========
   let navs: MainMenu[] | [] = [];
-  let role = auth.user?.role;
+  let role = user?.role;
 
   /** ======== | ROLE
   1 : super_admin
@@ -110,26 +110,13 @@ const NavGroup = ({
   ======== | ROLE **/
 
   if (item.children) {
-    if (
-      role === "6" ||
-      role === "7" ||
-      role === "8" ||
-      role === "10" ||
-      role === "12"
-    ) {
-      // for sales/crm/finance/auditor/monitor
-      navs = item.children?.filter((item) => item.id === "dashboard" || item.id === "scope_library");
-    } else if (role === "3") {
-      // for operator_iso
-      navs = item.children?.filter(
-        (item) => item.id !== "ispo"
-      );
+    if (role === "3" || role === "5") {
+      // for operator_iso & operator_ict
+      navs = item.children?.filter((item) => item.id !== "ispo");
     } else if (role === "4") {
       // for operator_ispo
-      navs = item.children?.filter(
-        (item) => item.id !== "iso"
-      );
-    } else if (role === '2') {
+      navs = item.children?.filter((item) => item.id !== "iso");
+    } else if (role === "2") {
       // for customer
       navs = item.children?.filter((item) => item.id === "dashboard");
     } else {

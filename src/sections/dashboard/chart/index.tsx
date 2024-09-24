@@ -4,8 +4,8 @@ import CardAnalytic from "./CardAnalytic";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isoWeek from "dayjs/plugin/isoWeek";
-import SalesBarChart from "./SalesBarChart";
-import SalesPieChart from "./SalesPieChart";
+import ChartBar from "./ChartBar";
+import ChartPie from "./ChartPie";
 
 // extend plugin dayjs
 dayjs.extend(isBetween);
@@ -80,11 +80,11 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
       );
 
       if (existing) {
-        if (existing.total !== undefined) {
-          existing.total += 1;
+        if (existing.value !== undefined) {
+          existing.value += 1;
         }
       } else {
-        acc.push({ nama_sales_or_crr: curr.nama_sales_or_crr, total: 1 });
+        acc.push({ nama_sales_or_crr: curr.nama_sales_or_crr, value: 1 });
       }
 
       return acc;
@@ -92,29 +92,14 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
     []
   );
 
-  const salesNameWitheLeadTime = current.reduce(
-    (acc: AllProject[], curr: AllProject) => {
-      const existing = acc.find(
-        (item) => item?.nama_sales_or_crr === curr.nama_sales_or_crr
-      );
-
-      if (existing) {
-        if (existing.lead_time_project_finish_for_chart !== undefined) {
-          existing.lead_time_project_finish_for_chart += Number(
-            curr?.lead_time_project_finish_for_chart
-          );
-        }
-      } else {
-        acc.push({
-          nama_sales_or_crr: curr.nama_sales_or_crr,
-          total: curr?.lead_time_project_finish_for_chart,
-        });
-      }
-
-      return acc;
-    },
-    []
-  );
+  const salesNameWitheLeadTime = current.map(({ nama_perusahaan, lead_time_project_finish_for_chart, standar }) => {
+    const all_standar = standar?.map((item) => item.nama_standar).join(', ')
+    return {
+      nama_perusahaan: nama_perusahaan,
+      value: lead_time_project_finish_for_chart,
+      all_standar
+    }
+  }).sort((a, b) => Number(b.value) - Number(a.value));
 
   const acreditationWithTotal = current.reduce(
     (acc: AllProject[], curr: AllProject) => {
@@ -123,11 +108,11 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
       );
 
       if (existing) {
-        if (existing.total !== undefined) {
-          existing.total += 1;
+        if (existing.value !== undefined) {
+          existing.value += 1;
         }
       } else {
-        acc.push({ nama_akreditasi: curr.nama_akreditasi, total: 1 });
+        acc.push({ nama_akreditasi: curr.nama_akreditasi, value: 1 });
       }
 
       return acc;
@@ -181,14 +166,14 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
       </Grid>
 
       <Grid item xs={12} md={7} lg={8}>
-        <SalesBarChart
+        <ChartBar
           sales={salesNameWithTotal}
           lead_time={salesNameWitheLeadTime}
         />
       </Grid>
 
       <Grid item xs={12} md={5} lg={4}>
-        <SalesPieChart data={acreditationWithTotal} />
+        <ChartPie data={acreditationWithTotal} />
       </Grid>
     </Grid>
   );

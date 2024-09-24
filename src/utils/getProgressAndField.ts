@@ -212,8 +212,14 @@ export function getlatestProgress(field: AllProject) {
         : 1
     )[0];
 
-  if (latestProgressAudit && (field?.tahapan === 1 || field?.tahapan === 7)) {
-    return `${latestProgressAudit.tahapan?.replace("Tanggal ", "")}`;
+  if (location?.pathname === "/ispo") {
+    if (latestProgressAudit && (field?.tahapan === 1 || field?.tahapan === 7)) {
+      return `${latestProgressAudit.tahapan?.replace("Tanggal ", "")}`;
+    }
+  } else {
+    if (latestProgressAudit && field?.tahapan === 1) {
+      return `${latestProgressAudit.tahapan?.replace("Tanggal ", "")}`;
+    }
   }
 
   if (latestProgress && field?.tahapan > 1) {
@@ -224,8 +230,14 @@ export function getlatestProgress(field: AllProject) {
 }
 
 export function getDataTable(field: AllProject) {
-  if (field?.tahapan === 1 || field?.tahapan === 7) {
-    return getFieldAudit(field);
+  if (location?.pathname === "/ispo") {
+    if (field?.tahapan === 1 || field?.tahapan === 7) {
+      return getFieldAudit(field);
+    }
+  } else {
+    if (field?.tahapan === 1) {
+      return getFieldAudit(field);
+    }
   }
 
   if (field?.tahapan > 1) {
@@ -238,17 +250,32 @@ export function getDataTable(field: AllProject) {
 export function getNextStep(field: AllProject) {
   const latest = `Tanggal ${getlatestProgress(field)}`;
 
-  if (field?.tahapan === 1 || field?.tahapan === 7) {
-    const indexInitialAudit =
-      getFieldAudit(field).findIndex((item) => item.tahapan === latest) + 1;
-    const isDone = indexInitialAudit > getFieldAudit(field).length - 1;
+  if (location?.pathname === "/ispo") {
+    if (field?.tahapan === 1 || field?.tahapan === 7) {
+      const indexInitialAudit =
+        getFieldAudit(field).findIndex((item) => item.tahapan === latest) + 1;
+      const isDone = indexInitialAudit > getFieldAudit(field).length - 1;
 
-    return isDone
-      ? "DONE"
-      : getFieldAudit(field)[indexInitialAudit]?.tahapan?.replace(
-          "Tanggal ",
-          ""
-        );
+      return isDone
+        ? "DONE"
+        : getFieldAudit(field)[indexInitialAudit]?.tahapan?.replace(
+            "Tanggal ",
+            ""
+          );
+    }
+  } else {
+    if (field?.tahapan === 1) {
+      const indexInitialAudit =
+        getFieldAudit(field).findIndex((item) => item.tahapan === latest) + 1;
+      const isDone = indexInitialAudit > getFieldAudit(field).length - 1;
+
+      return isDone
+        ? "DONE"
+        : getFieldAudit(field)[indexInitialAudit]?.tahapan?.replace(
+            "Tanggal ",
+            ""
+          );
+    }
   }
 
   if (field?.tahapan > 1) {

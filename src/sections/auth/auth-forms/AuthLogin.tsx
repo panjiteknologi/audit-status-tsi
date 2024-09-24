@@ -104,7 +104,6 @@ const AuthLogin = ({
               navigate(path);
             }
           } catch (err: any) {
-            console.log("Err Login : ", err);
             setShowModal(true);
             setError(true);
             setStatus({ success: false });

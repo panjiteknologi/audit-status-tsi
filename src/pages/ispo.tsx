@@ -37,9 +37,9 @@ import IlustrationCancel from "@/assets/ilustration/il-notfound.svg";
 import IlustrationLoading from "@/assets/ilustration/il-loading.svg";
 import IlustrationNotFound from "@/assets/ilustration/il-notfound.svg";
 import IlustrationNotAccountAccess from "@/assets/ilustration/il-access.svg";
-import InputSections from "@/sections/iso";
-import ModalDetail from "@/sections/iso/ModalDetail";
-import CloseButton from "@/sections/iso/CloseButton";
+import CardSections from "@/sections/card-sections";
+import ModalDetail from "@/sections/card-sections/ModalDetail";
+import CloseButton from "@/sections/card-sections/CloseButton";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
   "& .MuiOutlinedInput-notchedOutline": {
@@ -199,44 +199,44 @@ const Ispo = () => {
         },
         // ===== ISPO | Start =====
         {
-          tahapan: "Tanggal Proses Review Tahap Satu",
+          tahapan: "Tanggal Proses Review ST Satu",
           tanggalStatus: item?.tgl_proses_review_tahap_satu,
           catatan: item?.note_tgl_proses_review_tahap_satu,
           leadTime: item?.lead_time_tgl_proses_review_tahap_satu,
         },
         {
-          tahapan: "Tanggal Pengambilan Keputusan Tahap Satu",
+          tahapan: "Tanggal Pengambilan Keputusan ST Satu",
           tanggalStatus: item?.tgl_pengambilan_keputusan_tahap_satu,
           catatan: item?.note_tgl_pengambilan_keputusan_tahap_satu,
           leadTime: item?.lead_time_tgl_pengambilan_keputusan_tahap_satu,
         },
         // ===== ISPO | End =====
         {
-          tahapan: "Tanggal Review Penugasan Dua",
+          tahapan: "Tanggal Review Penugasan ST Dua",
           tanggalStatus: item?.tgl_review_penugasan_st_dua,
           catatan: item?.note_tgl_review_penugasan_st_dua,
           leadTime: item?.lead_time_tgl_review_penugasan_st_dua,
         },
         {
-          tahapan: "Tanggal Pengiriman Notifikasi Dua",
+          tahapan: "Tanggal Pengiriman Notifikasi ST Dua",
           tanggalStatus: item?.tgl_pengiriman_notif_st_dua,
           catatan: item?.note_tgl_pengiriman_notif_st_dua,
           leadTime: item?.lead_time_tgl_pengiriman_notif_st_dua,
         },
         {
-          tahapan: "Tanggal Persetujuan Notifikasi Dua",
+          tahapan: "Tanggal Persetujuan Notifikasi ST Dua",
           tanggalStatus: item?.tgl_persetujuan_notif_st_dua,
           catatan: item?.note_tgl_persetujuan_notif_st_dua,
           leadTime: item?.lead_time_tgl_persetujuan_notif_st_dua,
         },
         {
-          tahapan: "Tanggal Pengiriman Audit Plan Dua",
+          tahapan: "Tanggal Pengiriman Audit Plan ST Dua",
           tanggalStatus: item?.tgl_pengiriman_audit_plan_st_dua,
           catatan: item?.note_tgl_pengiriman_audit_plan_st_dua,
           leadTime: item?.lead_time_tgl_pengiriman_audit_plan_st_dua,
         },
         {
-          tahapan: "Tanggal Pelaksanaan Audit Dua",
+          tahapan: "Tanggal Pelaksanaan Audit ST Dua",
           tanggalStatus: item?.tgl_pelaksanaan_audit_st_dua,
           catatan: item?.note_tgl_pelaksanaan_audit_st_dua,
           leadTime: item?.lead_time_tgl_pelaksanaan_audit_st_dua,
@@ -249,13 +249,13 @@ const Ispo = () => {
         },
         // ===== ISPO | Start =====
         {
-          tahapan: "Tanggal Proses Review Tahap Dua",
+          tahapan: "Tanggal Proses Review ST Dua",
           tanggalStatus: item?.tgl_proses_review_tahap_dua,
           catatan: item?.note_tgl_proses_review_tahap_dua,
           leadTime: item?.lead_time_tgl_proses_review_tahap_dua,
         },
         {
-          tahapan: "Tanggal Pengambilan Keputusan Tahap Dua",
+          tahapan: "Tanggal Pengambilan Keputusan ST Dua",
           tanggalStatus: item?.tgl_pengambilan_keputusan_tahap_dua,
           catatan: item?.note_tgl_pengambilan_keputusan_tahap_dua,
           leadTime: item?.lead_time_tgl_pengambilan_keputusan_tahap_dua,
@@ -326,13 +326,13 @@ const Ispo = () => {
         },
         // ===== ISPO | Start =====
         {
-          tahapan: "Tanggal Proses Review Tahap Dua",
+          tahapan: "Tanggal Proses Review ST Dua",
           tanggalStatus: item?.tgl_proses_review_tahap_dua,
           catatan: item?.note_tgl_proses_review_tahap_dua,
           leadTime: item?.lead_time_tgl_proses_review_tahap_dua,
         },
         {
-          tahapan: "Tanggal Pengambilan Keputusan Tahap Dua",
+          tahapan: "Tanggal Pengambilan Keputusan ST Dua",
           tanggalStatus: item?.tgl_pengambilan_keputusan_tahap_dua,
           catatan: item?.note_tgl_pengambilan_keputusan_tahap_dua,
           leadTime: item?.lead_time_tgl_pengambilan_keputusan_tahap_dua,
@@ -622,7 +622,7 @@ const Ispo = () => {
                 </Typography>
               )}
 
-              <InputSections
+              <CardSections
                 data={filteredData}
                 setAdd={setAdd}
                 openModal={openModal}

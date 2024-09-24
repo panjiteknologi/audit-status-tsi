@@ -17,6 +17,7 @@ import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DataTable from "@/components/table/DataTable";
 import useAuth from "@/hooks/useAuth";
 import { getDataTable, getlatestProgress } from "@/utils/getProgressAndField";
+import { useLocation } from "react-router";
 
 interface CardInfoProps {
   items: AllProject;
@@ -33,6 +34,11 @@ const CardInfo = ({
   index,
   handleClick,
 }: CardInfoProps) => {
+  const { isLoggedIn } = useAuth();
+
+  const routes = useLocation();
+  const pathName = routes?.pathname?.substring(1);
+
   const theme = useTheme();
 
   const sm = useMediaQuery(theme.breakpoints.down("sm"));
@@ -74,8 +80,6 @@ const CardInfo = ({
     fontWeight: "bold",
   }));
 
-  const { isLoggedIn } = useAuth();
-
   return (
     <Grid item xs={4} sx={{ marginTop: 1 }}>
       <MainCard
@@ -85,18 +89,18 @@ const CardInfo = ({
           items?.status_pembayaran == 1
             ? "red"
             : items?.status_pembayaran === 2
-              ? "#1677ff"
-              : items?.status_pembayaran === 3
-                ? "#1677ff"
-                : items?.status_pembayaran === 4
-                  ? "#1677ff"
-                  : items?.status_pembayaran === 5
-                    ? "#1677ff"
-                    : items?.status_pembayaran === 6
-                      ? "#1677ff"
-                      : items?.status_pembayaran === null
-                        ? "gray"
-                        : "#5a8b5c"
+            ? "#1677ff"
+            : items?.status_pembayaran === 3
+            ? "#1677ff"
+            : items?.status_pembayaran === 4
+            ? "#1677ff"
+            : items?.status_pembayaran === 5
+            ? "#1677ff"
+            : items?.status_pembayaran === 6
+            ? "#1677ff"
+            : items?.status_pembayaran === null
+            ? "gray"
+            : "#5a8b5c"
         }
         titleBtnHeader={items?.nama_status_pembayaran}
         iconRight={
@@ -164,9 +168,7 @@ const CardInfo = ({
               </Grid>
               <Grid item xs={6} xl={2} lg={2} md={2}>
                 <TitleItem>Latest Progress</TitleItem>
-                <ItemLateProgress>
-                  {getlatestProgress(items)}
-                </ItemLateProgress>
+                <ItemLateProgress>{getlatestProgress(items)}</ItemLateProgress>
               </Grid>
               <Grid item xs={6} xl={2} lg={2} md={2}>
                 <TitleItem>Lead Time Project</TitleItem>
@@ -191,9 +193,7 @@ const CardInfo = ({
               borderColor: "gray",
             }}
           >
-            <DataTable
-              data={getDataTable(items)}
-            />
+            <DataTable data={getDataTable(items)} pathName={pathName} />
           </Box>
         </Collapse>
       </MainCard>

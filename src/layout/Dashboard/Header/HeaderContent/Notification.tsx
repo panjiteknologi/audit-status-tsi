@@ -8,7 +8,6 @@ import {
   ListItem,
   Paper,
   Popper,
-  Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -16,7 +15,7 @@ import MainCard from "@/components/MainCard";
 import IconButton from "@/components/@extended/IconButton";
 import Transitions from "@/components/@extended/Transitions";
 import { ThemeMode } from "@/config";
-import { NotificationsNoneOutlined, CheckOutlined } from "@mui/icons-material";
+import { NotificationsNoneOutlined } from "@mui/icons-material";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   BASE_URL,
@@ -26,6 +25,7 @@ import {
 import axios from "axios";
 import { AllNotification } from "@/types/Project";
 import { useNavigate } from "react-router";
+import moment from "moment";
 
 const avatarSX = {
   width: 36,
@@ -51,7 +51,8 @@ const Notification = () => {
 
   const anchorRef = useRef<null | HTMLButtonElement>(null);
   const [open, setOpen] = useState(false);
-  const [clickedIndex, setClickedIndex] = useState<number | null>(null);
+
+  const [isEmpty, setIsEmpty] = useState(false);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
@@ -72,17 +73,19 @@ const Notification = () => {
     queryFn: async () => {
       const token = window.localStorage.getItem("serviceToken");
       const idUser = window.localStorage.getItem("idUser");
-      const data = { id_user: idUser };
+      const role = window.localStorage.getItem("role");
+
+      const data = { id_user: idUser, role_penerima: role };
 
       try {
         const response = await axios.post(BASE_URL + GET_NOTIFICATION, data, {
           headers: { Authorization: token },
         });
+        setIsEmpty(false);
         return response?.data?.data;
       } catch (error) {
-        console.log("errr", error);
+        setIsEmpty(true);
         return [];
-      } finally {
       }
     },
     refetchOnWindowFocus: true,
@@ -115,7 +118,6 @@ const Notification = () => {
 
   const onSubmit = async (values: AllNotification) => {
     mutation.mutate(values);
-    setClickedIndex(values?.status_notif);
     if (values?.id_project) {
       setOpen(false);
       navigate(`/detail-project/${values?.id_project}`);
@@ -184,19 +186,19 @@ const Notification = () => {
                   elevation={0}
                   border={false}
                   content={false}
-                  secondary={
-                    unreadCount > 0 && (
-                      <Tooltip title="Mark as all read">
-                        <IconButton
-                          color="success"
-                          size="small"
-                          onClick={() => setClickedIndex(null)}
-                        >
-                          <CheckOutlined style={{ fontSize: "1.15rem" }} />
-                        </IconButton>
-                      </Tooltip>
-                    )
-                  }
+                  // secondary={
+                  //   unreadCount > 0 && (
+                  //     <Tooltip title="Mark as all read">
+                  //       <IconButton
+                  //         color="success"
+                  //         size="small"
+                  //         onClick={() => setClickedIndex(null)}
+                  //       >
+                  //         <CheckOutlined style={{ fontSize: "1.15rem" }} />
+                  //       </IconButton>
+                  //     </Tooltip>
+                  //   )
+                  // }
                 >
                   <List
                     component="nav"
@@ -217,44 +219,70 @@ const Notification = () => {
                       },
                     }}
                   >
-                    {allNotification?.map(
-                      (item: AllNotification, index: number) => {
-                        return (
-                          <ListItem
-                            key={index}
-                            onClick={() => onSubmit(item)}
-                            sx={{
-                              backgroundColor:
-                                item?.status_notif === 1 ||
-                                clickedIndex === index
-                                  ? "white"
-                                  : "#e5f5fc",
-                              borderBottom: 1,
-                              borderColor: "#d8f0fa",
-                              padding: 2,
-                              cursor: "pointer",
-                              outline: "none",
-                              ":hover": { backgroundColor: "#d8f0fa" },
-                              display: "flex",
-                              flexDirection: "column",
-                              alignItems: "flex-start",
-                            }}
-                          >
-                            <Typography
+                    {!isEmpty ? (
+                      allNotification?.map(
+                        (item: AllNotification, index: number) => {
+                          return (
+                            <Box
                               sx={{
-                                fontSize: 16,
-                                color: "#EF5A6F",
-                                fontWeight: "bold",
+                                display: "flex",
+                                alignItems: "center",
+                                backgroundColor: "white",
+                                borderBottom: 1,
+                                borderColor: "#d8f0fa",
+                                padding: 2,
+                                cursor: "pointer",
+                                outline: "none",
+                                ":hover": { backgroundColor: "#d8f0fa" },
                               }}
                             >
-                              {item?.create_date}
-                            </Typography>
-                            <Typography sx={{ fontSize: 16, color: "#000" }}>
-                              {item?.message_notif ? item?.message_notif : "-"}
-                            </Typography>
-                          </ListItem>
-                        );
-                      }
+                              {item?.status_notif !== 1 && (
+                                <Box
+                                  sx={{
+                                    width: 10,
+                                    height: 10,
+                                    backgroundColor: "#EF5A6F",
+                                    borderRadius: "50%",
+                                  }}
+                                />
+                              )}
+
+                              <ListItem
+                                key={index}
+                                onClick={() => onSubmit(item)}
+                                sx={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  alignItems: "flex-start",
+                                }}
+                              >
+                                <Typography
+                                  sx={{
+                                    fontSize: 16,
+                                    color: "#125B9A",
+                                    fontWeight: "bold",
+                                  }}
+                                >
+                                  {moment(item?.create_date).format(
+                                    "DD MMMM YYYY"
+                                  )}
+                                </Typography>
+                                <Typography
+                                  sx={{ fontSize: 16, color: "#000" }}
+                                >
+                                  {item?.message_notif
+                                    ? item?.message_notif
+                                    : "-"}
+                                </Typography>
+                              </ListItem>
+                            </Box>
+                          );
+                        }
+                      )
+                    ) : (
+                      <Typography sx={{ marginLeft: 2 }}>
+                        No Data Notification
+                      </Typography>
                     )}
                   </List>
                 </MainCard>
