@@ -12,13 +12,15 @@ import { Stack } from "@mui/material";
 const ChartBar = ({
   sales,
   lead_time,
+  certificate
 }: {
   sales: AllProject[];
   lead_time: AllProject[];
+  certificate: AllProject[];
 }) => {
   const chartRef = useRef<any>(null);
 
-  const [slot, setSlot] = useState<"sales" | "lead_time">("sales");
+  const [slot, setSlot] = useState<"sales" | "lead_time" | "certificate">("sales");
 
   useLayoutEffect(() => {
     let root = am5.Root.new("chartdiv");
@@ -102,14 +104,14 @@ const ChartBar = ({
     }));
 
     // Pre-zoom the chart
-    if (slot === "lead_time") {
+    if (slot === "lead_time" || slot === 'certificate') {
       series.events.once("datavalidated", () => {
         xAxis.zoomToIndexes(0, 4)
       })
     }
 
-    xAxis.data.setAll(slot === 'sales' ? sales : lead_time);
-    series.data.setAll(slot === 'sales' ? sales : lead_time);
+    xAxis.data.setAll(slot === 'sales' ? sales : slot === 'lead_time' ? lead_time : certificate);
+    series.data.setAll(slot === 'sales' ? sales : slot === 'lead_time' ? lead_time : certificate);
 
     // Make stuff animate on load
     series.appear(1000);
@@ -120,12 +122,12 @@ const ChartBar = ({
     return () => {
       root.dispose();
     };
-  }, [sales, lead_time, slot]);
+  }, [sales, lead_time, certificate, slot]);
 
   // Group Button
   const handleChange = (
     event: MouseEvent<HTMLElement>,
-    newAlignment: SetStateAction<"sales" | "lead_time">
+    newAlignment: SetStateAction<"sales" | "lead_time" | "certificate">
   ) => {
     if (newAlignment) setSlot(newAlignment);
   };
@@ -156,11 +158,18 @@ const ChartBar = ({
           >
             Lead Time
           </ToggleButton>
+          <ToggleButton
+            disabled={slot === "certificate"}
+            value="certificate"
+            sx={{ px: 2, py: 0.5 }}
+          >
+            Lead Time Audit - Sertifikat
+          </ToggleButton>
         </ToggleButtonGroup>
       </Box>
       <Box>
         <Box id="chart">
-          {sales?.length > 0 || lead_time?.length > 0 ? (
+          {sales?.length > 0 || lead_time?.length > 0 || certificate?.length > 0 ? (
             <div id="chartdiv" style={{ width: '100%', height: 475 }} />
           ) : (
             <Stack justifyContent="center" alignItems="center" height="100%">

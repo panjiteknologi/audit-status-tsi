@@ -95,8 +95,17 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
   const salesNameWitheLeadTime = current.map(({ nama_perusahaan, lead_time_project_finish_for_chart, standar }) => {
     const all_standar = standar?.map((item) => item.nama_standar).join(', ')
     return {
-      nama_perusahaan: nama_perusahaan,
+      nama_perusahaan,
       value: lead_time_project_finish_for_chart,
+      all_standar
+    }
+  }).sort((a, b) => Number(b.value) - Number(a.value));
+
+  const companyNameWithCertificate = current.map(({ nama_perusahaan, lead_time_projec_audit_sertifikat, standar }) => {
+    const all_standar = standar?.map((item) => item.nama_standar).join(', ')
+    return {
+      nama_perusahaan,
+      value: lead_time_projec_audit_sertifikat === undefined ? 0 : lead_time_projec_audit_sertifikat,
       all_standar
     }
   }).sort((a, b) => Number(b.value) - Number(a.value));
@@ -169,6 +178,7 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
         <ChartBar
           sales={salesNameWithTotal}
           lead_time={salesNameWitheLeadTime}
+          certificate={companyNameWithCertificate}
         />
       </Grid>
 
