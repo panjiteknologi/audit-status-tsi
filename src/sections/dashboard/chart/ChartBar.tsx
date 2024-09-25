@@ -85,7 +85,7 @@ const ChartBar = ({
       valueYField: slot === 'sales' ? "value" : "value",
       categoryXField: slot === 'sales' ? "nama_sales_or_crr" : "nama_perusahaan",
       tooltip: am5.Tooltip.new(root, {
-        labelText: slot === 'sales' ? `Sales: {valueY}` : `Lead Time: {valueY} Hari, Standar: {all_standar}`
+        labelText: slot === 'sales' ? `Sales: {valueY}` : `Standar: {all_standar}`
       }),
     }));
 
@@ -96,6 +96,20 @@ const ChartBar = ({
 
     series.columns.template.adapters.add("stroke", function (stroke, target) {
       return chart.get("colors")?.getIndex(series.columns.indexOf(target));
+    });
+
+    // Add Label bullet
+    series.bullets.push(function () {
+      return am5.Bullet.new(root, {
+        locationY: 1,
+        sprite: am5.Label.new(root, {
+          text: slot === 'sales' ? "{valueYWorking.formatNumber('#.')}" : "{valueYWorking.formatNumber('#.')} Hari",
+          fill: root.interfaceColors.get("alternativeText"),
+          centerY: 0,
+          centerX: am5.p50,
+          populateText: true
+        })
+      });
     });
 
     // Add scrollbar
