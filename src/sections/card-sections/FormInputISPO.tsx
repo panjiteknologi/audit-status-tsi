@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { Grid } from "@mui/material";
-import { AllProject, MenuProject } from "@/types/Project";
+import { AllProject } from "@/types/Project";
 import InputText from "@/components/forms/InputText";
 import InputDate from "@/components/forms/InputDate";
 import moment, { Moment } from "moment";
@@ -8,7 +8,6 @@ import moment, { Moment } from "moment";
 interface FormInputISPOProps {
   data: AllProject | null;
   add: boolean;
-  dataAkreditasi: MenuProject[];
   handleBlur: any;
   handleChange: any;
   values: any;
@@ -18,16 +17,11 @@ interface FormInputISPOProps {
 const FormInputISPO = ({
   data,
   add,
-  dataAkreditasi,
   handleBlur,
   handleChange,
   values,
   setFieldValue,
 }: FormInputISPOProps) => {
-  const akre = dataAkreditasi?.find(
-    (items) => items?.id_akreditasi === values?.akreditasi
-  );
-
   useEffect(() => {
     if (data) {
       data;
@@ -36,7 +30,7 @@ const FormInputISPO = ({
 
   return (
     <>
-      {values?.tahapan === 1 || values?.tahapan === 7 ? (
+      {values?.tahapan === 1 ? (
         <React.Fragment>
           <Grid item xs={12} sm={6}>
             <InputDate
@@ -345,7 +339,7 @@ const FormInputISPO = ({
           <Grid item xs={12} sm={6}>
             <InputDate
               disabled={
-                !values?.tgl_penyelesaian_capa_st_satu ||
+                !values?.tgl_pengambilan_keputusan_tahap_satu ||
                 (!add && !!data?.tgl_review_penugasan_st_dua)
               }
               selectedDate={
@@ -562,7 +556,7 @@ const FormInputISPO = ({
           <Grid item xs={12} sm={6}>
             <InputDate
               disabled={
-                !values?.tgl_pengambilan_keputusan_tahap_dua ||
+                !values?.tgl_proses_review_tahap_dua ||
                 (!add && !!data?.tgl_pengambilan_keputusan_tahap_dua)
               }
               selectedDate={
@@ -655,7 +649,7 @@ const FormInputISPO = ({
           <Grid item xs={12} sm={6}>
             <InputDate
               disabled={
-                !values?.tgl_persetujuan_kan ||
+                !values?.tgl_persetujuan_draft_sertifikat ||
                 (!add && !!data?.tgl_kirim_sertifikat)
               }
               selectedDate={
@@ -924,6 +918,70 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_penyelesaian_capa_st_dua ||
+                  (!add && !!data?.tgl_proses_review_tahap_dua)
+                }
+                selectedDate={
+                  values?.tgl_proses_review_tahap_dua
+                    ? moment(values.tgl_proses_review_tahap_dua)
+                    : null
+                }
+                handleDateChange={(newDate) => {
+                  const selectedDate = newDate?.format("YYYY-MM-DD");
+                  const currentTime = moment().format("HH:mm:ss");
+                  setFieldValue(
+                    "tgl_proses_review_tahap_dua",
+                    selectedDate + " " + currentTime
+                  );
+                }}
+                label="Tanggal Proses Review ST Dua"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <InputText
+                label={`Catatan Tanggal Proses Review ST Dua`}
+                values={values?.note_tgl_proses_review_tahap_dua}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="note_tgl_proses_review_tahap_dua"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <InputDate
+                disabled={
+                  !values?.tgl_proses_review_tahap_dua ||
+                  (!add && !!data?.tgl_pengambilan_keputusan_tahap_dua)
+                }
+                selectedDate={
+                  values?.tgl_pengambilan_keputusan_tahap_dua
+                    ? moment(values.tgl_pengambilan_keputusan_tahap_dua)
+                    : null
+                }
+                handleDateChange={(newDate) => {
+                  const selectedDate = newDate?.format("YYYY-MM-DD");
+                  const currentTime = moment().format("HH:mm:ss");
+                  setFieldValue(
+                    "tgl_pengambilan_keputusan_tahap_dua",
+                    selectedDate + " " + currentTime
+                  );
+                }}
+                label="Tanggal Pengambilan Keputusan ST Dua"
+              />
+            </Grid>
+            <Grid item xs={12} sm={6}>
+              <InputText
+                label={`Catatan Tanggal Pengambilan Keputusan ST Dua`}
+                values={values?.note_tgl_pengambilan_keputusan_tahap_dua}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                name="note_tgl_pengambilan_keputusan_tahap_dua"
+              />
+            </Grid>
+
+            <Grid item xs={12} sm={6}>
+              <InputDate
+                disabled={
+                  !values?.tgl_pengambilan_keputusan_tahap_dua ||
                   (!add && !!data?.tgl_pengiriman_draft_sertifikat)
                     ? true
                     : false
@@ -992,82 +1050,6 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_persetujuan_draft_sertifikat ||
-                  (!add && !!data?.tgl_pengajuan_ke_kan)
-                    ? true
-                    : false
-                }
-                selectedDate={
-                  values?.tgl_pengajuan_ke_kan
-                    ? moment(values.tgl_pengajuan_ke_kan)
-                    : null
-                }
-                handleDateChange={(newDate) => {
-                  const selectedDate = newDate?.format("YYYY-MM-DD");
-                  const currentTime = moment().format("HH:mm:ss");
-                  setFieldValue(
-                    "tgl_pengajuan_ke_kan",
-                    selectedDate + " " + currentTime
-                  );
-                }}
-                label={`Tanggal Pengajuan ke ${
-                  akre?.nama_akreditasi ? akre?.nama_akreditasi : ""
-                }`}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <InputText
-                label={`Catatan Tanggal Pengajuan ke ${
-                  akre?.nama_akreditasi ? akre?.nama_akreditasi : ""
-                }`}
-                values={values?.note_tgl_pengajuan_ke_kan}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                name="note_tgl_pengajuan_ke_kan"
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <InputDate
-                disabled={
-                  !values?.tgl_pengajuan_ke_kan ||
-                  (!add && !!data?.tgl_persetujuan_kan)
-                    ? true
-                    : false
-                }
-                selectedDate={
-                  values?.tgl_persetujuan_kan
-                    ? moment(values.tgl_persetujuan_kan)
-                    : null
-                }
-                handleDateChange={(newDate) => {
-                  const selectedDate = newDate?.format("YYYY-MM-DD");
-                  const currentTime = moment().format("HH:mm:ss");
-                  setFieldValue(
-                    "tgl_persetujuan_kan",
-                    selectedDate + " " + currentTime
-                  );
-                }}
-                label={`Tanggal Persetujuan ke ${
-                  akre?.nama_akreditasi ? akre?.nama_akreditasi : ""
-                }`}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6}>
-              <InputText
-                label={`Catatan Tanggal Persetujuan ke ${
-                  akre?.nama_akreditasi ? akre?.nama_akreditasi : ""
-                }`}
-                values={values?.note_tgl_persetujuan_kan}
-                onChange={handleChange}
-                onBlur={handleBlur}
-                name="note_tgl_persetujuan_kan"
-              />
-            </Grid>
-
-            <Grid item xs={12} sm={6}>
-              <InputDate
-                disabled={
-                  !values?.tgl_persetujuan_kan ||
                   (!add && !!data?.tgl_kirim_sertifikat)
                     ? true
                     : false

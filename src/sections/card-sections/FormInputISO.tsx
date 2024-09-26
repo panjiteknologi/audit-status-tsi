@@ -483,7 +483,7 @@ const FormInputISO = ({
           <Grid item xs={12} sm={6}>
             <InputDate
               disabled={
-                !values?.tgl_pengambilan_keputusan_tahap_dua ||
+                !values?.tgl_penyelesaian_capa_st_dua ||
                 (!add && !!data?.tgl_pengiriman_draft_sertifikat)
               }
               selectedDate={
