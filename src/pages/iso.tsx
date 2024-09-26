@@ -418,17 +418,7 @@ const Dashboard = () => {
       const idUser = window.localStorage.getItem("idUser");
       const token = window.localStorage.getItem("serviceToken");
       const data = { id_user: idUser, is_ispo: "0", ...values };
-
-      delete data.tgl_proses_review_tahap_satu;
-      delete data.note_tgl_proses_review_tahap_satu;
-      delete data.tgl_pengambilan_keputusan_tahap_satu;
-      delete data.note_tgl_pengambilan_keputusan_tahap_satu;
-
-      delete data.tgl_proses_review_tahap_dua;
-      delete data.note_tgl_proses_review_tahap_dua;
-      delete data.tgl_pengambilan_keputusan_tahap_dua;
-      delete data.note_tgl_pengambilan_keputusan_tahap_dua;
-
+      console.log("values", values);
       return add
         ? axios.post(BASE_URL + ADD_PROJECT, data, {
             headers: { Authorization: token },

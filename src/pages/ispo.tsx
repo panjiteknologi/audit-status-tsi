@@ -446,18 +446,6 @@ const Ispo = () => {
         ...values,
       };
 
-      if (data.tahapan !== 1 || data.tahapan !== 7) {
-        delete data.tgl_proses_review_tahap_satu;
-        delete data.note_tgl_proses_review_tahap_satu;
-        delete data.tgl_pengambilan_keputusan_tahap_satu;
-        delete data.note_tgl_pengambilan_keputusan_tahap_satu;
-      }
-
-      delete data.tgl_pengajuan_ke_kan;
-      delete data.note_tgl_pengajuan_ke_kan;
-      delete data.tgl_persetujuan_kan;
-      delete data.note_tgl_persetujuan_kan;
-
       return add
         ? axios.post(BASE_URL + ADD_ISPO, data, {
             headers: { Authorization: token },

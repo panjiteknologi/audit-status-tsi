@@ -487,7 +487,6 @@ const ModalDetail = ({
                     <FormInputISPO
                       data={data}
                       add={add}
-                      dataAkreditasi={dataAkreditasi}
                       handleBlur={handleBlur}
                       handleChange={handleChange}
                       values={values}
