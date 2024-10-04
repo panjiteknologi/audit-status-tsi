@@ -12,15 +12,13 @@ import { Stack } from "@mui/material";
 const ChartBar = ({
   sales,
   lead_time,
-  certificate
 }: {
   sales: AllProject[];
   lead_time: AllProject[];
-  certificate: AllProject[];
 }) => {
   const chartRef = useRef<any>(null);
 
-  const [slot, setSlot] = useState<"sales" | "lead_time" | "certificate">("sales");
+  const [slot, setSlot] = useState<"sales" | "lead_time">("sales");
 
   useLayoutEffect(() => {
     let root = am5.Root.new("chartdiv");
@@ -78,57 +76,71 @@ const ChartBar = ({
 
     // Create series
     // https://www.amcharts.com/docs/v5/charts/xy-chart/series/
-    let series = chart.series.push(am5xy.ColumnSeries.new(root, {
-      name: "Series 1",
-      xAxis: xAxis,
-      yAxis: yAxis,
-      valueYField: slot === 'sales' ? "value" : "value",
-      categoryXField: slot === 'sales' ? "nama_sales_or_crr" : "nama_perusahaan",
-      tooltip: am5.Tooltip.new(root, {
-        labelText: slot === 'sales' ? `Sales: {valueY}` : `Standar: {all_standar}`
-      }),
-    }));
+    function makeSeries(name: string, fieldName: string, label?: string) {
+      let series = chart.series.push(am5xy.ColumnSeries.new(root, {
+        name,
+        xAxis: xAxis,
+        yAxis: yAxis,
+        valueYField: fieldName,
+        categoryXField: slot === 'sales' ? "nama_sales_or_crr" : "nama_perusahaan",
+        tooltip: am5.Tooltip.new(root, {
+          labelText: slot === 'sales' ? `Sales: {valueY}` : `Standar: {all_standar}`
+        }),
+      }));
 
-    series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
-    series.columns.template.adapters.add("fill", function (fill, target) {
-      return chart.get("colors")?.getIndex(series.columns.indexOf(target));
-    });
-
-    series.columns.template.adapters.add("stroke", function (stroke, target) {
-      return chart.get("colors")?.getIndex(series.columns.indexOf(target));
-    });
-
-    // Add Label bullet
-    series.bullets.push(function () {
-      return am5.Bullet.new(root, {
-        locationY: 1,
-        sprite: am5.Label.new(root, {
-          text: slot === 'sales' ? "{valueYWorking.formatNumber('#.')}" : "{valueYWorking.formatNumber('#.')} Hari",
-          fill: root.interfaceColors.get("alternativeText"),
-          centerY: 0,
-          centerX: am5.p50,
-          populateText: true
-        })
+      series.columns.template.setAll({ cornerRadiusTL: 5, cornerRadiusTR: 5, strokeOpacity: 0 });
+      series.columns.template.adapters.add("fill", function (fill, target) {
+        return chart.get("colors")?.getIndex(series.columns.indexOf(target));
       });
-    });
+
+      series.columns.template.adapters.add("stroke", function (stroke, target) {
+        return chart.get("colors")?.getIndex(series.columns.indexOf(target));
+      });
+
+      // Pre-zoom the chart
+      if (slot === "lead_time") {
+        series.events.once("datavalidated", () => {
+          xAxis.zoomToIndexes(0, 4)
+        })
+      }
+
+      series.data.setAll(slot === 'sales' ? sales : lead_time);
+      series.appear(1000);
+
+      // Add Label bullet
+      series.bullets.push(function () {
+        return am5.Bullet.new(root, {
+          locationY: 1,
+          sprite: am5.Label.new(root, {
+            text: slot === 'sales' ? "{valueYWorking.formatNumber('#.')}" : `{valueYWorking.formatNumber('#.')} Hari\n(${label})`,
+            fill: root.interfaceColors.get("alternativeText"),
+            centerY: 0,
+            centerX: am5.p50,
+            populateText: true
+          })
+        });
+      });
+
+      // legend.data.push(series);
+    }
+
+    if (slot === 'sales') {
+      makeSeries("Sales", "value");
+    } else {
+      makeSeries("Lead Time All", "value_all", "All");
+      makeSeries("Lead Time Capa to Certificate", "value_capa_to_certificate", "Audit - \n Crtificate");
+    }
+
+
 
     // Add scrollbar
     chart.set("scrollbarX", am5.Scrollbar.new(root, {
       orientation: "horizontal"
     }));
 
-    // Pre-zoom the chart
-    if (slot === "lead_time" || slot === 'certificate') {
-      series.events.once("datavalidated", () => {
-        xAxis.zoomToIndexes(0, 4)
-      })
-    }
-
-    xAxis.data.setAll(slot === 'sales' ? sales : slot === 'lead_time' ? lead_time : certificate);
-    series.data.setAll(slot === 'sales' ? sales : slot === 'lead_time' ? lead_time : certificate);
+    xAxis.data.setAll(slot === 'sales' ? sales : lead_time);
 
     // Make stuff animate on load
-    series.appear(1000);
     chart.appear(1000, 100);
 
     chartRef.current = root;
@@ -136,12 +148,12 @@ const ChartBar = ({
     return () => {
       root.dispose();
     };
-  }, [sales, lead_time, certificate, slot]);
+  }, [sales, lead_time, slot]);
 
   // Group Button
   const handleChange = (
     event: MouseEvent<HTMLElement>,
-    newAlignment: SetStateAction<"sales" | "lead_time" | "certificate">
+    newAlignment: SetStateAction<"sales" | "lead_time">
   ) => {
     if (newAlignment) setSlot(newAlignment);
   };
@@ -172,18 +184,11 @@ const ChartBar = ({
           >
             Lead Time
           </ToggleButton>
-          <ToggleButton
-            disabled={slot === "certificate"}
-            value="certificate"
-            sx={{ px: 2, py: 0.5 }}
-          >
-            Lead Time Audit - Sertifikat
-          </ToggleButton>
         </ToggleButtonGroup>
       </Box>
       <Box>
         <Box id="chart">
-          {sales?.length > 0 || lead_time?.length > 0 || certificate?.length > 0 ? (
+          {sales?.length > 0 || lead_time?.length > 0 ? (
             <div id="chartdiv" style={{ width: '100%', height: 475 }} />
           ) : (
             <Stack justifyContent="center" alignItems="center" height="100%">
