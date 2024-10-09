@@ -320,13 +320,13 @@ const Dashboard = () => {
           leadTime: item?.lead_time_tgl_persetujuan_draft_sertifikat,
         },
         {
-          tahapan: "Tanggal Pengajuan ke KAN",
+          tahapan: "Tanggal Pengajuan ke " + item?.nama_akreditasi,
           tanggalStatus: item?.tgl_pengajuan_ke_kan,
           catatan: item?.note_tgl_pengajuan_ke_kan,
           leadTime: item?.lead_time_tgl_pengajuan_ke_kan,
         },
         {
-          tahapan: "Tanggal Persetujuan KAN",
+          tahapan: "Tanggal Persetujuan ke " + item?.nama_akreditasi,
           tanggalStatus: item?.tgl_persetujuan_kan,
           catatan: item?.note_tgl_persetujuan_kan,
           leadTime: item?.lead_time_tgl_persetujuan_kan,
