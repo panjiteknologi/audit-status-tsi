@@ -933,12 +933,12 @@ const FormInputISPO = ({
                     selectedDate + " " + currentTime
                   );
                 }}
-                label="Tanggal Proses Review ST Dua"
+                label="Tanggal Proses Review"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <InputText
-                label={`Catatan Tanggal Proses Review ST Dua`}
+                label={`Catatan Tanggal Proses Review`}
                 values={values?.note_tgl_proses_review_tahap_dua}
                 onChange={handleChange}
                 onBlur={handleBlur}
@@ -965,12 +965,12 @@ const FormInputISPO = ({
                     selectedDate + " " + currentTime
                   );
                 }}
-                label="Tanggal Pengambilan Keputusan ST Dua"
+                label="Tanggal Pengambilan Keputusan"
               />
             </Grid>
             <Grid item xs={12} sm={6}>
               <InputText
-                label={`Catatan Tanggal Pengambilan Keputusan ST Dua`}
+                label={`Catatan Tanggal Pengambilan Keputusan`}
                 values={values?.note_tgl_pengambilan_keputusan_tahap_dua}
                 onChange={handleChange}
                 onBlur={handleBlur}
