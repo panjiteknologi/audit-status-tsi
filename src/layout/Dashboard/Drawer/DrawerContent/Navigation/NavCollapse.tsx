@@ -34,6 +34,7 @@ import { CheckBoxOutlineBlankOutlined, KeyboardArrowDown, KeyboardArrowUp, Keybo
 
 // types
 import { MainMenu } from '@/menu-items';
+import NavItem from './NavItem';
 
 // mini-menu - wrapper
 const PopperStyled = styled(Popper)(({ theme }) => ({
@@ -70,14 +71,14 @@ const PopperStyled = styled(Popper)(({ theme }) => ({
 interface NavCollapseProp {
   menu: MainMenu
   level: number
-  parentId?: string
+  parentId: string
   setSelectedItems: Dispatch<SetStateAction<string>>
   selectedItems: string
   setSelectedLevel: Dispatch<SetStateAction<number>>
   selectedLevel: number
 };
 
-const NavCollapse = ({ menu, level, setSelectedItems, selectedItems, setSelectedLevel, selectedLevel }: NavCollapseProp) => {
+const NavCollapse = ({ menu, level, parentId, setSelectedItems, selectedItems, setSelectedLevel, selectedLevel }: NavCollapseProp) => {
   const theme = useTheme();
   const { menuMaster } = useGetMenuMaster();
   const drawerOpen = menuMaster?.isDashboardDrawerOpened;
@@ -194,21 +195,21 @@ const NavCollapse = ({ menu, level, setSelectedItems, selectedItems, setSelected
 
   const navCollapse = menu.children?.map((item) => {
     switch (item.type) {
-      // case 'collapse':
-      //   return (
-      //     <NavCollapse
-      //       key={item.id}
-      //       setSelectedItems={setSelectedItems}
-      //       setSelectedLevel={setSelectedLevel}
-      //       selectedLevel={selectedLevel}
-      //       selectedItems={selectedItems}
-      //       menu={item}
-      //       level={level + 1}
-      //       parentId={parentId}
-      //     />
-      //   );
-      // case 'item':
-      //   return <NavItem key={item.id} item={item} level={level + 1} />;
+      case 'collapse':
+        return (
+          <NavCollapse
+            key={item.id}
+            setSelectedItems={setSelectedItems}
+            setSelectedLevel={setSelectedLevel}
+            selectedLevel={selectedLevel}
+            selectedItems={selectedItems}
+            menu={item}
+            level={level + 1}
+            parentId={parentId}
+          />
+        );
+      case 'item':
+        return <NavItem key={item.id} item={item} level={level + 1} />;
       default:
         return (
           <Typography key={item.id} variant="h6" color="error" align="center">

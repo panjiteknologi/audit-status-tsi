@@ -45,6 +45,26 @@ const router = createBrowserRouter(
       ],
     },
     {
+      path: "/iso-progress",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/iso-progress",
+          element: <ISO />,
+        },
+      ],
+    },
+    {
+      path: "/iso-done",
+      element: <DashboardLayout />,
+      children: [
+        {
+          path: "/iso-done",
+          element: <ISO />,
+        },
+      ],
+    },
+    {
       path: "/ispo",
       element: <DashboardLayout />,
       children: [

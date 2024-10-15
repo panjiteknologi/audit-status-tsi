@@ -1,12 +1,14 @@
 // assets
-import { DashboardOutlined, EditNote, Language, ForestRounded } from "@mui/icons-material";
+import { DashboardOutlined, EditNote, Language, ForestRounded, TaskAltRounded, LoopRounded } from "@mui/icons-material";
 import { MenuType } from ".";
 
 const icons = {
   dashboard: DashboardOutlined,
   input: EditNote,
   iso: Language,
-  ispo: ForestRounded
+  ispo: ForestRounded,
+  done: TaskAltRounded,
+  progress: LoopRounded
 };
 
 const dashboard: MenuType = {
@@ -25,8 +27,24 @@ const dashboard: MenuType = {
       id: "iso",
       title: "ISO",
       url: "/iso",
-      type: "item",
+      type: "collapse",
       icon: icons.iso,
+      children: [
+        {
+          id: "iso-progress",
+          title: "On Progress",
+          url: "/iso-progress",
+          type: "item",
+          icon: icons.progress,
+        },
+        {
+          id: "iso-done",
+          title: "Done",
+          url: "/iso-done",
+          type: "item",
+          icon: icons.done,
+        }
+      ]
     },
     {
       id: "ispo",

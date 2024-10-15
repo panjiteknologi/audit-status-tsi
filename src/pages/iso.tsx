@@ -37,7 +37,7 @@ import IlustrationLoading from "../assets/ilustration/il-loading.svg";
 import IlustrationNotFound from "../assets/ilustration/il-notfound.svg";
 import IlustrationNotAccountAccess from "../assets/ilustration/il-access.svg";
 import useAuth from "@/hooks/useAuth";
-import { useNavigate } from "react-router";
+import { useNavigate, useLocation } from "react-router-dom";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -54,6 +54,7 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
 
 const Dashboard = () => {
   const navigation = useNavigate();
+  const location = useLocation().pathname;
   const { isLoggedIn } = useAuth();
   const queryClient = useQueryClient();
 
@@ -82,10 +83,15 @@ const Dashboard = () => {
   const { data: allProject = [] } = useQuery({
     queryKey: ["allProjects"],
     queryFn: async () => {
+      // setLoading(true);
+
       try {
         const response = await axios.get(BASE_URL + GET_ALL_ISO);
+        const iso_progress: AllProject[] = response?.data?.data?.filter((item: AllProject) => item?.lead_time_project_finish === "-");
+        const iso_done: AllProject[] = response?.data?.data?.filter((item: AllProject) => item?.lead_time_project_finish !== "-");
+
         setLoading(false);
-        return response?.data?.data;
+        return location === '/iso-progress' ? iso_progress : location === '/iso-done' ? iso_done : response?.data?.data;
       } catch (error) {
         setLoading(false);
         return [];
@@ -343,7 +349,7 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-          new Date(b.tanggalStatus as string)
+            new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
@@ -352,53 +358,53 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-          new Date(b.tanggalStatus as string)
+            new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
 
       return item?.tahapan === 1
         ? Object.values(latestProgressAudit)?.some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        Object.values(item).some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        item?.standar?.some((standar) => {
+          return Object.values(standar).some((field) => {
             return (
               typeof field === "string" &&
               field.toLowerCase().includes(searchValue)
             );
-          }) ||
-            Object.values(item).some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            }) ||
-            item?.standar?.some((standar) => {
-              return Object.values(standar).some((field) => {
-                return (
-                  typeof field === "string" &&
-                  field.toLowerCase().includes(searchValue)
-                );
-              });
-            })
+          });
+        })
         : (item?.tahapan > 1 &&
-            Object.values(latestProgress)?.some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            })) ||
-            Object.values(item).some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            }) ||
-            item?.standar?.some((standar) => {
-              return Object.values(standar).some((field) => {
-                return (
-                  typeof field === "string" &&
-                  field.toLowerCase().includes(searchValue)
-                );
-              });
-            });
+          Object.values(latestProgress)?.some((field) => {
+            return (
+              typeof field === "string" &&
+              field.toLowerCase().includes(searchValue)
+            );
+          })) ||
+        Object.values(item).some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        item?.standar?.some((standar) => {
+          return Object.values(standar).some((field) => {
+            return (
+              typeof field === "string" &&
+              field.toLowerCase().includes(searchValue)
+            );
+          });
+        });
     });
     setFilteredData(filtered);
   };
@@ -421,11 +427,11 @@ const Dashboard = () => {
       console.log("values", values);
       return add
         ? axios.post(BASE_URL + ADD_PROJECT, data, {
-            headers: { Authorization: token },
-          })
+          headers: { Authorization: token },
+        })
         : axios.post(BASE_URL + UPDATE_PROJECT, data, {
-            headers: { Authorization: token },
-          });
+          headers: { Authorization: token },
+        });
     },
     onSuccess: () => {
       setDisabled(false);
@@ -693,8 +699,8 @@ const Dashboard = () => {
                   ? "Failed Add Form"
                   : "Successfully Add Form"
                 : error
-                ? "Failed Update Form"
-                : "Successfully Update Form"
+                  ? "Failed Update Form"
+                  : "Successfully Update Form"
               : " Sorry, you haven't logged in yet, please log in."}
           </DialogTitle>
           {!isLoggedIn && (

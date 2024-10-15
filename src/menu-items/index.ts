@@ -3,9 +3,9 @@ import { FC } from "react";
 export type Submenu = {
   id: string;
   title: string;
-  type: "item";
+  type: "item" | "collapse";
   url?: string;
-  icon?: JSX.Element | FC;
+  icon: JSX.Element | FC;
   breadcrumbs?: boolean;
 };
 
@@ -16,7 +16,6 @@ export type MainMenu = {
   type: "item" | "collapse";
   url?: string;
   icon: JSX.Element | FC;
-  breadcrumbs?: boolean;
   isDropdown?: boolean;
   children?: Submenu[] | [];
 };
