@@ -65,7 +65,7 @@ const HiddenScrollbarTableContainer = styled(TableContainer)(() => ({
   scrollbarWidth: "none",
 }));
 
-const getSLA = (tahapan: string) => {
+const getSLAISO = (tahapan: string) => {
   switch (tahapan) {
     case "Tanggal Aplication Form or Request":
     case "Tanggal Review Penugasan ST Satu":
@@ -100,6 +100,34 @@ const getSLA = (tahapan: string) => {
       return "-";
   }
 };
+
+function getSLAISPO(tahapan: string) {
+  switch (tahapan) {
+    case "Tanggal Review Penugasan ST Satu":
+      return 2;
+    case "Tanggal Aplication Form or Request":
+      return 3;
+    case "Tanggal Pelaksanaan Audit ST Satu":
+    case "Tanggal Pelaksanaan Audit ST Dua":
+    case "Tanggal Pengiriman Notifikasi ST Dua":
+      return 7;
+    case "Tanggal Persetujuan Notifikasi ST Satu":
+    case "Tanggal Persetujuan Notifikasi ST Dua":
+      return 14;
+    case "Tanggal Pengiriman Audit Plan ST Satu":
+    case "Tanggal Pengiriman Audit Plan ST Dua":
+      return 21;
+    case "Tanggal Kontrak":
+    case "Tanggal Pengiriman Draft Sertifikat":
+      return 30;
+    case "Tanggal Pengiriman Notifikasi ST Satu":
+      return 45;
+    case "Tanggal Penyelesaian CAPA ST Dua":
+      return 180;
+    default:
+      return "-";
+  }
+}
 
 const parseTimeString = (timeString: string) => {
   if (!timeString) {
@@ -147,7 +175,7 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
           </TableHead>
           <TableBody>
             {data?.map((row: AllProject, index: number) => {
-              const sla = getSLA(row?.tahapan);
+              const sla = pathName?.includes("iso") || pathName === "dashboard" ? getSLAISO(row?.tahapan) : getSLAISPO(row?.tahapan);
               const timeString = row?.leadTime;
               const result = parseTimeString(timeString as string);
 
@@ -168,10 +196,8 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                       : "-"}
                   </ScrollableTableCell>
                   <ScrollableTableCell>
-                    {pathName === "iso" || pathName === "dashboard"
-                      ? sla !== "-"
-                        ? `${sla} Hari`
-                        : "-"
+                    {sla !== "-"
+                      ? `${sla} Hari`
                       : "-"}
                   </ScrollableTableCell>
                   <ScrollableTableCell>
@@ -182,7 +208,7 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                             <Typography
                               sx={{
                                 color:
-                                  pathName === "iso" || pathName === "dashboard"
+                                  pathName?.includes("iso") || pathName === "dashboard"
                                     ? isExceeding
                                       ? "red"
                                       : "inherit"
@@ -196,7 +222,7 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                             <Typography
                               sx={{
                                 color:
-                                  pathName === "iso" || pathName === "dashboard"
+                                  pathName?.includes("iso") || pathName === "dashboard"
                                     ? isExceeding
                                       ? "red"
                                       : "inherit"
@@ -210,7 +236,7 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                             <Typography
                               sx={{
                                 color:
-                                  pathName === "iso" || pathName === "dashboard"
+                                  pathName?.includes("iso") || pathName === "dashboard"
                                     ? isExceeding
                                       ? "red"
                                       : "inherit"

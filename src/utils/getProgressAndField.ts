@@ -462,7 +462,7 @@ export function getDataTable(field: AllProject) {
     if (field?.tahapan === 1 || field?.tahapan === 7) {
       return getFieldAuditISPO(field);
     }
-    if (field?.tahapan > 1) {
+    if (field?.tahapan > 1 && field.tahapan <= 6) {
       return getFieldISPO(field);
     }
   } else {
@@ -490,9 +490,9 @@ export function getNextStep(field: AllProject) {
       return isDone
         ? "DONE"
         : getFieldAuditISPO(field)[indexInitialAudit]?.tahapan?.replace(
-            "Tanggal ",
-            ""
-          );
+          "Tanggal ",
+          ""
+        );
     }
     if (field?.tahapan > 1) {
       const indexSurveillance =
@@ -502,9 +502,9 @@ export function getNextStep(field: AllProject) {
       return isDone
         ? "DONE"
         : getFieldISPO(field)[indexSurveillance]?.tahapan?.replace(
-            "Tanggal ",
-            ""
-          );
+          "Tanggal ",
+          ""
+        );
     }
   } else {
     if (field?.tahapan === 1) {
@@ -516,9 +516,9 @@ export function getNextStep(field: AllProject) {
       return isDone
         ? "DONE"
         : getFieldAuditISO(field)[indexInitialAudit]?.tahapan?.replace(
-            "Tanggal ",
-            ""
-          );
+          "Tanggal ",
+          ""
+        );
     }
     if (field?.tahapan > 1) {
       const indexSurveillance =
@@ -528,9 +528,9 @@ export function getNextStep(field: AllProject) {
       return isDone
         ? "DONE"
         : getFieldISO(field)[indexSurveillance]?.tahapan?.replace(
-            "Tanggal ",
-            ""
-          );
+          "Tanggal ",
+          ""
+        );
     }
   }
 
