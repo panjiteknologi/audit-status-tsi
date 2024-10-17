@@ -1,6 +1,7 @@
 import { AllProject } from "@/types/Project";
 import { Grid, Typography } from "@mui/material";
 import CardAnalytic from "./CardAnalytic";
+import CardAnalytic2 from "./CardAnalytic2";
 import dayjs from "dayjs";
 import isBetween from "dayjs/plugin/isBetween";
 import isoWeek from "dayjs/plugin/isoWeek";
@@ -29,6 +30,8 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
   const endOfLastWeek = startOfThisWeek.subtract(1, "day"); // Get the end of the previous week (Sunday)
 
   const totalProjects: AllProject[] = data;
+  const dataRunning: number = data?.filter((item) => item.lead_time_project_finish_for_chart === 0).length;
+  const dataDone: number = data?.filter((item) => Number(item.lead_time_project_finish_for_chart) > 0).length;
   const totalInitialAudit: AllProject[] = data?.filter(
     (item) => item.tahapan === 1
   );
@@ -37,6 +40,21 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
   );
   const totalSurveillanceII: AllProject[] = data?.filter(
     (item) => item.tahapan === 3
+  );
+  const totalSurveillanceIII: AllProject[] = data?.filter(
+    (item) => item.tahapan === 4
+  );
+  const totalSurveillanceIV: AllProject[] = data?.filter(
+    (item) => item.tahapan === 5
+  );
+  const totalSurveillanceV: AllProject[] = data?.filter(
+    (item) => item.tahapan === 6
+  );
+  const totalRC: AllProject[] = data?.filter(
+    (item) => item.tahapan === 7
+  );
+  const totalSpecial: AllProject[] = data?.filter(
+    (item) => item.tahapan === 8
   );
 
   function getThisWeek(dates: Date[]) {
@@ -102,15 +120,6 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
     }
   }).sort((a, b) => Number(b.value_all) - Number(a.value_all));
 
-  // const companyNameWithCertificate = current.map(({ nama_perusahaan, lead_time_projec_audit_sertifikat, standar }) => {
-  //   const all_standar = standar?.map((item) => item.nama_standar).join(', ')
-  //   return {
-  //     nama_perusahaan,
-  //     value: lead_time_projec_audit_sertifikat === undefined ? 0 : lead_time_projec_audit_sertifikat,
-  //     all_standar
-  //   }
-  // }).sort((a, b) => Number(b.value) - Number(a.value));
-
   const acreditationWithTotal = current.reduce(
     (acc: AllProject[], curr: AllProject) => {
       const existing = acc.find(
@@ -131,45 +140,83 @@ const ChartDashboard = ({ data }: ChartDashboardProps) => {
   );
 
   return (
-    <Grid container rowSpacing={4.5} columnSpacing={2.75}>
+    <Grid container spacing={2}>
       {/* row 1 */}
-      <Grid item xs={12} mt={2} sx={{ mb: -2.25 }}>
+      <Grid item xs={12} py={2} sx={{ mb: -2.25 }}>
         <Typography variant="h5" color="darkblue">
           Analytics
         </Typography>
       </Grid>
 
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
         <CardAnalytic
           title="Total Seluruh Audit"
           count={totalProjects.length}
           data={dataCardAnalytics(totalProjects)}
+          dataRunning={dataRunning}
+          dataDone={dataDone}
+          moreData={true}
         />
       </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
         <CardAnalytic
           title="Total Initial Audit"
           count={totalInitialAudit.length}
           data={dataCardAnalytics(totalInitialAudit)}
         />
       </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
         <CardAnalytic
           title="Total Surveillance I"
           count={totalSurveillanceI.length}
           data={dataCardAnalytics(totalSurveillanceI)}
         />
       </Grid>
-      <Grid item xs={12} sm={6} md={4} lg={3}>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
         <CardAnalytic
           title="Total Surveilance II"
           count={totalSurveillanceII.length}
           data={dataCardAnalytics(totalSurveillanceII)}
         />
       </Grid>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <CardAnalytic
+          title="Total Surveilance III"
+          count={totalSurveillanceIII.length}
+          data={dataCardAnalytics(totalSurveillanceIII)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <CardAnalytic
+          title="Total Surveilance IV"
+          count={totalSurveillanceIV.length}
+          data={dataCardAnalytics(totalSurveillanceIV)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <CardAnalytic2
+          title="Total Surveilance V"
+          count={totalSurveillanceV.length}
+          data={dataCardAnalytics(totalSurveillanceV)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <CardAnalytic2
+          title="Total RC"
+          count={totalRC.length}
+          data={dataCardAnalytics(totalRC)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <CardAnalytic2
+          title="Total Special"
+          count={totalSpecial.length}
+          data={dataCardAnalytics(totalSpecial)}
+        />
+      </Grid>
 
       {/* row 1 */}
-      <Grid item xs={12} sx={{ mb: -2.25 }}>
+      <Grid item xs={12} py={2} sx={{ mb: -2.25 }}>
         <Typography variant="h5" color="darkblue">
           Chart
         </Typography>
