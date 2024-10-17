@@ -104,25 +104,42 @@ const getSLAISO = (tahapan: string) => {
 function getSLAISPO(tahapan: string) {
   switch (tahapan) {
     case "Tanggal Review Penugasan ST Satu":
+    case "Tanggal Review Penugasan ST Dua":
+    case "Tanggal Review Penugasan":
+    case "Tanggal Pengiriman Notifikasi":
+    case "Tanggal Pengiriman Draft Sertifikat":
       return 2;
     case "Tanggal Aplication Form or Request":
+    case "Tanggal Pengambilan Keputusan":
+    case "Tanggal Pengambilan Keputusan ST Satu":
+    case "Tanggal Pengambilan Keputusan ST Dua":
+    case "Tanggal Kirim Sertifikat":
       return 3;
+    case "Tanggal Persetujuan Draft Sertifikat":
+      return 5;
+    case "Tanggal Pelaksanaan Audit":
     case "Tanggal Pelaksanaan Audit ST Satu":
     case "Tanggal Pelaksanaan Audit ST Dua":
     case "Tanggal Pengiriman Notifikasi ST Dua":
+    case "Tanggal Proses Review ST Satu":
+    case "Tanggal Proses Review ST Dua":
+    case "Tanggal Proses Review":
       return 7;
+    case "Tanggal Persetujuan Notifikasi":
     case "Tanggal Persetujuan Notifikasi ST Satu":
     case "Tanggal Persetujuan Notifikasi ST Dua":
       return 14;
+    case "Tanggal Pengiriman Audit Plan":
     case "Tanggal Pengiriman Audit Plan ST Satu":
     case "Tanggal Pengiriman Audit Plan ST Dua":
       return 21;
     case "Tanggal Kontrak":
-    case "Tanggal Pengiriman Draft Sertifikat":
       return 30;
     case "Tanggal Pengiriman Notifikasi ST Satu":
       return 45;
+    case "Tanggal Penyelesaian CAPA":
     case "Tanggal Penyelesaian CAPA ST Dua":
+    case "Tanggal Penyelesaian CAPA ST Satu":
       return 180;
     default:
       return "-";
@@ -207,12 +224,9 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                           <Grid item xl={3} xs={4}>
                             <Typography
                               sx={{
-                                color:
-                                  pathName?.includes("iso") || pathName === "dashboard"
-                                    ? isExceeding
-                                      ? "red"
-                                      : "inherit"
-                                    : "inherit",
+                                color: isExceeding
+                                  ? "red"
+                                  : "inherit"
                               }}
                             >
                               {result?.days ? result?.days + " Hari" : "-"}
@@ -221,12 +235,9 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                           <Grid item xl={3} xs={4}>
                             <Typography
                               sx={{
-                                color:
-                                  pathName?.includes("iso") || pathName === "dashboard"
-                                    ? isExceeding
-                                      ? "red"
-                                      : "inherit"
-                                    : "inherit",
+                                color: isExceeding
+                                  ? "red"
+                                  : "inherit"
                               }}
                             >
                               {result?.hours ? result?.hours + " Jam" : "-"}
@@ -235,12 +246,9 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                           <Grid item xl={3} xs={4}>
                             <Typography
                               sx={{
-                                color:
-                                  pathName?.includes("iso") || pathName === "dashboard"
-                                    ? isExceeding
-                                      ? "red"
-                                      : "inherit"
-                                    : "inherit",
+                                color: isExceeding
+                                  ? "red"
+                                  : "inherit"
                               }}
                             >
                               {result?.minutes
