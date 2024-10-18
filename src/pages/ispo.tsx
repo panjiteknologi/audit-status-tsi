@@ -168,7 +168,7 @@ const Ispo = () => {
           leadTime: item?.lead_time_tgl_kontrak,
         },
         {
-          tahapan: "Tanggal Pengiriman Notifikasi ST Satu",
+          tahapan: "Tanggal Pengajuan Notifikasi ST Satu",
           tanggalStatus: item?.tgl_pengiriman_notif_st_satu,
           catatan: item?.note_tgl_pengiriman_notif_st_satu,
           leadTime: item?.lead_time_tgl_pengiriman_notif_st_satu,
@@ -218,7 +218,7 @@ const Ispo = () => {
           leadTime: item?.lead_time_tgl_review_penugasan_st_dua,
         },
         {
-          tahapan: "Tanggal Pengiriman Notifikasi ST Dua",
+          tahapan: "Tanggal Pengajuan Notifikasi ST Dua",
           tanggalStatus: item?.tgl_pengiriman_notif_st_dua,
           catatan: item?.note_tgl_pengiriman_notif_st_dua,
           leadTime: item?.lead_time_tgl_pengiriman_notif_st_dua,
@@ -362,7 +362,7 @@ const Ispo = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-          new Date(b.tanggalStatus as string)
+            new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
@@ -371,52 +371,52 @@ const Ispo = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-          new Date(b.tanggalStatus as string)
+            new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
 
       return item?.tahapan === 1 || item?.tahapan === 7
         ? Object.values(latestProgressAudit)?.some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        Object.values(item).some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        item?.standar?.some((standar) => {
+          return Object.values(standar).some((field) => {
             return (
               typeof field === "string" &&
               field.toLowerCase().includes(searchValue)
             );
-          }) ||
-            Object.values(item).some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            }) ||
-            item?.standar?.some((standar) => {
-              return Object.values(standar).some((field) => {
-                return (
-                  typeof field === "string" &&
-                  field.toLowerCase().includes(searchValue)
-                );
-              });
-            })
+          });
+        })
         : Object.values(latestProgress)?.some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        Object.values(item).some((field) => {
+          return (
+            typeof field === "string" &&
+            field.toLowerCase().includes(searchValue)
+          );
+        }) ||
+        item?.standar?.some((standar) => {
+          return Object.values(standar).some((field) => {
             return (
               typeof field === "string" &&
               field.toLowerCase().includes(searchValue)
             );
-          }) ||
-            Object.values(item).some((field) => {
-              return (
-                typeof field === "string" &&
-                field.toLowerCase().includes(searchValue)
-              );
-            }) ||
-            item?.standar?.some((standar) => {
-              return Object.values(standar).some((field) => {
-                return (
-                  typeof field === "string" &&
-                  field.toLowerCase().includes(searchValue)
-                );
-              });
-            });
+          });
+        });
     });
     setFilteredData(filtered);
   };
@@ -448,11 +448,11 @@ const Ispo = () => {
 
       return add
         ? axios.post(BASE_URL + ADD_ISPO, data, {
-            headers: { Authorization: token },
-          })
+          headers: { Authorization: token },
+        })
         : axios.post(BASE_URL + UPDATE_ISPO, data, {
-            headers: { Authorization: token },
-          });
+          headers: { Authorization: token },
+        });
     },
     onSuccess: () => {
       setDisabled(false);
@@ -720,8 +720,8 @@ const Ispo = () => {
                   ? "Failed Add Form"
                   : "Successfully Add Form"
                 : error
-                ? "Failed Update Form"
-                : "Successfully Update Form"
+                  ? "Failed Update Form"
+                  : "Successfully Update Form"
               : " Sorry, you haven't logged in yet, please log in."}
           </DialogTitle>
           {!isLoggedIn && (

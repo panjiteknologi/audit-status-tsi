@@ -21,7 +21,7 @@ function getFieldAuditISPO(field: AllProject) {
       leadTime: field?.lead_time_tgl_kontrak,
     },
     {
-      tahapan: "Tanggal Pengiriman Notifikasi ST Satu",
+      tahapan: "Tanggal Pengajuan Notifikasi ST Satu",
       tanggalStatus: field?.tgl_pengiriman_notif_st_satu,
       catatan: field?.note_tgl_pengiriman_notif_st_satu,
       leadTime: field?.lead_time_tgl_pengiriman_notif_st_satu,
@@ -69,7 +69,7 @@ function getFieldAuditISPO(field: AllProject) {
       leadTime: field?.lead_time_tgl_review_penugasan_st_dua,
     },
     {
-      tahapan: "Tanggal Pengiriman Notifikasi ST Dua",
+      tahapan: "Tanggal Pengajuan Notifikasi ST Dua",
       tanggalStatus: field?.tgl_pengiriman_notif_st_dua,
       catatan: field?.note_tgl_pengiriman_notif_st_dua,
       leadTime: field?.lead_time_tgl_pengiriman_notif_st_dua,

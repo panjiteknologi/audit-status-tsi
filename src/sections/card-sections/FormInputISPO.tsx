@@ -64,7 +64,7 @@ const FormInputISPO = ({
             <InputDate
               disabled={
                 !values?.tgl_apl_form_or_request ||
-                (!add && !!data?.tgl_review_penugasan_st_satu)
+                  (!add && !!data?.tgl_review_penugasan_st_satu)
                   ? true
                   : false
               }
@@ -138,12 +138,12 @@ const FormInputISPO = ({
                   selectedDate + " " + currentTime
                 );
               }}
-              label="Tanggal Pengiriman Notifikasi ST Satu"
+              label="Tanggal Pengajuan Notifikasi ST Satu"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <InputText
-              label={`Catatan Tanggal Pengiriman Notifikasi ST Satu`}
+              label={`Catatan Tanggal Pengajuan Notifikasi ST Satu`}
               values={values?.note_tgl_pengiriman_notif_st_satu}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -386,12 +386,12 @@ const FormInputISPO = ({
                   selectedDate + " " + currentTime
                 );
               }}
-              label="Tanggal Pengiriman Notifikasi ST Dua"
+              label="Tanggal Pengajuan Notifikasi ST Dua"
             />
           </Grid>
           <Grid item xs={12} sm={6}>
             <InputText
-              label={`Catatan Tanggal Pengiriman Notifikasi ST Dua`}
+              label={`Catatan Tanggal Pengajuan Notifikasi ST Dua`}
               values={values?.note_tgl_pengiriman_notif_st_dua}
               onChange={handleChange}
               onBlur={handleBlur}
@@ -714,7 +714,7 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_apl_form_or_request ||
-                  (!add && !!data?.tgl_review_penugasan_st_dua)
+                    (!add && !!data?.tgl_review_penugasan_st_dua)
                     ? true
                     : false
                 }
@@ -748,7 +748,7 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_review_penugasan_st_dua ||
-                  (!add && !!data?.tgl_pengiriman_notif_st_dua)
+                    (!add && !!data?.tgl_pengiriman_notif_st_dua)
                     ? true
                     : false
                 }
@@ -782,7 +782,7 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_pengiriman_notif_st_dua ||
-                  (!add && !!data?.tgl_persetujuan_notif_st_dua)
+                    (!add && !!data?.tgl_persetujuan_notif_st_dua)
                     ? true
                     : false
                 }
@@ -816,7 +816,7 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_persetujuan_notif_st_dua ||
-                  (!add && !!data?.tgl_pengiriman_audit_plan_st_dua)
+                    (!add && !!data?.tgl_pengiriman_audit_plan_st_dua)
                     ? true
                     : false
                 }
@@ -850,7 +850,7 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_pengiriman_audit_plan_st_dua ||
-                  (!add && !!data?.tgl_pelaksanaan_audit_st_dua)
+                    (!add && !!data?.tgl_pelaksanaan_audit_st_dua)
                     ? true
                     : false
                 }
@@ -884,7 +884,7 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_pelaksanaan_audit_st_dua ||
-                  (!add && !!data?.tgl_penyelesaian_capa_st_dua)
+                    (!add && !!data?.tgl_penyelesaian_capa_st_dua)
                     ? true
                     : false
                 }
@@ -982,7 +982,7 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_pengambilan_keputusan_tahap_dua ||
-                  (!add && !!data?.tgl_pengiriman_draft_sertifikat)
+                    (!add && !!data?.tgl_pengiriman_draft_sertifikat)
                     ? true
                     : false
                 }
@@ -1016,7 +1016,7 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_pengiriman_draft_sertifikat ||
-                  (!add && !!data?.tgl_persetujuan_draft_sertifikat)
+                    (!add && !!data?.tgl_persetujuan_draft_sertifikat)
                     ? true
                     : false
                 }
@@ -1050,7 +1050,7 @@ const FormInputISPO = ({
               <InputDate
                 disabled={
                   !values?.tgl_persetujuan_draft_sertifikat ||
-                  (!add && !!data?.tgl_kirim_sertifikat)
+                    (!add && !!data?.tgl_kirim_sertifikat)
                     ? true
                     : false
                 }

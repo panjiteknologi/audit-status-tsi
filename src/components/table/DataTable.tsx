@@ -110,32 +110,33 @@ function getSLAISPO(tahapan: string) {
     case "Tanggal Pengiriman Draft Sertifikat":
       return 2;
     case "Tanggal Aplication Form or Request":
+    case "Tanggal Kirim Sertifikat":
+    case "Tanggal Persetujuan Draft Sertifikat":
+      return 3;
     case "Tanggal Pengambilan Keputusan":
     case "Tanggal Pengambilan Keputusan ST Satu":
     case "Tanggal Pengambilan Keputusan ST Dua":
-    case "Tanggal Kirim Sertifikat":
-      return 3;
-    case "Tanggal Persetujuan Draft Sertifikat":
       return 5;
     case "Tanggal Pelaksanaan Audit":
     case "Tanggal Pelaksanaan Audit ST Satu":
     case "Tanggal Pelaksanaan Audit ST Dua":
-    case "Tanggal Pengiriman Notifikasi ST Dua":
+    case "Tanggal Pengajuan Notifikasi ST Dua":
     case "Tanggal Proses Review ST Satu":
-    case "Tanggal Proses Review ST Dua":
     case "Tanggal Proses Review":
       return 7;
     case "Tanggal Persetujuan Notifikasi":
     case "Tanggal Persetujuan Notifikasi ST Satu":
     case "Tanggal Persetujuan Notifikasi ST Dua":
       return 14;
+    case "Tanggal Proses Review ST Dua":
+      return 15;
     case "Tanggal Pengiriman Audit Plan":
     case "Tanggal Pengiriman Audit Plan ST Satu":
     case "Tanggal Pengiriman Audit Plan ST Dua":
       return 21;
     case "Tanggal Kontrak":
       return 30;
-    case "Tanggal Pengiriman Notifikasi ST Satu":
+    case "Tanggal Pengajuan Notifikasi ST Satu":
       return 45;
     case "Tanggal Penyelesaian CAPA":
     case "Tanggal Penyelesaian CAPA ST Dua":
