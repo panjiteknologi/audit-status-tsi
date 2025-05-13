@@ -24,6 +24,31 @@ interface ChartDashboardProps {
 }
 
 const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
+  const totalProjects: AllProject[] = data;
+  const totalInitialAudit: AllProject[] = data?.filter(
+    (item) => item.tahapan === "IA"
+  );
+  const totalSurveillanceI: AllProject[] = data?.filter(
+    (item) => item.tahapan === "surveilance1"
+  );
+
+  const totalSurveillanceII: AllProject[] = data?.filter(
+    (item) => item.tahapan === "surveilance2"
+  );
+  const totalSurveillanceIII: AllProject[] = data?.filter(
+    (item) => item.tahapan === "surveilance3"
+  );
+  const totalSurveillanceIV: AllProject[] = data?.filter(
+    (item) => item.tahapan === "surveilance4"
+  );
+  const totalSurveillanceV: AllProject[] = data?.filter(
+    (item) => item.tahapan === "surveilance5"
+  );
+  const totalRC: AllProject[] = data?.filter((item) => item.tahapan === "RC");
+  const totalSpecial: AllProject[] = data?.filter(
+    (item) => item.tahapan === "special"
+  );
+
   const startOfThisWeek = dayjs().startOf("isoWeek");
   const startOfLastWeek = startOfThisWeek.subtract(1, "week");
   const endOfLastWeek = startOfThisWeek.subtract(1, "day");
@@ -34,9 +59,6 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
   const dataDone = data.filter(
     (item) => Number(item.lead_time_project_finish_for_chart) > 0
   ).length;
-
-  const countByTahapan = (tahapan: number) =>
-    data.filter((item) => item.tahapan === tahapan);
 
   const getThisWeek = (dates: Date[]) =>
     dates.filter((date) =>
@@ -54,6 +76,7 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
     );
 
   const dataCardAnalytics = (dates: AllProject[]): DataAnalytics => {
+    console.log("dates", dates);
     const listDate = dates.map((item) => item.aplication_form);
     const countAuditThisWeek = getThisWeek(listDate).length;
     const countAuditLastWeek = getLastWeek(listDate).length;
@@ -156,34 +179,72 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
         </Typography>
       </Grid>
 
-      {[1, 2, 3, 4, 5, 6, 7, 8].map((tahapan, i) => {
-        const titleMap = [
-          "Initial Audit",
-          "Surveillance I",
-          "Surveillance II",
-          "Surveillance III",
-          "Surveillance IV",
-          "Surveillance V",
-          "RC",
-          "Special",
-        ];
-        const Component = i < 6 ? CardAnalytic : CardAnalytic2;
-        const items = countByTahapan(tahapan);
-        return (
-          <Grid key={tahapan} item xs={12} sm={6} md={4} lg={3} xl={2}>
-            <Component
-              title={`Total ${titleMap[i]}`}
-              count={items.length}
-              data={dataCardAnalytics(items)}
-              {...(tahapan === 1 && {
-                dataRunning,
-                dataDone,
-                moreData: true,
-              })}
-            />
-          </Grid>
-        );
-      })}
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <CardAnalytic
+          title="Total Seluruh Audit"
+          count={totalProjects.length}
+          data={dataCardAnalytics(totalProjects)}
+          dataRunning={dataRunning}
+          dataDone={dataDone}
+          moreData={true}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <CardAnalytic
+          title="Total Initial Audit"
+          count={totalInitialAudit.length}
+          data={dataCardAnalytics(totalInitialAudit)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <CardAnalytic
+          title="Total Surveillance I"
+          count={totalSurveillanceI.length}
+          data={dataCardAnalytics(totalSurveillanceI)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <CardAnalytic
+          title="Total Surveilance II"
+          count={totalSurveillanceII.length}
+          data={dataCardAnalytics(totalSurveillanceII)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <CardAnalytic
+          title="Total Surveilance III"
+          count={totalSurveillanceIII.length}
+          data={dataCardAnalytics(totalSurveillanceIII)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4} lg={3} xl={2}>
+        <CardAnalytic
+          title="Total Surveilance IV"
+          count={totalSurveillanceIV.length}
+          data={dataCardAnalytics(totalSurveillanceIV)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <CardAnalytic2
+          title="Total Surveilance V"
+          count={totalSurveillanceV.length}
+          data={dataCardAnalytics(totalSurveillanceV)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <CardAnalytic2
+          title="Total RC"
+          count={totalRC.length}
+          data={dataCardAnalytics(totalRC)}
+        />
+      </Grid>
+      <Grid item xs={12} sm={6} md={4}>
+        <CardAnalytic2
+          title="Total Special"
+          count={totalSpecial.length}
+          data={dataCardAnalytics(totalSpecial)}
+        />
+      </Grid>
 
       <Grid item xs={12} py={2} sx={{ mb: -2.25 }}>
         <Typography variant="h5" color="darkblue">
