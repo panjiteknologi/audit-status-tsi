@@ -11,13 +11,10 @@ import { MenuOrientation } from "@/config";
 
 // assets
 import Person4OutlinedIcon from "@mui/icons-material/Person4Outlined";
-import useAuth from "@/hooks/useAuth";
 
 // ==============================|| DRAWER HEADER ||============================== //
 
 const DrawerHeader = ({ open }: { open: boolean }) => {
-  const { user } = useAuth();
-
   const theme = useTheme();
   const downLG = useMediaQuery(theme.breakpoints.down("lg"));
 
@@ -25,8 +22,7 @@ const DrawerHeader = ({ open }: { open: boolean }) => {
   const isHorizontal =
     menuOrientation === MenuOrientation.HORIZONTAL && !downLG;
 
-  const dataUser = user?.data;
-  const username = window.localStorage.getItem("username");
+  const userName = window.localStorage.getItem("userName");
 
   return (
     <DrawerHeaderStyled
@@ -52,9 +48,9 @@ const DrawerHeader = ({ open }: { open: boolean }) => {
         </Avatar>
         {open && (
           <Box>
-            <Typography variant="subtitle1">{username || "-"}</Typography>{" "}
+            <Typography variant="subtitle1">{userName || "-"}</Typography>{" "}
             <Typography variant="body2" color="textSecondary">
-              {dataUser?.jabatan || "-"}
+              {/* {dataUser?.jabatan || "-"} */}
             </Typography>
           </Box>
         )}

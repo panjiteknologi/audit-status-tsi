@@ -1,5 +1,12 @@
 // assets
-import { DashboardOutlined, EditNote, Language, ForestRounded, TaskAltRounded, LoopRounded } from "@mui/icons-material";
+import {
+  DashboardOutlined,
+  EditNote,
+  Language,
+  ForestRounded,
+  TaskAltRounded,
+  LoopRounded,
+} from "@mui/icons-material";
 import { MenuType } from ".";
 
 const icons = {
@@ -8,7 +15,7 @@ const icons = {
   iso: Language,
   ispo: ForestRounded,
   done: TaskAltRounded,
-  progress: LoopRounded
+  progress: LoopRounded,
 };
 
 const dashboard: MenuType = {
@@ -23,36 +30,36 @@ const dashboard: MenuType = {
       type: "item",
       icon: icons.dashboard,
     },
-    {
-      id: "iso",
-      title: "ISO",
-      url: "/iso",
-      type: "collapse",
-      icon: icons.iso,
-      children: [
-        {
-          id: "iso-progress",
-          title: "On Progress",
-          url: "/iso-progress",
-          type: "item",
-          icon: icons.progress,
-        },
-        {
-          id: "iso-done",
-          title: "Done",
-          url: "/iso-done",
-          type: "item",
-          icon: icons.done,
-        }
-      ]
-    },
-    {
-      id: "ispo",
-      title: "ISPO",
-      url: "/ispo",
-      type: "item",
-      icon: icons.ispo,
-    },
+    // {
+    //   id: "iso",
+    //   title: "ISO",
+    //   url: "/iso",
+    //   type: "collapse",
+    //   icon: icons.iso,
+    //   children: [
+    //     {
+    //       id: "iso-progress",
+    //       title: "On Progress",
+    //       url: "/iso-progress",
+    //       type: "item",
+    //       icon: icons.progress,
+    //     },
+    //     {
+    //       id: "iso-done",
+    //       title: "Done",
+    //       url: "/iso-done",
+    //       type: "item",
+    //       icon: icons.done,
+    //     }
+    //   ]
+    // },
+    // {
+    //   id: "ispo",
+    //   title: "ISPO",
+    //   url: "/ispo",
+    //   type: "item",
+    //   icon: icons.ispo,
+    // },
   ],
 };
 

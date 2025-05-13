@@ -72,7 +72,7 @@ const Profile = ({ onClose }: ProfileProps) => {
   const iconBackColorOpen =
     theme.palette.mode === ThemeMode.DARK ? "background.default" : "grey.100";
 
-  const username = window.localStorage.getItem("username");
+  const userName = window.localStorage.getItem("userName");
 
   return (
     <Box sx={{ flexShrink: 0, ml: 0.75 }}>
@@ -208,7 +208,7 @@ const Profile = ({ onClose }: ProfileProps) => {
                           </Avatar>
                           <Stack>
                             <Typography variant="h6">
-                              {username || "-"}
+                              {userName || "-"}
                             </Typography>
                             {/* <Typography variant="body2" color="textSecondary">
                               {dataUser?.jabatan || "-"}

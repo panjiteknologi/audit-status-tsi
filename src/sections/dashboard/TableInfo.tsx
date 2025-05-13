@@ -1,4 +1,11 @@
-import { Fragment, useEffect, useMemo, useState } from "react";
+import React, {
+  Dispatch,
+  Fragment,
+  SetStateAction,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import MainCard from "@/components/MainCard";
 import { AllProject, Standar } from "@/types/Project";
 import ScrollX from "@/components/ScrollX";
@@ -6,6 +13,7 @@ import {
   Box,
   Chip,
   Paper,
+  Select,
   Stack,
   Table,
   TableBody,
@@ -27,6 +35,8 @@ import {
   getPaginationRowModel,
   SortingState,
   getSortedRowModel,
+  Row,
+  FilterFnOption,
 } from "@tanstack/react-table";
 import {
   getDataTable,
@@ -40,6 +50,7 @@ import DebouncedInput from "@/components/table/DebouncedInput";
 import TablePagination from "@/components/table/TablePagination";
 import HeaderSort from "@/components/table/HeaderSort";
 import { useLocation } from "react-router";
+import { findTahapan } from "@/utils/getNormalizeTahapan";
 
 const ItemLateProgress = styled(Paper)(() => ({
   textAlign: "left",
@@ -53,9 +64,17 @@ const ItemLateProgress = styled(Paper)(() => ({
 
 interface TableInfoProps {
   data: AllProject[];
+  uniqueStandards: Standar;
+  selectedStandard: string | null;
+  setSelectedStandard: Dispatch<SetStateAction<string | null>>;
 }
 
-const TableInfo = ({ data }: TableInfoProps) => {
+const TableInfo = ({
+  data,
+  uniqueStandards,
+  selectedStandard,
+  setSelectedStandard,
+}: TableInfoProps) => {
   const routes = useLocation();
   const pathName = routes?.pathname?.substring(1);
 
@@ -64,6 +83,26 @@ const TableInfo = ({ data }: TableInfoProps) => {
 
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  const dataTransform = useMemo(() => {
+    const stat = {
+      surveilance1: "sv 1",
+      surveilance2: "sv 2",
+      surveilance3: "sv 3",
+      surveilance4: "sv 4",
+      surveilance5: "sv 5",
+    } as const;
+
+    type StatKey = keyof typeof stat;
+
+    const trans = data.map((item) => {
+      return {
+        ...item,
+        sv: stat[item.tahapan as StatKey] ?? item.tahapan, // fallback if tahapan is not in stat
+      };
+    });
+    return trans;
+  }, [data]);
 
   const columns = useMemo<ColumnDef<AllProject>[]>(
     () => [
@@ -86,85 +125,98 @@ const TableInfo = ({ data }: TableInfoProps) => {
       },
       {
         header: "Nama Perusahaan",
-        accessorKey: "nama_perusahaan",
+        accessorKey: "customer",
         meta: {
           className: "cell-center",
         },
         cell: ({ row }) => {
           return (
             <Typography variant="h3" sx={{ color: "rgb(30, 32, 95)" }}>
-              {row.original.nama_perusahaan}
+              {row.original.customer}
             </Typography>
           );
         },
       },
       {
         header: "Nama Sales",
-        accessorKey: "nama_sales_or_crr",
+        accessorKey: "sales_person",
         meta: {
           className: "cell-center",
         },
         cell: ({ row }) => {
           return (
             <Typography variant="h4" sx={{ color: "rgb(30, 32, 95)" }}>
-              {row.original.nama_sales_or_crr}
+              {row?.original?.sales_person}
             </Typography>
           );
         },
       },
       {
         header: "Standar",
-        accessorKey: "standar",
+        accessorKey: "iso_standards",
         meta: {
           className: "cell-center",
         },
         cell: ({ row }) => {
-          const standar: Standar[] | undefined = row.original.standar;
-          let label: string = "-";
-
-          if (standar && standar?.length > 0) {
-            label = standar
-              ?.map((item) => item.nama_standar)
-              .join(", ") as string;
-          }
-
-          return standar?.map((item, index) => {
-            return (
-              <Chip
-                key={index}
-                label={item.nama_standar}
-                sx={{ m: 0.2, fontSize: 18 }}
-                color="primary"
-                variant="outlined"
-              />
-            );
-          });
+          const standar: Standar[] | undefined = row?.original?.iso_standards;
+          return standar?.map((item, index) => (
+            <Chip
+              key={index}
+              label={item as any}
+              sx={{ m: 0.2, fontSize: 18 }}
+              color="primary"
+              variant="outlined"
+            />
+          ));
         },
-      },
-      {
-        header: "Akreditasi",
-        accessorKey: "nama_akreditasi",
-        meta: {
-          className: "cell-center",
-        },
-        cell: ({ row }) => {
-          return (
-            <Typography variant="h3" sx={{ color: "rgb(30, 32, 95)" }}>
-              {row.original.nama_akreditasi}
-            </Typography>
+        enableColumnFilter: true,
+        filterFn: (row, columnId, filterValue) => {
+          const values: string[] | undefined = row.getValue(columnId);
+          if (!values || values.length === 0) return false;
+          return values.some((v) =>
+            v.toLowerCase().includes(filterValue.toLowerCase())
           );
         },
       },
       {
-        header: "Tahapan",
-        accessorKey: "nama_tahapan",
+        header: "Akreditasi",
+        accessorKey: "accreditation",
+        id: "accreditation",
         meta: {
           className: "cell-center",
         },
         cell: ({ row }) => {
           return (
+            <React.Fragment>
+              {(row.original?.accreditation as string[])?.map((item, index) => (
+                <Chip
+                  key={index}
+                  label={item as any}
+                  sx={{ m: 0.2, fontSize: 18 }}
+                  color="primary"
+                  variant="outlined"
+                />
+              ))}
+            </React.Fragment>
+            // <Typography variant="h3" sx={{ color: "rgb(30, 32, 95)" }}>
+            //   {row?.original?.accreditation?.[0]}
+            // </Typography>
+          );
+        },
+        filterFn: "includesString",
+      },
+      {
+        header: "Tahapan",
+        accessorKey: "tahapan",
+        meta: {
+          className: "cell-center",
+        },
+        cell: ({ row }) => {
+          const normalizedField = findTahapan(row?.original?.tahapan);
+
+          return (
             <Typography variant="h3" sx={{ color: "rgb(30, 32, 95)" }}>
-              {row.original.nama_tahapan}
+              {normalizedField?.nama_tahapan}
             </Typography>
           );
         },
@@ -172,6 +224,8 @@ const TableInfo = ({ data }: TableInfoProps) => {
       {
         header: "Latest Progress",
         accessorKey: "tahapan",
+        accessorFn: (row) => getlatestProgress(row),
+        id: "latest_progress",
         meta: {
           className: "cell-center",
         },
@@ -182,10 +236,13 @@ const TableInfo = ({ data }: TableInfoProps) => {
             </ItemLateProgress>
           );
         },
+        filterFn: "includesString",
       },
       {
         header: "Next Step",
         accessorKey: "next_step",
+        accessorFn: (row) => getNextStep(row),
+        id: "next_step",
         meta: {
           className: "cell-center",
         },
@@ -200,18 +257,19 @@ const TableInfo = ({ data }: TableInfoProps) => {
             </Typography>
           );
         },
+        filterFn: "includesString",
       },
       {
         header: "Lead Time Project",
-        accessorKey: "lead_time_project_finish",
+        accessorKey: "lead_time_finish",
         meta: {
           className: "cell-center",
         },
         cell: ({ row }) => {
           return (
             <Typography variant="h4" sx={{ color: "rgb(30, 32, 95)" }}>
-              {row.original?.lead_time_project_finish
-                ? row.original?.lead_time_project_finish
+              {row.original?.lead_time_finish
+                ? row.original?.lead_time_finish
                 : "-"}
             </Typography>
           );
@@ -221,8 +279,38 @@ const TableInfo = ({ data }: TableInfoProps) => {
     []
   );
 
+  const customGlobalFilter = (
+    row: Row<AllProject>,
+    columnId: string,
+    filterValue: string
+  ) => {
+    const filter = filterValue.toLowerCase();
+
+    const flatString = Object.values(row.original)
+      .map((val) => {
+        if (Array.isArray(val)) return val.join(" ");
+        if (typeof val === "number") return val.toString();
+        return val ?? "";
+      })
+      .join(" ")
+      .toLowerCase();
+
+    console.log("FLAT STRING", flatString);
+    if (columnId === "next_step") {
+      const next = getNextStep(row.original);
+      return next.toLowerCase().includes(filter);
+    }
+
+    // Cari di latest progress (computed)
+    if (columnId === "latest_progress") {
+      const latest = getlatestProgress(row.original);
+      return latest.toLowerCase().includes(filter);
+    }
+    return flatString.includes(filterValue.toLowerCase());
+  };
+
   const table = useReactTable({
-    data,
+    data: dataTransform,
     columns,
     state: {
       globalFilter,
@@ -236,22 +324,8 @@ const TableInfo = ({ data }: TableInfoProps) => {
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
     onGlobalFilterChange: setGlobalFilter,
+    globalFilterFn: customGlobalFilter as FilterFnOption<AllProject>,
   });
-
-  useEffect(() => {
-    const dataLength = data.length;
-
-    const intervalId = setInterval(() => {
-      const pageSize = table.getState().pagination.pageSize;
-      const pageIndex = table.getState().pagination.pageIndex;
-      const maxPage = dataLength / pageSize;
-
-      table.setPageIndex(pageIndex < maxPage - 1 ? pageIndex + 1 : 0);
-    }, 30000);
-
-    // Membersihkan interval saat komponen di-unmount
-    return () => clearInterval(intervalId);
-  }, [data]);
 
   let headers = [];
   table.getAllColumns().map((columns) =>
@@ -265,111 +339,161 @@ const TableInfo = ({ data }: TableInfoProps) => {
     })
   );
 
-  return (
-    <MainCard content={false} sx={{ my: 1 }}>
-      <Stack
-        direction="row"
-        spacing={2}
-        alignItems="center"
-        justifyContent="space-between"
-        sx={{ padding: 2 }}
-      >
-        <DebouncedInput
-          value={globalFilter ?? ""}
-          onFilterChange={(value) => setGlobalFilter(String(value))}
-          placeholder={`Search ${data.length} records...`}
-        />
-        <TablePagination
-          {...{
-            setPageSize: table.setPageSize,
-            setPageIndex: table.setPageIndex,
-            getState: table.getState,
-            getPageCount: table.getPageCount,
-          }}
-        />
-      </Stack>
+  useEffect(() => {
+    // const dataLength = data.length;
+    // const intervalId = setInterval(() => {
+    //   const pageSize = table.getState().pagination.pageSize;
+    //   const pageIndex = table.getState().pagination.pageIndex;
+    //   const maxPage = dataLength / pageSize;
+    //   table.setPageIndex(pageIndex < maxPage - 1 ? pageIndex + 1 : 0);
+    // }, 30000);
+    // // Membersihkan interval saat komponen di-unmount
+    // return () => clearInterval(intervalId);
+  }, [data]);
 
-      <ScrollX>
-        <TableContainer component={Paper}>
-          <Table>
-            <TableHead>
-              {table.getHeaderGroups().map((headerGroup) => (
-                <TableRow
-                  key={headerGroup.id}
-                  sx={{ "& > th:first-of-type": { width: "58px" } }}
-                >
-                  {headerGroup.headers.map((header) => (
-                    <TableCell
-                      key={header.id}
-                      {...header.column.columnDef.meta}
-                    >
-                      <Stack
-                        direction="row"
-                        spacing={1}
-                        alignItems="center"
-                        justifyContent="space-between"
+  return (
+    <Fragment>
+      <Stack
+        sx={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          pb: 2,
+          width: "100%",
+        }}
+      >
+        <Box sx={{ width: "100%" }}>
+          <DebouncedInput
+            value={globalFilter ?? ""}
+            onFilterChange={(value) => {
+              setGlobalFilter(String(value));
+            }}
+            placeholder={`Search ${data.length} records...`}
+          />
+        </Box>
+        <Box>
+          <Select
+            native
+            value={selectedStandard ?? ""}
+            onChange={(e) => {
+              const value = e.target.value;
+              setSelectedStandard(value === "" ? null : value);
+              table
+                .getColumn("iso_standards")
+                ?.setFilterValue(value === "" ? undefined : value);
+            }}
+            sx={{
+              width: "100%",
+              fontSize: 16,
+              borderRadius: 1,
+            }}
+          >
+            <option value="">Semua Standar</option>
+            {uniqueStandards.map((standard, idx) => (
+              <option key={idx} value={standard}>
+                {standard}
+              </option>
+            ))}
+          </Select>
+        </Box>
+      </Stack>
+      <MainCard content={false} sx={{ my: 1 }}>
+        <ScrollX>
+          <TableContainer component={Paper}>
+            <Table>
+              <TableHead>
+                {table.getHeaderGroups().map((headerGroup) => (
+                  <TableRow
+                    key={headerGroup.id}
+                    sx={{ "& > th:first-of-type": { width: "58px" } }}
+                  >
+                    {headerGroup.headers.map((header) => (
+                      <TableCell
+                        key={header.id}
+                        {...header.column.columnDef.meta}
                       >
-                        <Typography variant="h5" color="GrayText">
-                          {header.isPlaceholder
-                            ? null
-                            : flexRender(
-                                header.column.columnDef.header,
-                                header.getContext()
-                              )}
-                        </Typography>
-                        {header.column.getCanSort() && (
-                          <HeaderSort column={header.column} sort />
-                        )}
-                      </Stack>
-                    </TableCell>
-                  ))}
-                </TableRow>
-              ))}
-            </TableHead>
-            <TableBody>
-              {table.getRowModel().rows.map((row) => (
-                <Fragment key={row.id}>
-                  <TableRow>
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell key={cell.id} {...cell.column.columnDef.meta}>
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext()
-                        )}
+                        <Stack
+                          direction="row"
+                          spacing={1}
+                          alignItems="center"
+                          justifyContent="space-between"
+                        >
+                          <Typography variant="h5" color="GrayText">
+                            {header.isPlaceholder
+                              ? null
+                              : flexRender(
+                                  header.column.columnDef.header,
+                                  header.getContext()
+                                )}
+                          </Typography>
+                          {header.column.getCanSort() && (
+                            <HeaderSort column={header.column} sort />
+                          )}
+                        </Stack>
                       </TableCell>
                     ))}
                   </TableRow>
-                  {row.getIsExpanded() && (
-                    <TableRow
-                      sx={{
-                        bgcolor: backColor,
-                        "&:hover": { bgcolor: `${backColor} !important` },
-                      }}
-                    >
-                      <TableCell colSpan={row.getVisibleCells().length}>
-                        <Box
-                          sx={{
-                            margin: 1,
-                            backgroundColor: "white",
-                            borderWidth: 1,
-                            borderColor: "gray",
-                          }}
+                ))}
+              </TableHead>
+              <TableBody>
+                {table.getRowModel().rows.map((row) => (
+                  <Fragment key={row.id}>
+                    <TableRow>
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell
+                          key={cell.id}
+                          {...cell.column.columnDef.meta}
                         >
-                          <DataTable
-                            data={getDataTable(row.original)}
-                            pathName={pathName}
-                          />
-                        </Box>
-                      </TableCell>
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext()
+                          )}
+                        </TableCell>
+                      ))}
                     </TableRow>
-                  )}
-                </Fragment>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </ScrollX>
-    </MainCard>
+                    {row.getIsExpanded() && (
+                      <TableRow
+                        sx={{
+                          bgcolor: backColor,
+                          "&:hover": { bgcolor: `${backColor} !important` },
+                        }}
+                      >
+                        <TableCell colSpan={row.getVisibleCells().length}>
+                          <Box
+                            sx={{
+                              margin: 1,
+                              backgroundColor: "white",
+                              borderWidth: 1,
+                              borderColor: "gray",
+                            }}
+                          >
+                            <DataTable
+                              data={getDataTable(row.original)}
+                              pathName={pathName}
+                            />
+                          </Box>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </Fragment>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </ScrollX>
+
+        <Stack sx={{ padding: 2 }}>
+          <TablePagination
+            {...{
+              setPageSize: table.setPageSize,
+              setPageIndex: table.setPageIndex,
+              getState: table.getState,
+              getPageCount: table.getPageCount,
+            }}
+          />
+        </Stack>
+      </MainCard>
+    </Fragment>
   );
 };
 

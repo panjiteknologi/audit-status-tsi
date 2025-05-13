@@ -1,14 +1,17 @@
 import { ReactNode, createContext, useEffect, useReducer } from "react";
-import { jwtDecode } from "jwt-decode";
 import { LOGIN, LOGOUT } from "@contexts/auth-reducer/actions";
 import authReducer, { initialState } from "@contexts/auth-reducer/auth";
 import Loader from "@components/Loader";
 import axios from "@utils/axios";
 
-export const BASE_URL = "http://101.50.2.90:5454/api/v1/audit_status/";
-export const API_LOGIN = "login_user";
+// export const BASE_URL = "http://101.50.2.90:5454/api/v1/audit_status/";
+export const BASE_URL = "https://erp.tsicertification.com/";
+export const BASE_API = "api/";
+export const API_LOGIN = "session/authenticate";
 export const API_LOGOUT = "logout_user";
-export const GET_ALL_PROJECT = "get_all_project";
+// export const GET_ALL_PROJECT = "get_all_project";
+export const GET_ALL_PROJECT = "get_date_customer";
+export const GET_ALL_STANDARD = "chart_list_standards";
 export const GET_ALL_ISO = "get_all_project_iso";
 export const GET_ALL_ISPO = "get_all_project_ispo";
 export const GET_AKREDITASI = "get_akreditasi";
@@ -19,14 +22,14 @@ export const ADD_PROJECT = "add_project";
 export const ADD_ISPO = "add_project_ispo";
 export const UPDATE_PROJECT = "update_project";
 export const UPDATE_ISPO = "update_project_ispo";
-export const GET_NOTIFICATION = "get_notifikasi";
+// export const GET_NOTIFICATION = "get_notifikasi";
 export const UPDATE_READ_NOTIFICATION = "update_read_notifikasi";
 export const GET_PROJECT_BY_ID_PROJECT = "get_project_by_id_project";
 
 // ==============================|| JWT CONTEXT & PROVIDER ||============================== //
 
 type JWTContextType = {
-  login: (username: string, password: string) => Promise<any>;
+  postLogin: (login: string, password: string, db: string) => Promise<any>;
   logout: () => void;
   isLoggedIn?: boolean;
   isInitialized?: boolean;
@@ -40,29 +43,10 @@ const payload = {
   user: null,
 };
 
-interface jwtProps {
-  id: string;
-  name: string;
-  role: string;
-}
-
-const decodedToken = (serviceToken: string | null) => {
-  if (!serviceToken) {
-    return null;
-  }
-
-  const decoded: jwtProps = jwtDecode(serviceToken);
-
-  localStorage.setItem("idUser", decoded?.id);
-  localStorage.setItem("username", decoded?.name);
-  localStorage.setItem("role", decoded?.role);
-
-  return decoded;
-};
-
 const setSession = (serviceToken: string | null) => {
   if (serviceToken) {
     localStorage.setItem("serviceToken", serviceToken);
+
     axios.defaults.headers.common.Authorization = serviceToken;
   } else {
     localStorage.removeItem("serviceToken");
@@ -77,8 +61,10 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
     const init = async () => {
       try {
         const serviceToken = window.localStorage.getItem("serviceToken");
+        const userData = window.localStorage.getItem("userData");
+
         if (serviceToken) {
-          const user = decodedToken(serviceToken);
+          const user = userData;
           setSession(serviceToken);
 
           dispatch({
@@ -105,23 +91,33 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
     init();
   }, []);
 
-  const login = async (username: string, password: string) => {
+  const postLogin = async (login: string, password: string, db: string) => {
     const response = await axios.post(BASE_URL + API_LOGIN, {
-      username,
-      password,
-    });
-    const { data } = response.data?.data;
-    const user = decodedToken(data);
-    setSession(data);
-    dispatch({
-      type: LOGIN,
-      payload: {
-        isLoggedIn: true,
-        user,
+      params: {
+        db,
+        login,
+        password,
       },
     });
 
-    return user;
+    const data = response?.data?.result;
+    const { access_token } = response?.data?.result;
+
+    setSession(access_token);
+    if (access_token) {
+      dispatch({
+        type: LOGIN,
+        payload: {
+          isLoggedIn: true,
+          user: {
+            user_id: data?.user_id,
+            user_name: data?.user_name,
+          },
+        },
+      });
+    }
+
+    return data;
   };
 
   const logout = () => {
@@ -136,8 +132,6 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
     });
     window.localStorage.removeItem("idUser");
     window.localStorage.removeItem("serviceToken");
-    window.localStorage.removeItem("idEmployee");
-    window.localStorage.removeItem("username");
   };
 
   if (state.isInitialized !== undefined && !state.isInitialized) {
@@ -145,7 +139,7 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
   }
 
   return (
-    <JWTContext.Provider value={{ ...state, login, logout }}>
+    <JWTContext.Provider value={{ ...state, postLogin, logout }}>
       {children}
     </JWTContext.Provider>
   );

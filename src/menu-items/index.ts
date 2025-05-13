@@ -30,12 +30,12 @@ export type MenuType = {
 
 // project import
 import dashboard from "./dashboard";
-import settings from "./settings";
+// import settings from "./settings";
 
 // ==============================|| MENU ITEMS ||============================== //
 
 const menuItems = {
-  items: [dashboard, settings],
+  items: [dashboard], //, settings],
 };
 
 export default menuItems;

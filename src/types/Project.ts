@@ -1,13 +1,24 @@
+import { JSX } from "react/jsx-runtime";
+
 export type Standar = {
+  map(
+    arg0: (standard: any, idx: any) => JSX.Element
+  ): import("react").ReactNode;
   id_project: number;
   id_standar: number;
   nama_standar: string;
   project_detail_standar_id: number;
   status: number;
+  iso_standards: string;
 };
 
 export interface AllProject {
+  lead_time_finish?: any;
+  aplication_form?: string | any;
+  iso_standards?: any;
+  accreditation?: string[] | string;
   customer_id?: number | string;
+  customer?: string;
   status_pembayaran_id?: string | number | readonly string[] | undefined;
   nama_status_pembayaran?: string | any;
   tanggalStatus?: any;
@@ -15,6 +26,7 @@ export interface AllProject {
   id_project?: number;
   nama_perusahaan?: string | any;
   nama_sales_or_crr?: string | any;
+  sales_person?: string;
   standar?: Standar[];
   akreditasi?: number;
   tahapan?: string | any;

@@ -173,7 +173,7 @@ const parseTimeString = (timeString: string) => {
   return { days, hours, minutes };
 };
 interface DataTableProps {
-  data?: AllProject[] | null;
+  data?: AllProject[] | any;
   pathName: string;
 }
 
@@ -193,7 +193,10 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
           </TableHead>
           <TableBody>
             {data?.map((row: AllProject, index: number) => {
-              const sla = pathName?.includes("iso") || pathName === "dashboard" ? getSLAISO(row?.tahapan) : getSLAISPO(row?.tahapan);
+              const sla =
+                pathName?.includes("iso") || pathName === "dashboard"
+                  ? getSLAISO(row?.tahapan)
+                  : getSLAISPO(row?.tahapan);
               const timeString = row?.leadTime;
               const result = parseTimeString(timeString as string);
 
@@ -214,9 +217,7 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                       : "-"}
                   </ScrollableTableCell>
                   <ScrollableTableCell>
-                    {sla !== "-"
-                      ? `${sla} Hari`
-                      : "-"}
+                    {sla !== "-" ? `${sla} Hari` : "-"}
                   </ScrollableTableCell>
                   <ScrollableTableCell>
                     {result?.days || result?.hours || result?.minutes ? (
@@ -225,9 +226,7 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                           <Grid item xl={3} xs={4}>
                             <Typography
                               sx={{
-                                color: isExceeding
-                                  ? "red"
-                                  : "inherit"
+                                color: isExceeding ? "red" : "inherit",
                               }}
                             >
                               {result?.days ? result?.days + " Hari" : "-"}
@@ -236,9 +235,7 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                           <Grid item xl={3} xs={4}>
                             <Typography
                               sx={{
-                                color: isExceeding
-                                  ? "red"
-                                  : "inherit"
+                                color: isExceeding ? "red" : "inherit",
                               }}
                             >
                               {result?.hours ? result?.hours + " Jam" : "-"}
@@ -247,9 +244,7 @@ const DataTable = ({ data, pathName }: DataTableProps) => {
                           <Grid item xl={3} xs={4}>
                             <Typography
                               sx={{
-                                color: isExceeding
-                                  ? "red"
-                                  : "inherit"
+                                color: isExceeding ? "red" : "inherit",
                               }}
                             >
                               {result?.minutes

@@ -87,11 +87,19 @@ const Dashboard = () => {
 
       try {
         const response = await axios.get(BASE_URL + GET_ALL_ISO);
-        const iso_progress: AllProject[] = response?.data?.data?.filter((item: AllProject) => item?.lead_time_project_finish === "-");
-        const iso_done: AllProject[] = response?.data?.data?.filter((item: AllProject) => item?.lead_time_project_finish !== "-");
+        const iso_progress: AllProject[] = response?.data?.data?.filter(
+          (item: AllProject) => item?.lead_time_project_finish === "-"
+        );
+        const iso_done: AllProject[] = response?.data?.data?.filter(
+          (item: AllProject) => item?.lead_time_project_finish !== "-"
+        );
 
         setLoading(false);
-        return location === '/iso-progress' ? iso_progress : location === '/iso-done' ? iso_done : response?.data?.data;
+        return location === "/iso-progress"
+          ? iso_progress
+          : location === "/iso-done"
+          ? iso_done
+          : response?.data?.data;
       } catch (error) {
         setLoading(false);
         return [];
@@ -276,72 +284,84 @@ const Dashboard = () => {
           tanggalStatus: item?.tgl_apl_form_or_request,
           catatan: item?.note_tgl_apl_form_or_request,
           leadTime: item?.lead_time_tgl_apl_form_or_request,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Review Penugasan",
           tanggalStatus: item?.tgl_review_penugasan_st_dua,
           catatan: item?.note_tgl_review_penugasan_st_dua,
           leadTime: item?.lead_time_tgl_review_penugasan_st_dua,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Pengiriman Notifikasi",
           tanggalStatus: item?.tgl_pengiriman_notif_st_dua,
           catatan: item?.note_tgl_pengiriman_notif_st_dua,
           leadTime: item?.lead_time_tgl_pengiriman_notif_st_dua,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Persetujuan Notifikasi",
           tanggalStatus: item?.tgl_persetujuan_notif_st_dua,
           catatan: item?.note_tgl_persetujuan_notif_st_dua,
           leadTime: item?.lead_time_tgl_persetujuan_notif_st_dua,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Pengiriman Audit Plan",
           tanggalStatus: item?.tgl_pengiriman_audit_plan_st_dua,
           catatan: item?.note_tgl_pengiriman_audit_plan_st_dua,
           leadTime: item?.lead_time_tgl_pengiriman_audit_plan_st_dua,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Pelaksanaan Audit",
           tanggalStatus: item?.tgl_pelaksanaan_audit_st_dua,
           catatan: item?.note_tgl_pelaksanaan_audit_st_dua,
           leadTime: item?.lead_time_tgl_pelaksanaan_audit_st_dua,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Penyelesaian CAPA",
           tanggalStatus: item?.tgl_penyelesaian_capa_st_dua,
           catatan: item?.note_tgl_penyelesaian_capa_st_dua,
           leadTime: item?.lead_time_tgl_penyelesaian_capa_st_dua,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Pengiriman Draft Sertifikat",
           tanggalStatus: item?.tgl_pengiriman_draft_sertifikat,
           catatan: item?.note_tgl_pengiriman_draft_sertifikat,
           leadTime: item?.lead_time_tgl_pengiriman_draft_sertifikat,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Persetujuan Draft Sertifikat",
           tanggalStatus: item?.tgl_persetujuan_draft_sertifikat,
           catatan: item?.note_tgl_persetujuan_draft_sertifikat,
           leadTime: item?.lead_time_tgl_persetujuan_draft_sertifikat,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Pengajuan ke " + item?.nama_akreditasi,
           tanggalStatus: item?.tgl_pengajuan_ke_kan,
           catatan: item?.note_tgl_pengajuan_ke_kan,
           leadTime: item?.lead_time_tgl_pengajuan_ke_kan,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Persetujuan ke " + item?.nama_akreditasi,
           tanggalStatus: item?.tgl_persetujuan_kan,
           catatan: item?.note_tgl_persetujuan_kan,
           leadTime: item?.lead_time_tgl_persetujuan_kan,
+          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Kirim Sertifikat",
           tanggalStatus: item?.tgl_kirim_sertifikat,
           catatan: item?.note_tgl_kirim_sertifikat,
           leadTime: item?.lead_time_tgl_kirim_sertifikat,
+          lead_time_finish: undefined,
         },
       ];
 
@@ -349,7 +369,7 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-            new Date(b.tanggalStatus as string)
+          new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
@@ -358,53 +378,53 @@ const Dashboard = () => {
         .filter((item) => item.tanggalStatus)
         .sort((a, b) =>
           new Date(a.tanggalStatus as string) >
-            new Date(b.tanggalStatus as string)
+          new Date(b.tanggalStatus as string)
             ? -1
             : 1
         )[0];
 
       return item?.tahapan === 1
         ? Object.values(latestProgressAudit)?.some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        }) ||
-        Object.values(item).some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        }) ||
-        item?.standar?.some((standar) => {
-          return Object.values(standar).some((field) => {
             return (
               typeof field === "string" &&
               field.toLowerCase().includes(searchValue)
             );
-          });
-        })
+          }) ||
+            Object.values(item).some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            }) ||
+            item?.standar?.some((standar) => {
+              return Object.values(standar).some((field) => {
+                return (
+                  typeof field === "string" &&
+                  field.toLowerCase().includes(searchValue)
+                );
+              });
+            })
         : (item?.tahapan > 1 &&
-          Object.values(latestProgress)?.some((field) => {
-            return (
-              typeof field === "string" &&
-              field.toLowerCase().includes(searchValue)
-            );
-          })) ||
-        Object.values(item).some((field) => {
-          return (
-            typeof field === "string" &&
-            field.toLowerCase().includes(searchValue)
-          );
-        }) ||
-        item?.standar?.some((standar) => {
-          return Object.values(standar).some((field) => {
-            return (
-              typeof field === "string" &&
-              field.toLowerCase().includes(searchValue)
-            );
-          });
-        });
+            Object.values(latestProgress)?.some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            })) ||
+            Object.values(item).some((field) => {
+              return (
+                typeof field === "string" &&
+                field.toLowerCase().includes(searchValue)
+              );
+            }) ||
+            item?.standar?.some((standar) => {
+              return Object.values(standar).some((field) => {
+                return (
+                  typeof field === "string" &&
+                  field.toLowerCase().includes(searchValue)
+                );
+              });
+            });
     });
     setFilteredData(filtered);
   };
@@ -424,14 +444,13 @@ const Dashboard = () => {
       const idUser = window.localStorage.getItem("idUser");
       const token = window.localStorage.getItem("serviceToken");
       const data = { id_user: idUser, is_ispo: "0", ...values };
-      console.log("values", values);
       return add
         ? axios.post(BASE_URL + ADD_PROJECT, data, {
-          headers: { Authorization: token },
-        })
+            headers: { Authorization: token },
+          })
         : axios.post(BASE_URL + UPDATE_PROJECT, data, {
-          headers: { Authorization: token },
-        });
+            headers: { Authorization: token },
+          });
     },
     onSuccess: () => {
       setDisabled(false);
@@ -699,8 +718,8 @@ const Dashboard = () => {
                   ? "Failed Add Form"
                   : "Successfully Add Form"
                 : error
-                  ? "Failed Update Form"
-                  : "Successfully Update Form"
+                ? "Failed Update Form"
+                : "Successfully Update Form"
               : " Sorry, you haven't logged in yet, please log in."}
           </DialogTitle>
           {!isLoggedIn && (

@@ -1,5 +1,9 @@
 import React from "react";
-import { LocalizationProvider, DatePicker } from "@mui/x-date-pickers";
+import {
+  LocalizationProvider,
+  DatePicker,
+  DateView,
+} from "@mui/x-date-pickers";
 import { AdapterMoment } from "@mui/x-date-pickers/AdapterMoment";
 import TextField from "@mui/material/TextField";
 import moment, { Moment } from "moment";
@@ -10,12 +14,14 @@ interface InputDateProps {
   selectedDate: Moment | null;
   handleDateChange: (newDate: Moment | null) => void;
   disabled?: boolean;
+  views?: DateView[];
 }
 const InputDate: React.FC<InputDateProps> = ({
   label,
   selectedDate,
   handleDateChange,
   disabled,
+  views = ["day"],
 }) => {
   const today = moment();
 
@@ -52,17 +58,20 @@ const InputDate: React.FC<InputDateProps> = ({
         }}
         label={label}
         value={selectedDate}
-        onChange={(newDate) => handleDateChange(newDate as Moment)}
+        onChange={
+          views ? undefined : (newDate) => handleDateChange(newDate as Moment)
+        }
+        onYearChange={(newDate) => handleDateChange(newDate as Moment)}
         shouldDisableDate={isDateDisabled}
         sx={{
           width: "100%",
         }}
         onError={() => {}}
         disabled={disabled}
-        disableFuture={true}
-        disablePast={true}
-        openTo="day"
-        views={["day"]}
+        disableFuture={views ? false : true}
+        disablePast={views ? false : true}
+        openTo={views ? undefined : "day"}
+        views={views}
       />
     </LocalizationProvider>
   );

@@ -1,8 +1,14 @@
 import { BrowserView, MobileView } from "react-device-detect";
-import { ReactNode, SetStateAction, SyntheticEvent, useState } from "react";
-import { AllProject } from "@/types/Project";
+import {
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  SyntheticEvent,
+  useState,
+} from "react";
+import { AllProject, Standar } from "@/types/Project";
 import TableInfo from "./TableInfo";
-import ChartInfo from "./chart";
+import ChartDashboard from "./chart";
 import { Box, Tab, Tabs } from "@mui/material";
 import { TableChartRounded, BarChartRounded } from "@mui/icons-material";
 import CardInfo from "../card-sections/CardInfo";
@@ -39,11 +45,19 @@ function a11yProps(index: number) {
 
 interface DashboardSectionsProps {
   data: AllProject[] | null;
-  openModal?: (items: SetStateAction<null>) => void;
-  setAdd?: (v: boolean) => void;
+  standards: Standar[];
+  uniqueStandards: Standar;
+  selectedStandard: string | null;
+  setSelectedStandard: Dispatch<SetStateAction<string | null>>;
 }
 
-const DashboardSections = ({ data }: DashboardSectionsProps) => {
+const DashboardSections = ({
+  data,
+  standards,
+  uniqueStandards,
+  selectedStandard,
+  setSelectedStandard,
+}: DashboardSectionsProps) => {
   const [open, setOpen] = useState<boolean[]>(Array(data?.length).fill(false));
   const [value, setValue] = useState<number>(0);
 
@@ -56,7 +70,7 @@ const DashboardSections = ({ data }: DashboardSectionsProps) => {
   };
 
   const handleChange = (
-    event: SyntheticEvent<Element, Event>,
+    _event: SyntheticEvent<Element, Event>,
     newValue: number
   ) => {
     setValue(newValue);
@@ -101,13 +115,18 @@ const DashboardSections = ({ data }: DashboardSectionsProps) => {
           })}
         </MobileView>
         <BrowserView>
-          <TableInfo data={data || []} />
+          <TableInfo
+            data={data || []}
+            uniqueStandards={uniqueStandards}
+            selectedStandard={selectedStandard}
+            setSelectedStandard={setSelectedStandard}
+          />
         </BrowserView>
       </TabPanel>
 
       {/* Chart Panel */}
       <TabPanel value={value} index={1}>
-        <ChartInfo data={data || []} />
+        <ChartDashboard data={data || []} standards={standards} />
       </TabPanel>
     </>
   );

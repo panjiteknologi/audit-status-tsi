@@ -1,67 +1,95 @@
-import { useEffect, useState } from "react";
-import { AllProject } from "@/types/Project";
 import { useQuery } from "@tanstack/react-query";
-import { BASE_URL, GET_ALL_PROJECT } from "@/contexts/JWTContext";
+import { AllProject, Standar } from "@/types/Project";
 import DashboardSections from "@/sections/dashboard";
-import axios from "axios";
+import {
+  BASE_API,
+  BASE_URL,
+  GET_ALL_PROJECT,
+  GET_ALL_STANDARD,
+} from "@/contexts/JWTContext";
 import useAuth from "@/hooks/useAuth";
+import { useMemo, useState } from "react";
 
-const Input = () => {
-  const { user } = useAuth()
-  let customer_id = user?.customer_id;
-  let role = user?.role;
-  /** ======== | ROLE
-    1 : super_admin
-    2 : customer
-    3 : operator_iso
-    4 : operator_ispo
-    5 : operator_ict
-    6 : crm
-    7 : finance
-    8 : sales
-    9 : product_development
-    10 : auditor
-    11 : director
-    12 :  monitor
-    ======== | ROLE **/
-
-  const [filteredData, setFilteredData] = useState<AllProject[]>([]);
-  const [loading, setLoading] = useState<boolean>(false);
-
-  const { data: allProject = [] } = useQuery({
-    queryKey: ["allProjects"],
-    queryFn: async () => {
-      const data = {
-        customer_id
-      }
-
-      try {
-        const response = role === "2" ? await axios.post(BASE_URL + GET_ALL_PROJECT, data) : await axios.post(BASE_URL + GET_ALL_PROJECT);
-        setLoading(false);
-        return response?.data?.data;
-      } catch (error) {
-        setLoading(false);
-        return [];
-      } finally {
-        setLoading(false);
-      }
+const fetchProjects = async (token: string | null): Promise<AllProject[]> => {
+  const response = await fetch(BASE_URL + BASE_API + GET_ALL_PROJECT, {
+    method: "GET",
+    headers: {
+      Authorization: token || "",
     },
-    refetchOnWindowFocus: true,
-    refetchIntervalInBackground: true,
-    refetchInterval: 500,
   });
 
-  useEffect(() => {
-    if (allProject) {
-      setFilteredData(allProject);
-    }
-  }, [allProject]);
+  if (!response.ok) {
+    throw new Error("Failed to fetch projects");
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+const fetchStandards = async (token: string | null): Promise<any[]> => {
+  const response = await fetch(BASE_URL + BASE_API + GET_ALL_STANDARD, {
+    method: "GET",
+    headers: {
+      Authorization: token || "",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error("Failed to fetch standards");
+  }
+
+  const data = await response.json();
+  return data;
+};
+
+const Dashboard = () => {
+  const { user } = useAuth();
+  const token =
+    typeof window !== "undefined" ? localStorage.getItem("serviceToken") : null;
+  const [selectedStandard, setSelectedStandard] = useState<string | null>(null);
+
+  const {
+    data: projects = [],
+    isLoading: isProjectsLoading,
+    isError: isProjectsError,
+  } = useQuery<AllProject[]>({
+    queryKey: ["projects", user?.user_id],
+    queryFn: () => fetchProjects(token),
+    enabled: !!token,
+    refetchOnWindowFocus: false,
+    refetchIntervalInBackground: false,
+    refetchInterval: false,
+  });
+
+  const {
+    data: standards = [],
+    isLoading: isStandardsLoading,
+    isError: isStandardsError,
+  } = useQuery({
+    queryKey: ["standards"],
+    queryFn: () => fetchStandards(token),
+    enabled: !!token,
+  });
+
+  const uniqueStandards = useMemo(() => {
+    const allStandards = standards.flatMap((item) => item.standard_name || []);
+    return Array.from(new Set(allStandards));
+  }, [standards]);
+
+  if (isProjectsLoading || isStandardsLoading) return <div>Loading...</div>;
+  if (isProjectsError || isStandardsError) return <div>Error loading data</div>;
 
   return (
     <div>
-      <DashboardSections data={filteredData} />
+      <DashboardSections
+        data={projects}
+        standards={standards}
+        uniqueStandards={uniqueStandards as unknown as Standar}
+        selectedStandard={selectedStandard}
+        setSelectedStandard={setSelectedStandard}
+      />
     </div>
   );
 };
 
-export default Input;
+export default Dashboard;

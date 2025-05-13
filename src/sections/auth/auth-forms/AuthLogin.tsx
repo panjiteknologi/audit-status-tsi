@@ -42,7 +42,7 @@ const AuthLogin = ({
 }: AuthLoginProps) => {
   const navigate = useNavigate();
 
-  const { login } = useAuth();
+  const { postLogin } = useAuth();
 
   const [showPassword, setShowPassword] = React.useState(false);
   const handleClickShowPassword = () => {
@@ -57,24 +57,22 @@ const AuthLogin = ({
     <>
       <Formik
         initialValues={{
-          username: "",
+          login: "",
           password: "",
           submit: null,
         }}
         validationSchema={Yup.object().shape({
-          username: Yup.string().max(50).required("Username is required"),
-          password: Yup.string().min(6).required("Password is required"),
+          login: Yup.string().max(50).required("Username is required"),
+          password: Yup.string().min(5).required("Password is required"),
         })}
         onSubmit={async (values, { setErrors, setStatus, setSubmitting }) => {
-          const username = values.username.trim();
+          const login = values.login.trim();
           const password = values.password.trim();
-          try {
-            const response = await login(username, password);
-            if (response) {
-              setError(false);
-              setStatus({ success: true });
-              setSubmitting(false);
+          const db = "Odoo_Tsi_Production";
 
+          try {
+            const response = await postLogin(login, password, db);
+            if (response?.result === "success") {
               let role = response?.role;
               let path = "/dashboard";
 
@@ -102,17 +100,37 @@ const AuthLogin = ({
               }
 
               navigate(path);
+              setError(false);
+              setStatus({ success: true });
+              setSubmitting(false);
+              window.localStorage.setItem("userData", response);
+              window.localStorage.setItem(
+                "serviceToken",
+                response?.access_token
+              );
+              window.localStorage.setItem("userName", response?.user_name);
+            } else {
+              setShowModal(true);
+              setError(true);
+              setStatus({ success: false });
+              setErrors({ submit: response?.error_message });
+              setSubmitting(false);
+              setTitleMessage("Sorry, you haven't successfully logged in.");
+              setMessage(
+                response?.error_message || "Please try again in a few moments!"
+              );
+              window.localStorage.removeItem("userData");
+              window.localStorage.removeItem("serviceToken");
             }
           } catch (err: any) {
             setShowModal(true);
             setError(true);
             setStatus({ success: false });
-            setErrors({ submit: err.message });
             setSubmitting(false);
             setTitleMessage("Sorry, you haven't successfully logged in.");
-            setMessage(
-              err?.data?.message || "Please try again in a few moments!"
-            );
+            setMessage("Please try again in a few moments!");
+            window.localStorage.removeItem("userData");
+            window.localStorage.removeItem("serviceToken");
           }
         }}
       >
@@ -133,21 +151,21 @@ const AuthLogin = ({
                   <OutlinedInput
                     id="username-login"
                     type="text"
-                    value={values.username.trim()}
-                    name="username"
+                    value={values.login.trim()}
+                    name="login"
                     onBlur={handleBlur}
                     onChange={handleChange}
                     placeholder="Enter Username"
                     fullWidth
-                    error={Boolean(touched.username && errors.username)}
+                    error={Boolean(touched.login && errors.login)}
                   />
                 </Stack>
-                {touched.username && errors.username && (
+                {touched.login && errors.login && (
                   <FormHelperText
                     error
-                    id="standard-weight-helper-text-username-login"
+                    id="standard-weight-helper-text-login-login"
                   >
-                    {errors.username}
+                    {errors.login}
                   </FormHelperText>
                 )}
               </Grid>

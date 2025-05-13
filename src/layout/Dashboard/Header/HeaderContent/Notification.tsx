@@ -70,24 +70,24 @@ const Notification = () => {
 
   const { data: allNotification = [] } = useQuery({
     queryKey: ["allNotifications"],
-    queryFn: async () => {
-      const token = window.localStorage.getItem("serviceToken");
-      const idUser = window.localStorage.getItem("idUser");
-      const role = window.localStorage.getItem("role");
+    // queryFn: async () => {
+    //   const token = window.localStorage.getItem("serviceToken");
+    //   const idUser = window.localStorage.getItem("idUser");
+    //   const role = window.localStorage.getItem("role");
 
-      const data = { id_user: idUser, role_penerima: role };
+    //   const data = { id_user: idUser, role_penerima: role };
 
-      try {
-        const response = await axios.post(BASE_URL + GET_NOTIFICATION, data, {
-          headers: { Authorization: token },
-        });
-        setIsEmpty(false);
-        return response?.data?.data;
-      } catch (error) {
-        setIsEmpty(true);
-        return [];
-      }
-    },
+    //   try {
+    //     const response = await axios.post(BASE_URL + GET_NOTIFICATION, data, {
+    //       headers: { Authorization: token },
+    //     });
+    //     setIsEmpty(false);
+    //     return response?.data?.data;
+    //   } catch (error) {
+    //     setIsEmpty(true);
+    //     return [];
+    //   }
+    // },
     refetchOnWindowFocus: true,
     refetchIntervalInBackground: true,
     refetchInterval: 500,
