@@ -133,7 +133,7 @@ const ChartBar = ({
               slot === "sales"
                 ? `Sales: {valueY}`
                 : slot === "standards"
-                ? `Standar: {valueX} {valueY}`
+                ? `${name}: {valueY}`
                 : `Standar: {all_standar}`,
           }),
         })
@@ -206,13 +206,14 @@ const ChartBar = ({
     if (slot === "sales") {
       makeSeries("Sales", "value");
     } else if (slot === "standards") {
-      makeSeries("Standars", "totalHarga");
+      makeSeries("Price", "totalHarga");
+      makeSeries("Quantity", "totalQuantity");
     } else {
       makeSeries("Lead Time All", "value_all", "All");
       makeSeries(
         "Lead Time Capa to Certificate",
         "value_capa_to_certificate",
-        "Audit - \n Crtificate"
+        "Audit - \n Certificate"
       );
     }
 

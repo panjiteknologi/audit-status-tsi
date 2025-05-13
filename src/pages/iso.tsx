@@ -29,7 +29,7 @@ import {
   UPDATE_PROJECT,
 } from "@/contexts/JWTContext";
 import ModalDetail from "@/sections/card-sections/ModalDetail";
-import { AllProject, MenuProject } from "@/types/Project";
+import { AllAudit, AllProject, MenuProject } from "@/types/Project";
 import CloseButton from "@/sections/card-sections/CloseButton";
 import IlustrationConfirmation from "../assets/ilustration/il-confirmation.svg";
 import IlustrationCancel from "../assets/ilustration/il-notfound.svg";
@@ -161,7 +161,7 @@ const Dashboard = () => {
     setValue(searchValue);
 
     const filtered = allProject?.filter((item: AllProject) => {
-      const dataFieldAudit: AllProject[] = [
+      const dataFieldAudit: AllAudit[] = [
         {
           tahapan: "Tanggal Aplication Form or Request",
           tanggalStatus: item?.tgl_apl_form_or_request,
@@ -278,90 +278,78 @@ const Dashboard = () => {
         },
       ];
 
-      const dataField: AllProject[] = [
+      const dataField: AllAudit[] = [
         {
           tahapan: "Tanggal Aplication Form or Request",
           tanggalStatus: item?.tgl_apl_form_or_request,
           catatan: item?.note_tgl_apl_form_or_request,
           leadTime: item?.lead_time_tgl_apl_form_or_request,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Review Penugasan",
           tanggalStatus: item?.tgl_review_penugasan_st_dua,
           catatan: item?.note_tgl_review_penugasan_st_dua,
           leadTime: item?.lead_time_tgl_review_penugasan_st_dua,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Pengiriman Notifikasi",
           tanggalStatus: item?.tgl_pengiriman_notif_st_dua,
           catatan: item?.note_tgl_pengiriman_notif_st_dua,
           leadTime: item?.lead_time_tgl_pengiriman_notif_st_dua,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Persetujuan Notifikasi",
           tanggalStatus: item?.tgl_persetujuan_notif_st_dua,
           catatan: item?.note_tgl_persetujuan_notif_st_dua,
           leadTime: item?.lead_time_tgl_persetujuan_notif_st_dua,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Pengiriman Audit Plan",
           tanggalStatus: item?.tgl_pengiriman_audit_plan_st_dua,
           catatan: item?.note_tgl_pengiriman_audit_plan_st_dua,
           leadTime: item?.lead_time_tgl_pengiriman_audit_plan_st_dua,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Pelaksanaan Audit",
           tanggalStatus: item?.tgl_pelaksanaan_audit_st_dua,
           catatan: item?.note_tgl_pelaksanaan_audit_st_dua,
           leadTime: item?.lead_time_tgl_pelaksanaan_audit_st_dua,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Penyelesaian CAPA",
           tanggalStatus: item?.tgl_penyelesaian_capa_st_dua,
           catatan: item?.note_tgl_penyelesaian_capa_st_dua,
           leadTime: item?.lead_time_tgl_penyelesaian_capa_st_dua,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Pengiriman Draft Sertifikat",
           tanggalStatus: item?.tgl_pengiriman_draft_sertifikat,
           catatan: item?.note_tgl_pengiriman_draft_sertifikat,
           leadTime: item?.lead_time_tgl_pengiriman_draft_sertifikat,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Persetujuan Draft Sertifikat",
           tanggalStatus: item?.tgl_persetujuan_draft_sertifikat,
           catatan: item?.note_tgl_persetujuan_draft_sertifikat,
           leadTime: item?.lead_time_tgl_persetujuan_draft_sertifikat,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Pengajuan ke " + item?.nama_akreditasi,
           tanggalStatus: item?.tgl_pengajuan_ke_kan,
           catatan: item?.note_tgl_pengajuan_ke_kan,
           leadTime: item?.lead_time_tgl_pengajuan_ke_kan,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Persetujuan ke " + item?.nama_akreditasi,
           tanggalStatus: item?.tgl_persetujuan_kan,
           catatan: item?.note_tgl_persetujuan_kan,
           leadTime: item?.lead_time_tgl_persetujuan_kan,
-          lead_time_finish: undefined,
         },
         {
           tahapan: "Tanggal Kirim Sertifikat",
           tanggalStatus: item?.tgl_kirim_sertifikat,
           catatan: item?.note_tgl_kirim_sertifikat,
           leadTime: item?.lead_time_tgl_kirim_sertifikat,
-          lead_time_finish: undefined,
         },
       ];
 
@@ -396,7 +384,7 @@ const Dashboard = () => {
                 field.toLowerCase().includes(searchValue)
               );
             }) ||
-            item?.standar?.some((standar) => {
+            item?.standar?.some((standar: any) => {
               return Object.values(standar).some((field) => {
                 return (
                   typeof field === "string" &&
@@ -417,7 +405,7 @@ const Dashboard = () => {
                 field.toLowerCase().includes(searchValue)
               );
             }) ||
-            item?.standar?.some((standar) => {
+            item?.standar?.some((standar: any) => {
               return Object.values(standar).some((field) => {
                 return (
                   typeof field === "string" &&

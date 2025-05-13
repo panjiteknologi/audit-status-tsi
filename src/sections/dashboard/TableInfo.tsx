@@ -1,4 +1,4 @@
-import React, {
+import {
   Dispatch,
   Fragment,
   SetStateAction,
@@ -95,14 +95,25 @@ const TableInfo = ({
 
     type StatKey = keyof typeof stat;
 
-    const trans = data.map((item) => {
-      return {
-        ...item,
-        sv: stat[item.tahapan as StatKey] ?? item.tahapan, // fallback if tahapan is not in stat
-      };
+    const filtered = data.filter((item) => {
+      if (globalFilter.trim() === "") return true; // tampilkan semua jika belum search
+
+      // saat search, sembunyikan jika akreditasi atau standar kosong
+      const hasAccreditation =
+        Array.isArray(item.accreditation) && item.accreditation.length > 0;
+      const hasStandards =
+        Array.isArray(item.iso_standards) && item.iso_standards.length > 0;
+
+      return hasAccreditation && hasStandards;
     });
+
+    const trans = filtered.map((item) => ({
+      ...item,
+      sv: stat[item.tahapan as unknown as StatKey] ?? item.tahapan,
+    }));
+
     return trans;
-  }, [data]);
+  }, [data, globalFilter]);
 
   const columns = useMemo<ColumnDef<AllProject>[]>(
     () => [
@@ -132,7 +143,7 @@ const TableInfo = ({
         cell: ({ row }) => {
           return (
             <Typography variant="h3" sx={{ color: "rgb(30, 32, 95)" }}>
-              {row.original.customer}
+              {row.original.customer ?? "-"}
             </Typography>
           );
         },
@@ -146,7 +157,7 @@ const TableInfo = ({
         cell: ({ row }) => {
           return (
             <Typography variant="h4" sx={{ color: "rgb(30, 32, 95)" }}>
-              {row?.original?.sales_person}
+              {row?.original?.sales_person ?? "-"}
             </Typography>
           );
         },
@@ -159,15 +170,21 @@ const TableInfo = ({
         },
         cell: ({ row }) => {
           const standar: Standar[] | undefined = row?.original?.iso_standards;
-          return standar?.map((item, index) => (
-            <Chip
-              key={index}
-              label={item as any}
-              sx={{ m: 0.2, fontSize: 18 }}
-              color="primary"
-              variant="outlined"
-            />
-          ));
+          return Array.isArray(standar) && standar.length > 0 ? (
+            standar.map((item, index) => (
+              <Chip
+                key={index}
+                label={(item as any) ?? "-"}
+                sx={{ m: 0.2, fontSize: 18 }}
+                color="primary"
+                variant="outlined"
+              />
+            ))
+          ) : (
+            <Typography variant="h4" sx={{ color: "text.secondary" }}>
+              -
+            </Typography>
+          );
         },
         enableColumnFilter: true,
         filterFn: (row, columnId, filterValue) => {
@@ -186,21 +203,21 @@ const TableInfo = ({
           className: "cell-center",
         },
         cell: ({ row }) => {
-          return (
-            <React.Fragment>
-              {(row.original?.accreditation as string[])?.map((item, index) => (
-                <Chip
-                  key={index}
-                  label={item as any}
-                  sx={{ m: 0.2, fontSize: 18 }}
-                  color="primary"
-                  variant="outlined"
-                />
-              ))}
-            </React.Fragment>
-            // <Typography variant="h3" sx={{ color: "rgb(30, 32, 95)" }}>
-            //   {row?.original?.accreditation?.[0]}
-            // </Typography>
+          const accreditations = row.original?.accreditation;
+          return Array.isArray(accreditations) && accreditations.length > 0 ? (
+            accreditations.map((item, index) => (
+              <Chip
+                key={index}
+                label={item ?? "-"}
+                sx={{ m: 0.2, fontSize: 18 }}
+                color="primary"
+                variant="outlined"
+              />
+            ))
+          ) : (
+            <Typography variant="h4" sx={{ color: "text.secondary" }}>
+              -
+            </Typography>
           );
         },
         filterFn: "includesString",
@@ -212,11 +229,11 @@ const TableInfo = ({
           className: "cell-center",
         },
         cell: ({ row }) => {
-          const normalizedField = findTahapan(row?.original?.tahapan);
+          const normalizedField = findTahapan(row?.original?.tahapan as string);
 
           return (
             <Typography variant="h3" sx={{ color: "rgb(30, 32, 95)" }}>
-              {normalizedField?.nama_tahapan}
+              {normalizedField?.nama_tahapan ?? "-"}
             </Typography>
           );
         },
@@ -268,9 +285,7 @@ const TableInfo = ({
         cell: ({ row }) => {
           return (
             <Typography variant="h4" sx={{ color: "rgb(30, 32, 95)" }}>
-              {row.original?.lead_time_finish
-                ? row.original?.lead_time_finish
-                : "-"}
+              {row.original?.lead_time_finish ?? "-"}
             </Typography>
           );
         },
@@ -295,7 +310,6 @@ const TableInfo = ({
       .join(" ")
       .toLowerCase();
 
-    console.log("FLAT STRING", flatString);
     if (columnId === "next_step") {
       const next = getNextStep(row.original);
       return next.toLowerCase().includes(filter);
@@ -339,17 +353,7 @@ const TableInfo = ({
     })
   );
 
-  useEffect(() => {
-    // const dataLength = data.length;
-    // const intervalId = setInterval(() => {
-    //   const pageSize = table.getState().pagination.pageSize;
-    //   const pageIndex = table.getState().pagination.pageIndex;
-    //   const maxPage = dataLength / pageSize;
-    //   table.setPageIndex(pageIndex < maxPage - 1 ? pageIndex + 1 : 0);
-    // }, 30000);
-    // // Membersihkan interval saat komponen di-unmount
-    // return () => clearInterval(intervalId);
-  }, [data]);
+  useEffect(() => {}, [data]);
 
   return (
     <Fragment>
@@ -436,47 +440,62 @@ const TableInfo = ({
                 ))}
               </TableHead>
               <TableBody>
-                {table.getRowModel().rows.map((row) => (
-                  <Fragment key={row.id}>
-                    <TableRow>
-                      {row.getVisibleCells().map((cell) => (
-                        <TableCell
-                          key={cell.id}
-                          {...cell.column.columnDef.meta}
-                        >
-                          {flexRender(
-                            cell.column.columnDef.cell,
-                            cell.getContext()
-                          )}
-                        </TableCell>
-                      ))}
-                    </TableRow>
-                    {row.getIsExpanded() && (
-                      <TableRow
-                        sx={{
-                          bgcolor: backColor,
-                          "&:hover": { bgcolor: `${backColor} !important` },
-                        }}
-                      >
-                        <TableCell colSpan={row.getVisibleCells().length}>
-                          <Box
-                            sx={{
-                              margin: 1,
-                              backgroundColor: "white",
-                              borderWidth: 1,
-                              borderColor: "gray",
-                            }}
+                {table.getRowModel().rows.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <Fragment key={row.id}>
+                      <TableRow>
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell
+                            key={cell.id}
+                            {...cell.column.columnDef.meta}
                           >
-                            <DataTable
-                              data={getDataTable(row.original)}
-                              pathName={pathName}
-                            />
-                          </Box>
-                        </TableCell>
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        ))}
                       </TableRow>
-                    )}
-                  </Fragment>
-                ))}
+                      {row.getIsExpanded() && (
+                        <TableRow
+                          sx={{
+                            bgcolor: backColor,
+                            "&:hover": { bgcolor: `${backColor} !important` },
+                          }}
+                        >
+                          <TableCell colSpan={row.getVisibleCells().length}>
+                            <Box
+                              sx={{
+                                margin: 1,
+                                backgroundColor: "white",
+                                borderWidth: 1,
+                                borderColor: "gray",
+                              }}
+                            >
+                              <DataTable
+                                data={getDataTable(row.original)}
+                                pathName={pathName}
+                              />
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </Fragment>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={columns.length}>
+                      <Typography
+                        variant="h4"
+                        align="center"
+                        color="text.secondary"
+                        sx={{ py: 4 }}
+                      >
+                        Data tidak ditemukan
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>

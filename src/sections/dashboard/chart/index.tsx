@@ -54,10 +54,10 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
   const endOfLastWeek = startOfThisWeek.subtract(1, "day");
 
   const dataRunning = data.filter(
-    (item) => item.lead_time_project_finish_for_chart === 0
+    (item) => (item.lead_time_project_finish_for_chart as number) === 0
   ).length;
   const dataDone = data.filter(
-    (item) => Number(item.lead_time_project_finish_for_chart) > 0
+    (item) => Number(item.lead_time_project_finish_for_chart as number) > 0
   ).length;
 
   const getThisWeek = (dates: Date[]) =>
@@ -76,11 +76,14 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
     );
 
   const dataCardAnalytics = (dates: AllProject[]): DataAnalytics => {
-    console.log("dates", dates);
-    const listDate = dates.map((item) => item.aplication_form);
+    const listDate: Date[] = dates
+      .map((item) => new Date(item.aplication_form))
+      .filter((date) => !isNaN(date.getTime()));
+
     const countAuditThisWeek = getThisWeek(listDate).length;
     const countAuditLastWeek = getLastWeek(listDate).length;
     const gap = countAuditThisWeek - countAuditLastWeek;
+
     return { countAuditThisWeek, countAuditLastWeek, gap };
   };
 
@@ -103,12 +106,12 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
         customer,
         lead_time_project_finish_for_chart,
         lead_time_projec_audit_sertifikat,
-        standar,
+        iso_standards,
       }) => ({
         customer,
         value_all: lead_time_project_finish_for_chart,
         value_capa_to_certificate: lead_time_projec_audit_sertifikat,
-        all_standar: standar?.map((item) => item.iso_standards).join(", "),
+        all_standar: iso_standards?.map((item) => item).join(", "),
       })
     )
     .sort((a, b) => Number(b.value_all) - Number(a.value_all));
@@ -147,26 +150,16 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
 
   const acreditationWithTotal = data.reduce(
     (acc: { nama_akreditasi: string; value: number }[], curr: AllProject) => {
-      // Cek jika accreditation adalah array
-      if (Array.isArray(curr.accreditation)) {
-        curr.accreditation.forEach((akreditasi: string) => {
-          const existing = acc.find(
-            (item) => item.nama_akreditasi === akreditasi
-          );
-          if (existing) existing.value += 1;
-          else acc.push({ nama_akreditasi: akreditasi, value: 1 });
-        });
-      } else if (typeof curr.accreditation === "string") {
-        // Jika accreditation adalah string, kita bisa menangani kasus ini
+      curr.accreditation.forEach((akreditasi: any) => {
         const existing = acc.find(
-          (item) => item.nama_akreditasi === curr.accreditation
+          (item) => item.nama_akreditasi === akreditasi
         );
         if (existing) existing.value += 1;
-        else acc.push({ nama_akreditasi: curr.accreditation, value: 1 });
-      }
+        else acc.push({ nama_akreditasi: akreditasi, value: 1 });
+      });
       return acc;
     },
-    [] // Initial value yang sesuai dengan tipe array yang diharapkan
+    []
   );
 
   const standardSummary = getStandardSummaryByMonthYear(standards as any);
@@ -256,7 +249,7 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
         <ChartBar
           sales={salesNameWithTotal}
           standards={standardSummary}
-          lead_time={salesNameWitheLeadTime}
+          lead_time={salesNameWitheLeadTime as any}
         />
       </Grid>
 

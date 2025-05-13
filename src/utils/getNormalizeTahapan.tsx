@@ -7,7 +7,7 @@ export function findTahapan(namaTahapan: string) {
 }
 
 export function normalizeFieldTahapan(field: AllProject) {
-  const tahapanData = findTahapan(field.tahapan as string);
+  const tahapanData = findTahapan(field.tahapan);
 
   return {
     ...field,

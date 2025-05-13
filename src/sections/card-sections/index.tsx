@@ -27,7 +27,7 @@ const CardSections = ({ data, openModal, setAdd }: CardSectionsProps) => {
             key={index}
             onEdit={() => {
               setAdd && setAdd(false);
-              openModal && openModal(items as SetStateAction<null>);
+              openModal && openModal(items as unknown as SetStateAction<null>);
             }}
             items={items}
             open={open}
