@@ -28,11 +28,13 @@ const ChartPie = ({ data }: SalesPieChartProps) => {
 
     // Create series
     // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
+
     let series = chart.series.push(
       am5percent.PieSeries.new(root, {
+        alignLabels: true,
+        calculateAggregates: true,
         valueField: "value",
         categoryField: "nama_akreditasi",
-        alignLabels: false,
       })
     );
 

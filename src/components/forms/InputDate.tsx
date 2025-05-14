@@ -16,17 +16,18 @@ interface InputDateProps {
   disabled?: boolean;
   views?: DateView[];
 }
+
 const InputDate: React.FC<InputDateProps> = ({
   label,
   selectedDate,
   handleDateChange,
   disabled,
-  views = ["day"],
+  views = ["month", "year"],
 }) => {
   const today = moment();
 
   const isDateDisabled = (date: Moment) => {
-    return date.isBefore(today, "day") && !selectedDate;
+    return date.isBefore(today, "month") && !selectedDate;
   };
 
   return (
@@ -36,7 +37,7 @@ const InputDate: React.FC<InputDateProps> = ({
           textField: (props: any) => (
             <TextField
               {...props}
-              value={selectedDate ? selectedDate.format("MM/DD/YYYY") : ""}
+              value={selectedDate ? selectedDate.format("MM/YYYY") : ""}
               InputProps={{
                 ...props.InputProps,
                 readOnly: true,
@@ -52,7 +53,7 @@ const InputDate: React.FC<InputDateProps> = ({
                 onKeyDown: (e) => e.preventDefault(),
               }}
               error={false}
-              placeholder="DD/MM/YYYY"
+              placeholder="MM/YYYY"
             />
           ),
         }}
@@ -70,7 +71,7 @@ const InputDate: React.FC<InputDateProps> = ({
         disabled={disabled}
         disableFuture={views ? false : true}
         disablePast={views ? false : true}
-        openTo={views ? undefined : "day"}
+        openTo={views ? undefined : "month"}
         views={views}
       />
     </LocalizationProvider>

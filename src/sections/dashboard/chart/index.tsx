@@ -1,5 +1,4 @@
 import { AllProject, Standar } from "@/types/Project";
-import { Grid, Typography } from "@mui/material";
 import CardAnalytic from "./CardAnalytic";
 import CardAnalytic2 from "./CardAnalytic2";
 import dayjs from "dayjs";
@@ -7,6 +6,9 @@ import isBetween from "dayjs/plugin/isBetween";
 import isoWeek from "dayjs/plugin/isoWeek";
 import ChartBar from "./ChartBar";
 import ChartPie from "./ChartPie";
+import { useState } from "react";
+import { Grid, Typography } from "@mui/material";
+import DetailTable from "./DetailTable";
 
 // extend plugin dayjs
 dayjs.extend(isBetween);
@@ -24,6 +26,11 @@ interface ChartDashboardProps {
 }
 
 const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
+  const [clickedData, setClickedData] = useState<any | null>(null);
+  const [slot, setSlot] = useState<"sales" | "standards" | "lead_time">(
+    "sales"
+  );
+
   const totalProjects: AllProject[] = data;
   const totalInitialAudit: AllProject[] = data?.filter(
     (item) => item.tahapan === "IA"
@@ -245,15 +252,29 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
         </Typography>
       </Grid>
 
-      <Grid item xs={12} md={7} lg={8}>
+      <Grid
+        item
+        xs={12}
+        md={!!clickedData ? 7 : 12}
+        lg={!!clickedData ? 7 : 12}
+      >
         <ChartBar
           sales={salesNameWithTotal}
           standards={standardSummary}
           lead_time={salesNameWitheLeadTime as any}
+          setClickedData={setClickedData}
+          slot={slot}
+          setSlot={setSlot}
         />
       </Grid>
 
-      <Grid item xs={12} md={5} lg={4}>
+      {clickedData && (
+        <Grid item xs={12} md={5} lg={5}>
+          <DetailTable clickedData={clickedData} slot={slot} />
+        </Grid>
+      )}
+
+      <Grid item xs={12} py={2} sx={{ mb: -2.25 }}>
         <ChartPie data={acreditationWithTotal} />
       </Grid>
     </Grid>

@@ -1,13 +1,16 @@
 import currency from "currency.js";
 
-export function formatToK(value: number): string {
+export function formatRupiah(value: number): string {
+  if (value >= 1_000_000_000) {
+    return (value / 1_000_000_000).toFixed(1).replace(/\.0$/, "") + " Miliar";
+  }
   if (value >= 1_000_000) {
-    return (value / 1_000_000).toFixed(1).replace(/\.0$/, "") + "M";
+    return (value / 1_000_000).toFixed(1).replace(/\.0$/, "") + " Juta";
   }
   if (value >= 1_000) {
-    return (value / 1_000).toFixed(1).replace(/\.0$/, "") + "k";
+    return (value / 1_000).toFixed(1).replace(/\.0$/, "") + " Ribu";
   }
-  return value.toString();
+  return value.toLocaleString("id-ID");
 }
 
 export function formatIdr(price: number) {
