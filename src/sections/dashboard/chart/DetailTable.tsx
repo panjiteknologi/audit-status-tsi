@@ -42,6 +42,7 @@ const DetailTable = ({
                   )}
                   {slot === "standards" && (
                     <>
+                      <TableCell sx={{ fontWeight: "bold" }}>No</TableCell>
                       <TableCell sx={{ fontWeight: "bold" }}>
                         Company Name
                       </TableCell>
@@ -66,83 +67,36 @@ const DetailTable = ({
                 </TableRow>
               </TableHead>
               <TableBody>
-                <TableRow>
-                  {slot === "sales" && (
-                    <>
-                      <TableCell
-                        sx={{
-                          whiteSpace: "normal",
-                          wordWrap: "break-word",
-                          maxWidth: 200,
-                        }}
-                      >
-                        {clickedData?.sales_person || "-"}
+                {slot === "standards" &&
+                  clickedData?.companyName?.length > 0 &&
+                  clickedData.companyName.map((name: string, index: number) => (
+                    <TableRow key={index}>
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell>{name}</TableCell>
+                      <TableCell>
+                        {Array.isArray(clickedData.name)
+                          ? clickedData.name[index] || "-"
+                          : clickedData.name || "-"}
                       </TableCell>
-                      <TableCell
-                        sx={{
-                          whiteSpace: "normal",
-                          wordWrap: "break-word",
-                          maxWidth: 200,
-                        }}
-                      >
-                        {clickedData?.value ?? "0"} Closing
-                      </TableCell>
-                    </>
-                  )}
-                  {slot === "standards" && (
-                    <>
-                      <TableCell
-                        sx={{
-                          whiteSpace: "normal",
-                          wordWrap: "break-word",
-                          maxWidth: 200,
-                        }}
-                      >
-                        {(clickedData?.companyName || []).join(", ") || "-"}
-                      </TableCell>
-                      <TableCell
-                        sx={{
-                          whiteSpace: "normal",
-                          wordWrap: "break-word",
-                          maxWidth: 200,
-                        }}
-                      >
-                        {clickedData?.name || "-"}
-                      </TableCell>
-                    </>
-                  )}
-                  {slot === "lead_time" && (
-                    <>
-                      <TableCell
-                        sx={{
-                          whiteSpace: "normal",
-                          wordWrap: "break-word",
-                          maxWidth: 200,
-                        }}
-                      >
-                        {clickedData?.customer || "-"}
-                      </TableCell>
-                      <TableCell
-                        sx={{
-                          whiteSpace: "normal",
-                          wordWrap: "break-word",
-                          maxWidth: 200,
-                        }}
-                      >
-                        {clickedData?.value_all ?? "0"} Days
-                      </TableCell>
-                      <TableCell
-                        sx={{
-                          whiteSpace: "normal",
-                          wordWrap: "break-word",
-                          maxWidth: 200,
-                        }}
-                      >
-                        {clickedData?.value_capa_to_certificate ?? "-"}
-                      </TableCell>
-                    </>
-                  )}
-                </TableRow>
+                    </TableRow>
+                  ))}
+
+                {slot === "sales" && (
+                  <TableRow>
+                    <TableCell>{clickedData?.sales_person || "-"}</TableCell>
+                    <TableCell>{clickedData?.value ?? "0"} Closing</TableCell>
+                  </TableRow>
+                )}
+
+                {slot === "lead_time" && (
+                  <TableRow>
+                    <TableCell>{clickedData?.customer || "-"}</TableCell>
+                    <TableCell>{clickedData?.value_all ?? "0"} Days</TableCell>
+                    <TableCell>
+                      {clickedData?.value_capa_to_certificate ?? "-"}
+                    </TableCell>
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TableContainer>
