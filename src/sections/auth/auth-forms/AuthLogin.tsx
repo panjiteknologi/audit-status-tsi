@@ -103,7 +103,7 @@ const AuthLogin = ({
               setError(false);
               setStatus({ success: true });
               setSubmitting(false);
-              window.localStorage.setItem("userData", response);
+              window.localStorage.setItem("userData", JSON.stringify(response));
               window.localStorage.setItem(
                 "serviceToken",
                 response?.access_token
