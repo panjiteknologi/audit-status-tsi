@@ -95,19 +95,19 @@ const TableInfo = ({
 
     type StatKey = keyof typeof stat;
 
-    const filtered = data.filter((item) => {
-      if (globalFilter.trim() === "") return true; // tampilkan semua jika belum search
+    // const filtered = data.filter((item) => {
+    //   if (globalFilter.trim() === "") return true; // tampilkan semua jika belum search
 
-      // saat search, sembunyikan jika akreditasi atau standar kosong
-      const hasAccreditation =
-        Array.isArray(item.accreditation) && item.accreditation.length > 0;
-      const hasStandards =
-        Array.isArray(item.iso_standards) && item.iso_standards.length > 0;
+    //   // saat search, sembunyikan jika akreditasi atau standar kosong
+    //   const hasAccreditation =
+    //     Array.isArray(item.accreditation) && item.accreditation.length > 0;
+    //   const hasStandards =
+    //     Array.isArray(item.iso_standards) && item.iso_standards.length > 0;
 
-      return hasAccreditation && hasStandards;
-    });
+    //   return hasAccreditation && hasStandards;
+    // });
 
-    const trans = filtered.map((item) => ({
+    const trans = data.map((item) => ({
       ...item,
       sv: stat[item.tahapan as unknown as StatKey] ?? item.tahapan,
     }));

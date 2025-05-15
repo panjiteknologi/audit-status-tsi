@@ -125,33 +125,41 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
 
   const getStandardSummaryByMonthYear = (data: any[]) => {
     const summaryMap = new Map();
-    data.forEach(({ month, year, standard_name, harga, quantity }) => {
-      const key = `${month}-${year}`;
-      const existing = summaryMap.get(key);
-      if (!existing) {
-        summaryMap.set(key, {
-          month,
-          year,
-          standards: [
-            { name: standard_name, totalHarga: harga, totalQuantity: quantity },
-          ],
-        });
-      } else {
-        const std = existing.standards.find(
-          (s: any) => s.name === standard_name
-        );
-        if (std) {
-          std.totalHarga += harga;
-          std.totalQuantity += quantity;
-        } else {
-          existing.standards.push({
-            name: standard_name,
-            totalHarga: harga,
-            totalQuantity: quantity,
+    data.forEach(
+      ({ month, year, standard_name, harga, quantity, customers }) => {
+        const key = `${month}-${year}`;
+        const existing = summaryMap.get(key);
+        if (!existing) {
+          summaryMap.set(key, {
+            month,
+            year,
+            standards: [
+              {
+                name: standard_name,
+                totalHarga: harga,
+                totalQuantity: quantity,
+                companyName: customers,
+              },
+            ],
           });
+        } else {
+          const std = existing.standards.find(
+            (s: any) => s.name === standard_name
+          );
+          if (std) {
+            std.totalHarga += harga;
+            std.totalQuantity += quantity;
+          } else {
+            existing.standards.push({
+              name: standard_name,
+              totalHarga: harga,
+              totalQuantity: quantity,
+              companyName: customers,
+            });
+          }
         }
       }
-    });
+    );
     return Array.from(summaryMap.values());
   };
 

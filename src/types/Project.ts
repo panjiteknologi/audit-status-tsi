@@ -17,7 +17,10 @@ export interface AllAudit {
 }
 
 export interface AllProject {
+  catatan: string;
+  tanggalStatus: string;
   iso_standards: Standar[] | undefined;
+  leadTime: string;
   value: number;
   customer: string;
   sales_person: string;
@@ -41,7 +44,7 @@ export interface AllProject {
   lead_time_tgl_pengiriman_draft_sertifikat: string;
   lead_time_tgl_persetujuan_draft_sertifikat: string;
   lead_time_tgl_kirim_sertifikat: string;
-  tahapan: string | number;
+  tahapan: string | number | any;
   standar: Standar[];
   aplication_form: string;
   note_aplication_form: string;
