@@ -1,6 +1,6 @@
 # Audit Status TSI
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Prohect Untuk TSI dalam memantau status auditor
 
 Currently, two official plugins are available:
 
