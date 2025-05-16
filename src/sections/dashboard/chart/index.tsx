@@ -84,7 +84,7 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
 
   const dataCardAnalytics = (dates: AllProject[]): DataAnalytics => {
     const listDate: Date[] = dates
-      .map((item) => new Date(item.aplication_form))
+      .map((item) => new Date(item.tgl_aplication_form))
       .filter((date) => !isNaN(date.getTime()));
 
     const countAuditThisWeek = getThisWeek(listDate).length;
@@ -101,7 +101,11 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
       );
       if (existing && existing.value !== undefined) existing.value += 1;
       else
-        acc.push({ sales_person: curr.sales_person, value: 1 } as AllProject);
+        acc.push({
+          sales_person: curr.sales_person,
+          value: 1,
+          tgl_review_penugasan_st_satu: curr?.tgl_review_penugasan_st_satu,
+        } as AllProject);
       return acc;
     },
     []
@@ -125,41 +129,38 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
 
   const getStandardSummaryByMonthYear = (data: any[]) => {
     const summaryMap = new Map();
-    data.forEach(
-      ({ month, year, standard_name, harga, quantity, customers }) => {
-        const key = `${month}-${year}`;
-        const existing = summaryMap.get(key);
-        if (!existing) {
-          summaryMap.set(key, {
-            month,
-            year,
-            standards: [
-              {
-                name: standard_name,
-                totalHarga: harga,
-                totalQuantity: quantity,
-                companyName: customers,
-              },
-            ],
-          });
-        } else {
-          const std = existing.standards.find(
-            (s: any) => s.name === standard_name
-          );
-          if (std) {
-            std.totalHarga += harga;
-            std.totalQuantity += quantity;
-          } else {
-            existing.standards.push({
+    data.forEach(({ date, standard_name, harga, quantity, customers }) => {
+      const key = `${date}`;
+      const existing = summaryMap.get(key);
+      if (!existing) {
+        summaryMap.set(key, {
+          date,
+          standards: [
+            {
               name: standard_name,
               totalHarga: harga,
               totalQuantity: quantity,
               companyName: customers,
-            });
-          }
+            },
+          ],
+        });
+      } else {
+        const std = existing.standards.find(
+          (s: any) => s.name === standard_name
+        );
+        if (std) {
+          std.totalHarga += harga;
+          std.totalQuantity += quantity;
+        } else {
+          existing.standards.push({
+            name: standard_name,
+            totalHarga: harga,
+            totalQuantity: quantity,
+            companyName: customers,
+          });
         }
       }
-    );
+    });
     return Array.from(summaryMap.values());
   };
 

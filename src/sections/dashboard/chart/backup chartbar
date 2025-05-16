@@ -17,17 +17,12 @@ import {
 } from "@mui/material";
 import { AllProject } from "@/types/Project";
 import moment from "moment";
+// import { DateRange } from "@mui/x-date-pickers-pro";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { formatNumber, formatRupiah } from "@/utils/formatIdr";
 import InputDateRange from "@/components/forms/InputDateRange";
-
-type DateRangeType = {
-  startDate: Date;
-  endDate: Date;
-  key: string;
-};
 
 const ChartBar = ({
   sales,
@@ -45,12 +40,49 @@ const ChartBar = ({
   setSlot: Dispatch<SetStateAction<"sales" | "standards" | "lead_time">>;
 }) => {
   const chartRef = useRef<any>(null);
+  // const [currentDate, setCurrentDate] = useState(moment);
 
-  const [currentDateRange, setCurrentDateRange] = useState<DateRangeType>({
+  const [currentDateRange, setCurrentDateRange] = useState({
     startDate: moment().subtract(1, "month").toDate(),
     endDate: moment().toDate(),
     key: "selection",
   });
+
+  // const [currentDateRange, setCurrentDateRange] = useState([
+  //   moment().subtract(1, "month"),
+  //   moment(),
+  // ] as DateRange<Moment>);
+
+  // const standardTransform = useMemo(() => {
+  //   const month = moment(currentDate).format("MMMM");
+  //   const year = moment(currentDate).format("YYYY");
+
+  //   const transformStandard = standards.find(
+  //     (x: { month: string; year: string; standards: string[] }) =>
+  //       x.month === month && x.year == year
+  //   );
+
+  //   return transformStandard?.standards || [];
+  // }, [standards, currentDate]);
+
+  // const salesTransform = useMemo(() => {
+  //   const transformSales = sales.filter(
+  //     (x: {
+  //       sales_person: string;
+  //       value: number;
+  //       tgl_review_penugasan_st_satu: string;
+  //     }) => {
+  //       return (
+  //         moment(x.tgl_review_penugasan_st_satu).format("MMMM") ===
+  //           moment(currentDate).format("MMMM") &&
+  //         moment(x.tgl_review_penugasan_st_satu).format("YYYY") ===
+  //           moment(currentDate).format("YYYY")
+  //       );
+  //     }
+  //   );
+
+  //   return transformSales;
+  // }, [sales, currentDate]);
 
   // Date Range
   const salesTransform = useMemo(() => {
@@ -77,6 +109,46 @@ const ChartBar = ({
       )
       .flatMap((x: { standards: any[] }) => x.standards);
   }, [standards, currentDateRange]);
+
+  // Date Range
+  // const salesTransform = useMemo(() => {
+  //   if (!currentDateRange[0] || !currentDateRange[1]) return [];
+  //   const start = moment(currentDateRange[0]).startOf("day");
+  //   const end = moment(currentDateRange[1]).endOf("day");
+
+  //   const transformSales = sales.filter(
+  //     (x: {
+  //       sales_person: string;
+  //       value: number;
+  //       tgl_review_penugasan_st_satu: string;
+  //     }) => {
+  //       return moment(x.tgl_review_penugasan_st_satu).isBetween(
+  //         start,
+  //         end,
+  //         undefined,
+  //         "[]"
+  //       );
+  //     }
+  //   );
+  //   return transformSales;
+  // }, [sales, currentDate]);
+
+  // // Date Range
+  // const standardTransform = useMemo(() => {
+  //   if (!currentDateRange[0] || !currentDateRange[1]) return [];
+
+  //   const start = moment(currentDateRange[0]).startOf("day");
+  //   const end = moment(currentDateRange[1]).endOf("day");
+
+  //   const transformedStandard = standards
+  //     .filter((x: { date: string }) => {
+  //       const date = moment(x.date);
+  //       return date.isBetween(start, end, undefined, "[]");
+  //     })
+  //     .flatMap((x: { standards: any[] }) => x.standards); // flatten
+
+  //   return transformedStandard;
+  // }, [standards, currentDateRange]);
 
   useEffect(() => {
     let root = am5.Root.new("chartdiv");
@@ -288,8 +360,19 @@ const ChartBar = ({
   return (
     <MainCard sx={{ minHeight: 475 }}>
       <Box sx={{ marginTop: 2, marginBottom: 2 }}>
+        {/* <InputDate
+          selectedDate={currentDate}
+          handleDateChange={onChangeDate}
+          label="Filter"
+          views={["month", "year"]}
+        /> */}
+        {/* <InputDateRange
+          label="Filter"
+          selectedDate={currentDateRange}
+          handleDateChange={onChangeDateRange}
+        /> */}
         <InputDateRange
-          label="Choose date (01/01/2025 - 01/02/2025)"
+          label="Filter"
           selectedDate={currentDateRange}
           handleDateChange={onChangeDateRange}
         />

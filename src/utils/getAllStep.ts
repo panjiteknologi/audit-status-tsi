@@ -4,7 +4,7 @@ export function getFieldAuditISPO(field: AllProject) {
   return [
     {
       tahapan: "Tanggal Aplication Form or Request",
-      tanggalStatus: field?.aplication_form ?? "",
+      tanggalStatus: field?.tgl_aplication_form ?? "",
       catatan: field?.note_aplication_form ?? "",
       leadTime: "",
     },
@@ -12,7 +12,9 @@ export function getFieldAuditISPO(field: AllProject) {
       tahapan: "Tanggal Review Penugasan ST Satu",
       tanggalStatus: field?.tgl_review_penugasan_st_satu ?? "",
       catatan: field?.note_tgl_review_penugasan_st_satu ?? "",
-      leadTime: field?.lead_time_aplication_form_to_review_penugasan ?? "",
+      leadTime:
+        field?.lead_time_tgl_aplication_form_to_tgl_review_penugasan_st_satu ??
+        "",
     },
     {
       tahapan: "Tanggal Kontrak",
@@ -25,7 +27,7 @@ export function getFieldAuditISPO(field: AllProject) {
       tanggalStatus: field?.tgl_pengiriman_notif_st_satu ?? "",
       catatan: field?.note_tgl_pengiriman_notif_st_satu ?? "",
       leadTime:
-        field?.lead_time_review_penugasan_to_pengiriman_notifikasi_st_satu ??
+        field?.lead_time_tgl_review_penugasan_st_satu_to_tgl_pengiriman_notif_st_satu ??
         "",
     },
     {
@@ -39,7 +41,7 @@ export function getFieldAuditISPO(field: AllProject) {
       tanggalStatus: field?.tgl_pengiriman_audit_plan_st_satu ?? "",
       catatan: field?.note_tgl_pengiriman_audit_plan_st_satu ?? "",
       leadTime:
-        field?.lead_time_pengiriman_notifikasi_st_satu_to_pengiriman_audit_plan_st_satu ??
+        field?.lead_time_tgl_pengiriman_notif_st_satu_to_tgl_pengiriman_audit_plan_st_satu ??
         "",
     },
     {
@@ -47,7 +49,7 @@ export function getFieldAuditISPO(field: AllProject) {
       tanggalStatus: field?.tgl_pelaksanaan_audit_st_satu ?? "",
       catatan: field?.note_tgl_pelaksanaan_audit_st_satu ?? "",
       leadTime:
-        field?.lead_time_pengiriman_audit_plan_st_satu_to_pelaksanaan_audit_st_satu ??
+        field?.lead_time_tgl_pengiriman_notif_st_satu_to_tgl_pengiriman_audit_plan_st_satu ??
         "",
     },
     {
@@ -55,7 +57,7 @@ export function getFieldAuditISPO(field: AllProject) {
       tanggalStatus: field?.tgl_penyelesaian_capa_st_satu ?? "",
       catatan: field?.note_tgl_penyelesaian_capa_st_satu ?? "",
       leadTime:
-        field?.lead_time_pelaksanaan_audit_st_satu_to_penyelesaian_capa_st_satu ??
+        field?.lead_time_tgl_pelaksanaan_audit_st_satu_to_tgl_penyelesaian_capa_st_satu ??
         "",
     },
     {
@@ -123,7 +125,7 @@ export function getFieldAuditISPO(field: AllProject) {
       tanggalStatus: field?.tgl_pengiriman_draft_sertifikat ?? "",
       catatan: field?.note_tgl_pengiriman_draft_sertifikat ?? "",
       leadTime:
-        field?.lead_time_tanggal_pengajuan_to_pengiriman_draft_sertifikat ?? "",
+        field?.lead_time_tgl_pengajuan_to_tgl_pengiriman_draft_sertifikat ?? "",
     },
     {
       tahapan: "Tanggal Persetujuan Draft Sertifikat",
@@ -144,15 +146,17 @@ export function getFieldAuditISO(field: AllProject) {
   return [
     {
       tahapan: "Tanggal Aplication Form or Request",
-      tanggalStatus: field?.aplication_form ?? "",
-      catatan: field?.note_aplication_form ?? "",
+      tanggalStatus: field?.tgl_aplication_form ?? "",
+      catatan: field?.note_tgl_aplication_form ?? "",
       leadTime: "",
     },
     {
       tahapan: "Tanggal Review Penugasan ST Satu",
       tanggalStatus: field?.tgl_review_penugasan_st_satu ?? "",
       catatan: field?.note_tgl_review_penugasan_st_satu ?? "",
-      leadTime: field?.lead_time_aplication_form_to_review_penugasan ?? "",
+      leadTime:
+        field?.lead_time_tgl_aplication_form_to_tgl_review_penugasan_st_satu ??
+        "",
     },
     {
       tahapan: "Tanggal Kontrak",
@@ -165,7 +169,7 @@ export function getFieldAuditISO(field: AllProject) {
       tanggalStatus: field?.tgl_pengiriman_notif_st_satu ?? "",
       catatan: field?.note_tgl_pengiriman_notif_st_satu ?? "",
       leadTime:
-        field?.lead_time_review_penugasan_to_pengiriman_notifikasi_st_satu ??
+        field?.lead_time_tgl_review_penugasan_st_satu_to_tgl_pengiriman_notif_st_satu ??
         "",
     },
     {
@@ -185,7 +189,7 @@ export function getFieldAuditISO(field: AllProject) {
       tanggalStatus: field?.tgl_pelaksanaan_audit_st_satu ?? "",
       catatan: field?.note_tgl_pelaksanaan_audit_st_satu ?? "",
       leadTime:
-        field?.lead_time_pengiriman_audit_plan_st_satu_to_pelaksanaan_audit_st_satu ??
+        field?.lead_time_tgl_pengiriman_audit_plan_st_satu_to_tgl_pelaksanaan_audit_st_satu ??
         "",
     },
     {
@@ -193,7 +197,7 @@ export function getFieldAuditISO(field: AllProject) {
       tanggalStatus: field?.tgl_penyelesaian_capa_st_satu ?? "",
       catatan: field?.note_tgl_penyelesaian_capa_st_satu ?? "",
       leadTime:
-        field?.lead_time_pelaksanaan_audit_st_satu_to_penyelesaian_capa_st_satu ??
+        field?.lead_time_tgl_pelaksanaan_audit_st_satu_to_tgl_penyelesaian_capa_st_satu ??
         "",
     },
     {
@@ -237,7 +241,7 @@ export function getFieldAuditISO(field: AllProject) {
       tanggalStatus: field?.tgl_pengiriman_draft_sertifikat ?? "",
       catatan: field?.note_tgl_pengiriman_draft_sertifikat ?? "",
       leadTime:
-        field?.lead_time_tanggal_pengajuan_to_pengiriman_draft_sertifikat ?? "",
+        field?.lead_time_tgl_pengajuan_to_tgl_pengiriman_draft_sertifikat ?? "",
     },
     {
       tahapan: "Tanggal Persetujuan Draft Sertifikat",
@@ -246,13 +250,13 @@ export function getFieldAuditISO(field: AllProject) {
       leadTime: "",
     },
     {
-      tahapan: "Tanggal Pengajuan ke " + field?.nama_akreditasi,
+      tahapan: "Tanggal Pengajuan ke " + field?.accreditation?.[0],
       tanggalStatus: field?.tgl_pengajuan_ke_kan ?? "",
       catatan: field?.note_tgl_pengajuan_ke_kan ?? "",
       leadTime: field?.lead_time_tgl_pengajuan_ke_kan ?? "",
     },
     {
-      tahapan: "Tanggal Persetujuan ke " + field?.nama_akreditasi,
+      tahapan: "Tanggal Persetujuan ke " + field?.accreditation?.[0],
       tanggalStatus: field?.tgl_persetujuan_kan ?? "",
       catatan: field?.note_tgl_persetujuan_kan ?? "",
       leadTime: field?.lead_time_tgl_persetujuan_kan ?? "",
@@ -270,8 +274,8 @@ export function getFieldISPO(field: AllProject) {
   return [
     {
       tahapan: "Tanggal Aplication Form or Request",
-      tanggalStatus: field?.aplication_form ?? "",
-      catatan: field?.note_aplication_form ?? "",
+      tanggalStatus: field?.tgl_aplication_form ?? "",
+      catatan: field?.note_tgl_aplication_form ?? "",
       leadTime: "",
     },
     {
@@ -327,7 +331,7 @@ export function getFieldISPO(field: AllProject) {
       tanggalStatus: field?.tgl_pengiriman_draft_sertifikat ?? "",
       catatan: field?.note_tgl_pengiriman_draft_sertifikat ?? "",
       leadTime:
-        field?.lead_time_tanggal_pengajuan_to_pengiriman_draft_sertifikat ?? "",
+        field?.lead_time_tgl_pengajuan_to_tgl_pengiriman_draft_sertifikat ?? "",
     },
     {
       tahapan: "Tanggal Persetujuan Draft Sertifikat",
@@ -348,7 +352,7 @@ export function getFieldISO(field: AllProject) {
   return [
     {
       tahapan: "Tanggal Aplication Form or Request",
-      tanggalStatus: field?.aplication_form ?? "",
+      tanggalStatus: field?.tgl_aplication_form ?? "",
       catatan: field?.note_aplication_form ?? "",
       leadTime: "",
     },
@@ -393,7 +397,7 @@ export function getFieldISO(field: AllProject) {
       tanggalStatus: field?.tgl_pengiriman_draft_sertifikat ?? "",
       catatan: field?.note_tgl_pengiriman_draft_sertifikat ?? "",
       leadTime:
-        field?.lead_time_tanggal_pengajuan_to_pengiriman_draft_sertifikat ?? "",
+        field?.lead_time_tgl_pengajuan_to_tgl_pengiriman_draft_sertifikat ?? "",
     },
     {
       tahapan: "Tanggal Persetujuan Draft Sertifikat",
@@ -402,13 +406,13 @@ export function getFieldISO(field: AllProject) {
       leadTime: "",
     },
     {
-      tahapan: "Tanggal Pengajuan ke " + field?.nama_akreditasi,
+      tahapan: "Tanggal Pengajuan ke " + field?.accreditation?.[0],
       tanggalStatus: field?.tgl_pengajuan_ke_kan ?? "",
       catatan: field?.note_tgl_pengajuan_ke_kan ?? "",
       leadTime: field?.lead_time_tgl_pengajuan_ke_kan ?? "",
     },
     {
-      tahapan: "Tanggal Persetujuan ke " + field?.nama_akreditasi,
+      tahapan: "Tanggal Persetujuan ke " + field?.accreditation?.[0],
       tanggalStatus: field?.tgl_persetujuan_kan ?? "",
       catatan: field?.note_tgl_persetujuan_kan ?? "",
       leadTime: field?.lead_time_tgl_persetujuan_kan ?? "",

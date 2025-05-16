@@ -17,6 +17,13 @@ export interface AllAudit {
 }
 
 export interface AllProject {
+  lead_time_tgl_pengajuan_to_tgl_pengiriman_draft_sertifikat: string;
+  lead_time_tgl_pengiriman_audit_plan_st_satu_to_tgl_pelaksanaan_audit_st_satu: string;
+  lead_time_tgl_pelaksanaan_audit_st_satu_to_tgl_penyelesaian_capa_st_satu: string;
+  lead_time_tgl_pengiriman_notif_st_satu_to_tgl_pengiriman_audit_plan_st_satu: string;
+  lead_time_tgl_review_penugasan_st_satu_to_tgl_pengiriman_notif_st_satu: string;
+  lead_time_tgl_aplication_form_to_tgl_review_penugasan_st_satu: string;
+  note_tgl_aplication_form: string;
   catatan: string;
   tanggalStatus: string;
   iso_standards: Standar[] | undefined;
@@ -46,28 +53,23 @@ export interface AllProject {
   lead_time_tgl_kirim_sertifikat: string;
   tahapan: string | number | any;
   standar: Standar[];
-  aplication_form: string;
+  tgl_aplication_form: string;
   note_aplication_form: string;
   tgl_review_penugasan_st_satu: string;
   note_tgl_review_penugasan_st_satu: string;
-  lead_time_aplication_form_to_review_penugasan: string;
   tgl_kontrak: string;
   note_tgl_kontrak: string;
   lead_time_tgl_kontrak: string;
   tgl_pengiriman_notif_st_satu: string;
   note_tgl_pengiriman_notif_st_satu: string;
-  lead_time_review_penugasan_to_pengiriman_notifikasi_st_satu: string;
   tgl_persetujuan_notif_st_satu: string;
   note_tgl_persetujuan_notif_st_satu: string;
   tgl_pengiriman_audit_plan_st_satu: string;
   note_tgl_pengiriman_audit_plan_st_satu: string;
-  lead_time_pengiriman_notifikasi_st_satu_to_pengiriman_audit_plan_st_satu: string;
   tgl_pelaksanaan_audit_st_satu: string;
   note_tgl_pelaksanaan_audit_st_satu: string;
-  lead_time_pengiriman_audit_plan_st_satu_to_pelaksanaan_audit_st_satu: string;
   tgl_penyelesaian_capa_st_satu: string;
   note_tgl_penyelesaian_capa_st_satu: string;
-  lead_time_pelaksanaan_audit_st_satu_to_penyelesaian_capa_st_satu: string;
   tgl_proses_review_tahap_satu: string;
   note_tgl_proses_review_tahap_satu: string;
   tgl_pengambilan_keputusan_tahap_satu: string;
@@ -90,7 +92,6 @@ export interface AllProject {
   note_tgl_pengambilan_keputusan_tahap_dua: string;
   tgl_pengiriman_draft_sertifikat: string;
   note_tgl_pengiriman_draft_sertifikat: string;
-  lead_time_tanggal_pengajuan_to_pengiriman_draft_sertifikat: string;
   tgl_persetujuan_draft_sertifikat: string;
   note_tgl_persetujuan_draft_sertifikat: string;
   tgl_kirim_sertifikat: string;
