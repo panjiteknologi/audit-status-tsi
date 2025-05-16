@@ -17,12 +17,18 @@ export interface AllAudit {
 }
 
 export interface AllProject {
-  lead_time_tgl_pengajuan_to_tgl_pengiriman_draft_sertifikat: string;
+  lead_time_tgl_aplication_form_to_tgl_review_penugasan_st_satu: string;
+  lead_time_tgl_review_penugasan_st_satu_to_tgl_kontrak: string;
+  lead_time_tgl_kontrak_to_tgl_pengiriman_notif_st_satu: string;
+  lead_time_tgl_pengiriman_notif_st_satu_to_tgl_pengiriman_audit_plan_st_satu: string;
   lead_time_tgl_pengiriman_audit_plan_st_satu_to_tgl_pelaksanaan_audit_st_satu: string;
   lead_time_tgl_pelaksanaan_audit_st_satu_to_tgl_penyelesaian_capa_st_satu: string;
-  lead_time_tgl_pengiriman_notif_st_satu_to_tgl_pengiriman_audit_plan_st_satu: string;
-  lead_time_tgl_review_penugasan_st_satu_to_tgl_pengiriman_notif_st_satu: string;
-  lead_time_tgl_aplication_form_to_tgl_review_penugasan_st_satu: string;
+  lead_time_tgl_penyelesaian_capa_st_satu_to_tgl_pengiriman_draft_sertifikat: string;
+  lead_time_tgl_pengiriman_draft_sertifikat_to_tgl_pengajuan: string;
+  lead_time_tgl_pengajuan_to_tgl_persetujuan: string;
+  lead_time_tgl_persetujuan_to_tgl_kirim_sertifikat: string;
+  lead_time_finish: string;
+  lead_time_project_finish_for_chart: number;
   note_tgl_aplication_form: string;
   catatan: string;
   tanggalStatus: string;
@@ -32,8 +38,6 @@ export interface AllProject {
   customer: string;
   sales_person: string;
   accreditation: string[];
-  lead_time_finish: string;
-  lead_time_project_finish: string;
   tgl_apl_form_or_request: string;
   note_tgl_apl_form_or_request: string;
   lead_time_tgl_apl_form_or_request: string;
@@ -98,14 +102,10 @@ export interface AllProject {
   note_tgl_kirim_sertifikat: string;
   lead_time_tgl_pengiriman_audit_plan_st_satu: string;
   nama_akreditasi: string;
-  tgl_pengajuan_ke_kan: string;
-  note_tgl_pengajuan_ke_kan: string;
-  lead_time_tgl_pengajuan_ke_kan: string;
-  tgl_persetujuan_kan: string;
-  note_tgl_persetujuan_kan: string;
-  lead_time_tgl_persetujuan_kan: string;
-  lead_time_project_finish_for_chart: number | string;
-  lead_time_projec_audit_sertifikat: string;
+  tgl_pengajuan: string;
+  note_tgl_pengajuan: string;
+  tgl_persetujuan: string;
+  note_tgl_persetujuan: string;
 }
 
 export interface MenuProject {

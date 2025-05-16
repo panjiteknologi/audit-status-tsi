@@ -7,62 +7,29 @@ import {
   getFieldISPO,
 } from "./getAllStep";
 
+const tahapanOrder = [
+  "Tanggal Aplication Form or Request",
+  "Tanggal Review Penugasan ST Satu",
+  "Tanggal Kontrak",
+  "Tanggal Pengirimab Notifikasi ST Satu",
+  "Tanggal Pengiriman Audit Plan ST Satu",
+  "Tanggal Pelaksanaan Audit ST Satu",
+  "Tanggal Penyelesaian CAPA ST Satu",
+  "Tanggal Pengiriman Draft Sertifikat",
+  "Tanggal Pengajuan ke KAN",
+  "Tanggal Persetujuan ke KAN",
+  "Tanggal Kirim Sertifikat",
+];
+
 export function getlatestProgress(field: AllProject) {
-  const normalizedField = normalizeFieldTahapan(field);
-
-  const latestProgressAuditISPO = getFieldAuditISPO(field)
+  const allTahapan = getFieldAuditISPO(field)
     .filter((item) => item.tanggalStatus)
     .sort(
       (a, b) =>
-        new Date(b.tanggalStatus as string).getTime() -
-        new Date(a.tanggalStatus as string).getTime()
-    )[0];
+        tahapanOrder.indexOf(b.tahapan) - tahapanOrder.indexOf(a.tahapan)
+    );
 
-  const latestProgressAuditISO = getFieldAuditISO(field)
-    .filter((item) => item.tanggalStatus)
-    .sort(
-      (a, b) =>
-        new Date(b.tanggalStatus as string).getTime() -
-        new Date(a.tanggalStatus as string).getTime()
-    )[0];
-
-  const latestProgressISPO = getFieldISPO(field)
-    .filter((item) => item.tanggalStatus)
-    .sort(
-      (a, b) =>
-        new Date(b.tanggalStatus as string).getTime() -
-        new Date(a.tanggalStatus as string).getTime()
-    )[0];
-
-  const latestProgressISO = getFieldISO(field)
-    .filter((item) => item.tanggalStatus)
-    .sort(
-      (a, b) =>
-        new Date(b.tanggalStatus as string).getTime() -
-        new Date(a.tanggalStatus as string).getTime()
-    )[0];
-
-  if (location?.pathname === "/ispo") {
-    if (
-      latestProgressAuditISPO &&
-      ((normalizedField.tahapan as any) === 1 ||
-        (normalizedField.tahapan as any) === 7)
-    ) {
-      return latestProgressAuditISPO.tahapan?.replace("Tanggal ", "") ?? "";
-    }
-    if (latestProgressISPO && (normalizedField.tahapan as any) > 1) {
-      return latestProgressISPO.tahapan?.replace("Tanggal ", "") ?? "";
-    }
-  } else {
-    if (latestProgressAuditISO && (normalizedField.tahapan as any) === 1) {
-      return latestProgressAuditISO.tahapan?.replace("Tanggal ", "") ?? "";
-    }
-    if (latestProgressISO && (normalizedField.tahapan as any) > 1) {
-      return latestProgressISO.tahapan?.replace("Tanggal ", "") ?? "";
-    }
-  }
-
-  return "";
+  return allTahapan[0]?.tahapan?.replace("Tanggal ", "") ?? "";
 }
 
 export function getDataTable(field: AllProject) {
