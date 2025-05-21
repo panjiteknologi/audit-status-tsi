@@ -226,7 +226,8 @@ const ChartBar = ({
       makeSeries(
         "Price",
         "totalHarga",
-        "Price: {totalHarga} \nQuantity: {totalQuantity}"
+        // "Price: {totalHarga} \nQuantity: {totalQuantity}"
+        "Quantity: {totalQuantity}"
       );
       // makeSeries("Quantity", "totalQuantity");
     } else {
