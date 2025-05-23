@@ -7,7 +7,7 @@ import DashboardLayout from "@/layout/Dashboard";
 import ScopeLibrary from "@/pages/scope-library";
 import DetailProject from "@/pages/detail-project";
 
-const AuthLogin = Loadable(lazy(() => import("@/pages")));
+const TokenHandler = Loadable(lazy(() => import("@/routes/TokenHandler")));
 const Dashboard = Loadable(lazy(() => import("@/pages/dashboard")));
 const ISO = Loadable(lazy(() => import("@/pages/iso")));
 const ISPO = Loadable(lazy(() => import("@/pages/ispo")));
@@ -20,7 +20,7 @@ const router = createBrowserRouter(
       children: [
         {
           index: true,
-          element: <AuthLogin />,
+          element: <TokenHandler />,
         },
       ],
     },
