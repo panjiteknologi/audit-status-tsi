@@ -91,18 +91,24 @@ const ChartBar = ({
       .flatMap((x: { standards: any[] }) => x.standards);
 
     // Gabungkan data berdasarkan 'name'
-    const grouped: Record<string, { name: string; totalQuantity: number }> = {};
+    const grouped: Record<
+      string,
+      { name: string; totalQuantity: number; companyName: string }
+    > = {};
 
-    filtered.forEach((item: { name: string; totalQuantity: number }) => {
-      if (grouped[item.name]) {
-        grouped[item.name].totalQuantity += item.totalQuantity;
-      } else {
-        grouped[item.name] = {
-          name: item.name,
-          totalQuantity: item.totalQuantity,
-        };
+    filtered.forEach(
+      (item: { name: string; totalQuantity: number; companyName: string }) => {
+        if (grouped[item.name]) {
+          grouped[item.name].totalQuantity += item.totalQuantity;
+        } else {
+          grouped[item.name] = {
+            name: item.name,
+            totalQuantity: item.totalQuantity,
+            companyName: item.companyName,
+          };
+        }
       }
-    });
+    );
 
     return Object.values(grouped);
   }, [standards, currentDateRange]);

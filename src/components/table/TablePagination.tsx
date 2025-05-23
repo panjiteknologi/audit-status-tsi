@@ -54,10 +54,7 @@ const TablePagination = ({
     setOpen(true);
   };
 
-  const handleChangePagination = (
-    event: ChangeEvent<unknown>,
-    value: number
-  ) => {
+  const handleChangePagination = (_: ChangeEvent<unknown>, value: number) => {
     setPageIndex(value - 1);
   };
 
