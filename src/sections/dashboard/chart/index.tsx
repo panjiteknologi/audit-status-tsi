@@ -129,7 +129,8 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
 
   const getStandardSummaryByMonthYear = (data: any[]) => {
     const summaryMap = new Map();
-    data.forEach(({ date, standard_name, harga, quantity, customers }) => {
+    data.forEach(({ date, standard_name, quantity, customers }) => {
+      //harga,
       const key = `${date}`;
       const existing = summaryMap.get(key);
       if (!existing) {
@@ -138,7 +139,7 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
           standards: [
             {
               name: standard_name,
-              totalHarga: harga,
+              // totalHarga: harga,
               totalQuantity: quantity,
               companyName: customers,
             },
@@ -149,12 +150,12 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
           (s: any) => s.name === standard_name
         );
         if (std) {
-          std.totalHarga += harga;
+          // std.totalHarga += harga;
           std.totalQuantity += quantity;
         } else {
           existing.standards.push({
             name: standard_name,
-            totalHarga: harga,
+            // totalHarga: harga,
             totalQuantity: quantity,
             companyName: customers,
           });

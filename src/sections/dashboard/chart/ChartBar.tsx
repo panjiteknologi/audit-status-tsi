@@ -69,15 +69,42 @@ const ChartBar = ({
     );
   }, [sales, currentDateRange]);
 
+  // const standardTransform = useMemo(() => {
+  //   const start = moment(currentDateRange.startDate).startOf("day");
+  //   const end = moment(currentDateRange.endDate).endOf("day");
+
+  //   return standards
+  //     .filter((x: { date: string }) =>
+  //       moment(x.date).isBetween(start, end, undefined, "[]")
+  //     )
+  //     .flatMap((x: { standards: any[] }) => x.standards);
+  // }, [standards, currentDateRange]);
+
   const standardTransform = useMemo(() => {
     const start = moment(currentDateRange.startDate).startOf("day");
     const end = moment(currentDateRange.endDate).endOf("day");
 
-    return standards
+    const filtered = standards
       .filter((x: { date: string }) =>
         moment(x.date).isBetween(start, end, undefined, "[]")
       )
       .flatMap((x: { standards: any[] }) => x.standards);
+
+    // Gabungkan data berdasarkan 'name'
+    const grouped: Record<string, { name: string; totalQuantity: number }> = {};
+
+    filtered.forEach((item: { name: string; totalQuantity: number }) => {
+      if (grouped[item.name]) {
+        grouped[item.name].totalQuantity += item.totalQuantity;
+      } else {
+        grouped[item.name] = {
+          name: item.name,
+          totalQuantity: item.totalQuantity,
+        };
+      }
+    });
+
+    return Object.values(grouped);
   }, [standards, currentDateRange]);
 
   const handleChange = (
@@ -263,8 +290,7 @@ const ChartBar = ({
     } else if (slot === "standards") {
       makeSeries(
         "Quantity",
-        "totalQuantity",
-        "Quantity: {valueY}"
+        "totalQuantity"
         // "Price",
         // "totalHarga",
         // // "Price: {totalHarga} \nQuantity: {totalQuantity}"
