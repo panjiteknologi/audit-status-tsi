@@ -20,7 +20,7 @@ import moment from "moment";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
-import { formatNumber, formatRupiah } from "@/utils/formatIdr";
+import { formatNumber } from "@/utils/formatIdr";
 import InputDateRange from "@/components/forms/InputDateRange";
 
 type DateRangeType = {
@@ -45,6 +45,8 @@ const ChartBar = ({
   setSlot: Dispatch<SetStateAction<"sales" | "standards" | "lead_time">>;
 }) => {
   const chartRef = useRef<any>(null);
+
+  const [noData, setNoData] = useState(false);
 
   const [currentDateRange, setCurrentDateRange] = useState<DateRangeType>({
     startDate: moment().subtract(1, "month").toDate(),
@@ -78,8 +80,44 @@ const ChartBar = ({
       .flatMap((x: { standards: any[] }) => x.standards);
   }, [standards, currentDateRange]);
 
+  const handleChange = (
+    _: MouseEvent<HTMLElement>,
+    newAlignment: SetStateAction<"sales" | "standards" | "lead_time">
+  ) => {
+    if (newAlignment) setSlot(newAlignment);
+  };
+
+  // const onChangeDate = (dt: Moment | null) => {
+  //   if (dt) setCurrentDate(dt);
+  // };
+
+  // const onChangeDateRange = (dt: DateRange<Moment> | null) => {
+  //   if (dt) setCurrentDateRange(dt);
+  // };
+
+  const onChangeDateRange = (range: { startDate: Date; endDate: Date }) => {
+    setCurrentDateRange({ ...range, key: "selection" });
+  };
+
   useEffect(() => {
-    let root = am5.Root.new("chartdiv");
+    const hasData =
+      slot === "sales"
+        ? salesTransform.length > 0
+        : slot === "standards"
+        ? standardTransform.length > 0
+        : lead_time.length > 0;
+
+    setNoData(!hasData);
+  }, [salesTransform, standardTransform, lead_time, slot]);
+
+  useEffect(() => {
+    if (noData) return;
+
+    const chartContainer = document.getElementById("chartdiv");
+    if (!chartContainer) return;
+
+    const root = am5.Root.new("chartdiv");
+
     root.setThemes([am5themes_Animated.new(root)]);
 
     let chart = root.container.children.push(
@@ -212,7 +250,7 @@ const ChartBar = ({
           if (value == null) return "";
 
           if (slot === "sales") return formatNumber(value);
-          if (slot === "standards") return formatRupiah(value);
+          if (slot === "standards") return formatNumber(value);
           return `${formatNumber(value)} Hari\n(${label})`;
         });
 
@@ -224,10 +262,13 @@ const ChartBar = ({
       makeSeries("Sales", "value");
     } else if (slot === "standards") {
       makeSeries(
-        "Price",
-        "totalHarga",
-        // "Price: {totalHarga} \nQuantity: {totalQuantity}"
-        "Quantity: {totalQuantity}"
+        "Quantity",
+        "totalQuantity",
+        "Quantity: {valueY}"
+        // "Price",
+        // "totalHarga",
+        // // "Price: {totalHarga} \nQuantity: {totalQuantity}"
+        // "Quantity: {totalQuantity}"
       );
       // makeSeries("Quantity", "totalQuantity");
     } else {
@@ -260,26 +301,7 @@ const ChartBar = ({
     return () => {
       root.dispose();
     };
-  }, [lead_time, slot, standardTransform, salesTransform]);
-
-  const handleChange = (
-    _: MouseEvent<HTMLElement>,
-    newAlignment: SetStateAction<"sales" | "standards" | "lead_time">
-  ) => {
-    if (newAlignment) setSlot(newAlignment);
-  };
-
-  // const onChangeDate = (dt: Moment | null) => {
-  //   if (dt) setCurrentDate(dt);
-  // };
-
-  // const onChangeDateRange = (dt: DateRange<Moment> | null) => {
-  //   if (dt) setCurrentDateRange(dt);
-  // };
-
-  const onChangeDateRange = (range: { startDate: Date; endDate: Date }) => {
-    setCurrentDateRange({ ...range, key: "selection" });
-  };
+  }, [noData, lead_time, slot, standardTransform, salesTransform]);
 
   useEffect(() => {
     // Reset clicked data setiap kali slot berubah
@@ -317,11 +339,13 @@ const ChartBar = ({
         </ToggleButtonGroup>
       </Box>
       <Box id="chart" sx={{ mt: 2 }}>
-        {sales.length > 0 || standards.length > 0 || lead_time.length > 0 ? (
+        {!noData ? (
           <div id="chartdiv" style={{ width: "100%", height: 475 }} />
         ) : (
-          <Stack justifyContent="center" alignItems="center" height="100%">
-            <Typography variant="subtitle1">No Data</Typography>
+          <Stack justifyContent="center" alignItems="center" height={475}>
+            <Typography variant="subtitle1" color="textSecondary">
+              Data chart tidak tersedia di tanggal yang dipilih.
+            </Typography>
           </Stack>
         )}
       </Box>

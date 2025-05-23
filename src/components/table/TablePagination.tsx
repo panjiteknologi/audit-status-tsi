@@ -1,25 +1,43 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useEffect, useState } from "react";
 
 // material-ui
-import { FormControl, Grid, MenuItem, Pagination, Select, SelectChangeEvent, Stack, TextField, Typography } from '@mui/material';
+import {
+  FormControl,
+  Grid,
+  MenuItem,
+  Pagination,
+  Select,
+  SelectChangeEvent,
+  Stack,
+  TextField,
+  Typography,
+} from "@mui/material";
 
 // ==============================|| TABLE PAGINATION ||============================== //
 
 interface TablePaginationProps {
-  getPageCount: () => number,
-  setPageIndex: (value: number) => void,
-  setPageSize: (value: number) => void,
-  getState: () => any,
+  getPageCount: () => number;
+  setPageIndex: (value: number) => void;
+  setPageSize: (value: number) => void;
+  getState: () => any;
   initialPageSize?: number;
 }
 
-const TablePagination = ({ getPageCount, setPageIndex, setPageSize, getState, initialPageSize }: TablePaginationProps) => {
+const TablePagination = ({
+  getPageCount,
+  setPageIndex,
+  setPageSize,
+  getState,
+  initialPageSize,
+}: TablePaginationProps) => {
   const [open, setOpen] = useState<boolean>(false);
   let options = [5, 10, 25, 50, 100];
 
   if (initialPageSize) {
     options = [...options, initialPageSize]
-      .filter((item, index) => [...options, initialPageSize].indexOf(item) === index)
+      .filter(
+        (item, index) => [...options, initialPageSize].indexOf(item) === index
+      )
       .sort(function (a, b) {
         return a - b;
       });
@@ -36,7 +54,10 @@ const TablePagination = ({ getPageCount, setPageIndex, setPageSize, getState, in
     setOpen(true);
   };
 
-  const handleChangePagination = (event: ChangeEvent<unknown>, value: number) => {
+  const handleChangePagination = (
+    event: ChangeEvent<unknown>,
+    value: number
+  ) => {
     setPageIndex(value - 1);
   };
 
@@ -45,7 +66,13 @@ const TablePagination = ({ getPageCount, setPageIndex, setPageSize, getState, in
   };
 
   return (
-    <Grid spacing={1} container alignItems="center" justifyContent="space-between" sx={{ width: 'auto' }}>
+    <Grid
+      spacing={1}
+      container
+      alignItems="center"
+      justifyContent="space-between"
+      sx={{ width: "auto" }}
+    >
       <Grid item>
         <Stack direction="row" spacing={1} alignItems="center">
           <Stack direction="row" spacing={1} alignItems="center">
@@ -61,7 +88,7 @@ const TablePagination = ({ getPageCount, setPageIndex, setPageSize, getState, in
                 value={getState().pagination.pageSize}
                 onChange={handleChange}
                 size="small"
-                sx={{ '& .MuiSelect-select': { py: 0.75, px: 1.25 } }}
+                sx={{ "& .MuiSelect-select": { py: 0.75, px: 1.25 } }}
               >
                 {options.map((option) => (
                   <MenuItem key={option} value={option}>
@@ -82,13 +109,15 @@ const TablePagination = ({ getPageCount, setPageIndex, setPageSize, getState, in
               const page = e.target.value ? Number(e.target.value) - 1 : 0;
               setPageIndex(page);
             }}
-            sx={{ '& .MuiOutlinedInput-input': { py: 0.75, px: 1.25, width: 36 } }}
+            sx={{
+              "& .MuiOutlinedInput-input": { py: 0.75, px: 1.25, width: 36 },
+            }}
           />
         </Stack>
       </Grid>
       <Grid item sx={{ mt: { xs: 2, sm: 0 } }}>
         <Pagination
-          sx={{ '& .MuiPaginationItem-root': { my: 0.5 } }}
+          sx={{ "& .MuiPaginationItem-root": { my: 0.5 } }}
           count={getPageCount()}
           page={getState().pagination.pageIndex + 1}
           onChange={handleChangePagination}

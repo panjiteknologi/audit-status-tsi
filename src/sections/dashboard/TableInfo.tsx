@@ -502,6 +502,19 @@ const TableInfo = ({
         </ScrollX>
 
         <Stack sx={{ padding: 2 }}>
+          {dataTransform.length > 0 && (
+            <Stack
+              direction="row"
+              justifyContent="flex-end"
+              sx={{ px: 2, pb: 2 }}
+            >
+              <Typography variant="caption" color="secondary">
+                Menampilkan {table.getPaginationRowModel().rows.length} dari{" "}
+                {table.getFilteredRowModel().rows.length} data
+              </Typography>
+            </Stack>
+          )}
+
           <TablePagination
             {...{
               setPageSize: table.setPageSize,
