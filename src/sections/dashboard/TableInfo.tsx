@@ -353,7 +353,21 @@ const TableInfo = ({
     })
   );
 
-  useEffect(() => {}, [data]);
+  //Slider Time Table
+  useEffect(() => {
+    const dataLength = data.length;
+
+    const intervalId = setInterval(() => {
+      const pageSize = table.getState().pagination.pageSize;
+      const pageIndex = table.getState().pagination.pageIndex;
+      const maxPage = dataLength / pageSize;
+
+      table.setPageIndex(pageIndex < maxPage - 1 ? pageIndex + 1 : 0);
+    }, 40000);
+
+    // Membersihkan interval saat komponen di-unmount
+    return () => clearInterval(intervalId);
+  }, [data]);
 
   return (
     <Fragment>

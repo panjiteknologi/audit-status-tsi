@@ -56,9 +56,9 @@ const Dashboard = () => {
     queryKey: ["projects", user?.user_id],
     queryFn: () => fetchProjects(token),
     enabled: !!token,
-    refetchOnWindowFocus: false,
-    refetchIntervalInBackground: false,
-    refetchInterval: false,
+    refetchOnWindowFocus: true,
+    refetchIntervalInBackground: true,
+    refetchInterval: 500,
   });
 
   const {
