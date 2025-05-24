@@ -48,24 +48,19 @@ const Dashboard = () => {
     typeof window !== "undefined" ? localStorage.getItem("serviceToken") : null;
   const [selectedStandard, setSelectedStandard] = useState<string | null>(null);
 
-  const {
-    data: projects = [],
-    isLoading: isProjectsLoading,
-    isError: isProjectsError,
-  } = useQuery<AllProject[]>({
+  const { data: projects = [], isLoading: isProjectsLoading } = useQuery<
+    AllProject[]
+  >({
     queryKey: ["projects", user?.user_id],
     queryFn: () => fetchProjects(token),
     enabled: !!token,
     refetchOnWindowFocus: true,
     refetchIntervalInBackground: true,
-    refetchInterval: 500,
+    refetchInterval: 5000,
+    staleTime: 5000,
   });
 
-  const {
-    data: standards = [],
-    isLoading: isStandardsLoading,
-    isError: isStandardsError,
-  } = useQuery({
+  const { data: standards = [] } = useQuery({
     queryKey: ["standards"],
     queryFn: () => fetchStandards(token),
     enabled: !!token,
@@ -76,13 +71,11 @@ const Dashboard = () => {
     return Array.from(new Set(allStandards));
   }, [standards]);
 
-  if (isProjectsLoading || isStandardsLoading) return <div>Loading...</div>;
-  if (isProjectsError || isStandardsError) return <div>Error loading data</div>;
-
   return (
     <div>
       <DashboardSections
         data={projects}
+        isProjectsLoading={isProjectsLoading}
         standards={standards}
         uniqueStandards={uniqueStandards as unknown as Standar}
         selectedStandard={selectedStandard}

@@ -49,6 +49,7 @@ interface DashboardSectionsProps {
   uniqueStandards: Standar;
   selectedStandard: string | null;
   setSelectedStandard: Dispatch<SetStateAction<string | null>>;
+  isProjectsLoading: boolean;
 }
 
 const DashboardSections = ({
@@ -57,6 +58,7 @@ const DashboardSections = ({
   uniqueStandards,
   selectedStandard,
   setSelectedStandard,
+  isProjectsLoading,
 }: DashboardSectionsProps) => {
   const [open, setOpen] = useState<boolean[]>(Array(data?.length).fill(false));
   const [value, setValue] = useState<number>(0);
@@ -117,6 +119,7 @@ const DashboardSections = ({
         <BrowserView>
           <TableInfo
             data={data || []}
+            isProjectsLoading={isProjectsLoading}
             uniqueStandards={uniqueStandards}
             selectedStandard={selectedStandard}
             setSelectedStandard={setSelectedStandard}

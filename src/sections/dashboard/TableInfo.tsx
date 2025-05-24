@@ -9,9 +9,11 @@ import {
 import MainCard from "@/components/MainCard";
 import { AllProject, Standar } from "@/types/Project";
 import ScrollX from "@/components/ScrollX";
+import { useQueryClient } from "@tanstack/react-query";
 import {
   Box,
   Chip,
+  CircularProgress,
   Paper,
   Select,
   Stack,
@@ -67,6 +69,7 @@ interface TableInfoProps {
   uniqueStandards: Standar;
   selectedStandard: string | null;
   setSelectedStandard: Dispatch<SetStateAction<string | null>>;
+  isProjectsLoading: boolean;
 }
 
 const TableInfo = ({
@@ -74,6 +77,7 @@ const TableInfo = ({
   uniqueStandards,
   selectedStandard,
   setSelectedStandard,
+  isProjectsLoading,
 }: TableInfoProps) => {
   const routes = useLocation();
   const pathName = routes?.pathname?.substring(1);
@@ -83,6 +87,10 @@ const TableInfo = ({
 
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
+
+  const queryClient = useQueryClient();
+
+  const isFetching = queryClient.isFetching({ queryKey: ["projects"] }) > 0;
 
   const dataTransform = useMemo(() => {
     const stat = {
@@ -322,7 +330,6 @@ const TableInfo = ({
     }
     return flatString.includes(filterValue.toLowerCase());
   };
-
   const table = useReactTable({
     data: dataTransform,
     columns,
@@ -454,61 +461,84 @@ const TableInfo = ({
                 ))}
               </TableHead>
               <TableBody>
-                {table.getRowModel().rows.length ? (
-                  table.getRowModel().rows.map((row) => (
-                    <Fragment key={row.id}>
-                      <TableRow>
-                        {row.getVisibleCells().map((cell) => (
-                          <TableCell
-                            key={cell.id}
-                            {...cell.column.columnDef.meta}
-                          >
-                            {flexRender(
-                              cell.column.columnDef.cell,
-                              cell.getContext()
-                            )}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                      {row.getIsExpanded() && (
-                        <TableRow
-                          sx={{
-                            bgcolor: backColor,
-                            "&:hover": { bgcolor: `${backColor} !important` },
-                          }}
-                        >
-                          <TableCell colSpan={row.getVisibleCells().length}>
-                            <Box
-                              sx={{
-                                margin: 1,
-                                backgroundColor: "white",
-                                borderWidth: 1,
-                                borderColor: "gray",
-                              }}
-                            >
-                              <DataTable
-                                data={getDataTable(row.original)}
-                                pathName={pathName}
-                              />
-                            </Box>
-                          </TableCell>
-                        </TableRow>
-                      )}
-                    </Fragment>
-                  ))
-                ) : (
+                {isProjectsLoading ? (
                   <TableRow>
                     <TableCell colSpan={columns.length}>
-                      <Typography
-                        variant="h4"
-                        align="center"
-                        color="text.secondary"
-                        sx={{ py: 4 }}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          height: 100,
+                          gap: 1,
+                        }}
                       >
-                        Data tidak ditemukan
-                      </Typography>
+                        <CircularProgress size={16} />
+                        <Typography variant="body2">Loading...</Typography>
+                      </Box>
                     </TableCell>
                   </TableRow>
+                ) : (
+                  <Fragment>
+                    {!!data.length &&
+                      table.getRowModel().rows.map((row) => (
+                        <Fragment key={row.id}>
+                          <TableRow>
+                            {row.getVisibleCells().map((cell) => (
+                              <TableCell
+                                key={cell.id}
+                                {...cell.column.columnDef.meta}
+                              >
+                                {flexRender(
+                                  cell.column.columnDef.cell,
+                                  cell.getContext()
+                                )}
+                              </TableCell>
+                            ))}
+                          </TableRow>
+                          {row.getIsExpanded() && (
+                            <TableRow
+                              sx={{
+                                bgcolor: backColor,
+                                "&:hover": {
+                                  bgcolor: `${backColor} !important`,
+                                },
+                              }}
+                            >
+                              <TableCell colSpan={row.getVisibleCells().length}>
+                                <Box
+                                  sx={{
+                                    margin: 1,
+                                    backgroundColor: "white",
+                                    borderWidth: 1,
+                                    borderColor: "gray",
+                                  }}
+                                >
+                                  <DataTable
+                                    data={getDataTable(row.original)}
+                                    pathName={pathName}
+                                  />
+                                </Box>
+                              </TableCell>
+                            </TableRow>
+                          )}
+                        </Fragment>
+                      ))}
+                    {!table.getRowModel().rows.length && !isFetching && (
+                      <TableRow>
+                        <TableCell colSpan={columns.length}>
+                          <Typography
+                            variant="h4"
+                            align="center"
+                            color="text.secondary"
+                            sx={{ py: 4 }}
+                          >
+                            Data tidak ditemukan
+                          </Typography>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                  </Fragment>
                 )}
               </TableBody>
             </Table>
