@@ -4,12 +4,10 @@ import authReducer, { initialState } from "@contexts/auth-reducer/auth";
 import Loader from "@components/Loader";
 import axios from "@utils/axios";
 
-// export const BASE_URL = "http://101.50.2.90:5454/api/v1/audit_status/";
 export const BASE_URL = "https://erp.tsicertification.com/";
 export const BASE_API = "api/";
 export const API_LOGIN = "session/authenticate";
 export const API_LOGOUT = "session/logout";
-// export const GET_ALL_PROJECT = "get_all_project";
 export const GET_ALL_PROJECT = "get_date_customer";
 export const GET_ALL_STANDARD = "chart_list_standards";
 export const GET_ALL_ISO = "get_all_project_iso";
@@ -22,7 +20,6 @@ export const ADD_PROJECT = "add_project";
 export const ADD_ISPO = "add_project_ispo";
 export const UPDATE_PROJECT = "update_project";
 export const UPDATE_ISPO = "update_project_ispo";
-// export const GET_NOTIFICATION = "get_notifikasi";
 export const UPDATE_READ_NOTIFICATION = "update_read_notifikasi";
 export const GET_PROJECT_BY_ID_PROJECT = "get_project_by_id_project";
 export const VALIDATE_TOKEN = "api/validate_token";
@@ -136,18 +133,21 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
 
     // Bersihkan session dan local storage
     setSession(null);
-    window.localStorage.removeItem("idUser");
-    window.localStorage.removeItem("userData");
-    window.localStorage.removeItem("serviceToken");
 
     // Reset state menggunakan initialState
     dispatch({
       type: LOGOUT,
       payload: {
         ...initialState,
+        isLoggedIn: undefined,
+        user: undefined,
         isInitialized: true, // Bisa ditandai true agar tidak stuck di <Loader />
       },
     });
+
+    window.localStorage.removeItem("idUser");
+    window.localStorage.removeItem("userData");
+    window.localStorage.removeItem("serviceToken");
   };
 
   if (state.isInitialized !== undefined && !state.isInitialized) {

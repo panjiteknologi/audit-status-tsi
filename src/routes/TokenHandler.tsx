@@ -31,6 +31,8 @@ function TokenHandler() {
           setError(true);
         }
 
+        console.log("ini response token: ", response);
+
         const data = await response.json();
         const result = data?.result;
 
