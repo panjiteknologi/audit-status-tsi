@@ -34,7 +34,7 @@ function TokenHandler() {
         const data = await response.json();
         const result = data?.result;
 
-        if (result?.result === "success") {
+        if (result?.status === "success") {
           window.localStorage.setItem("serviceToken", token);
           window.localStorage.setItem("userData", result);
           window.localStorage.setItem("userName", result?.user_name);
