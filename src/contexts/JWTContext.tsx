@@ -47,7 +47,6 @@ const payload = {
 const setSession = (serviceToken: string | null) => {
   if (serviceToken) {
     localStorage.setItem("serviceToken", serviceToken);
-
     axios.defaults.headers.common.Authorization = serviceToken;
   } else {
     localStorage.removeItem("serviceToken");
