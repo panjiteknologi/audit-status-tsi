@@ -1,7 +1,7 @@
 import MainCard from "@/components/MainCard";
 import { AllProject } from "@/types/Project";
 import { Box, Stack, Typography } from "@mui/material";
-import { useLayoutEffect } from "react";
+import { useLayoutEffect, useRef } from "react";
 
 import * as am5 from "@amcharts/amcharts5";
 import * as am5percent from "@amcharts/amcharts5/percent";
@@ -12,14 +12,19 @@ interface SalesPieChartProps {
 }
 
 const ChartPie = ({ data }: SalesPieChartProps) => {
+  const chartRef = useRef<HTMLDivElement | null>(null);
+
   useLayoutEffect(() => {
-    let root = am5.Root.new("piechartdiv");
+    if (!chartRef.current || data.length === 0) return;
+
+    // Cegah duplikasi jika chart sudah ada
+    const root = am5.Root.new(chartRef.current);
 
     // Set themes
     root.setThemes([am5themes_Animated.new(root)]);
 
     // Create chart
-    let chart = root.container.children.push(
+    const chart = root.container.children.push(
       am5percent.PieChart.new(root, {
         layout: root.verticalLayout,
         innerRadius: am5.percent(50),
@@ -27,9 +32,7 @@ const ChartPie = ({ data }: SalesPieChartProps) => {
     );
 
     // Create series
-    // https://www.amcharts.com/docs/v5/charts/percent-charts/pie-chart/#Series
-
-    let series = chart.series.push(
+    const series = chart.series.push(
       am5percent.PieSeries.new(root, {
         alignLabels: true,
         calculateAggregates: true,
@@ -45,7 +48,7 @@ const ChartPie = ({ data }: SalesPieChartProps) => {
     });
 
     // Create legend
-    let legend = chart.children.push(
+    const legend = chart.children.push(
       am5.Legend.new(root, {
         centerX: am5.percent(50),
         x: am5.percent(50),
@@ -54,10 +57,8 @@ const ChartPie = ({ data }: SalesPieChartProps) => {
       })
     );
 
-    legend.data.setAll(series.dataItems);
-
     series.data.setAll(data);
-
+    legend.data.setAll(series.dataItems);
     series.appear(1000, 100);
 
     return () => {
@@ -70,9 +71,9 @@ const ChartPie = ({ data }: SalesPieChartProps) => {
       <Typography variant="h6" color="textSecondary">
         Akreditasi
       </Typography>
-      <Box id="chart" mt={4} sx={{ bgcolor: "transparent" }}>
+      <Box mt={4} sx={{ bgcolor: "transparent", minHeight: 450 }}>
         {data?.length > 0 ? (
-          <div id="piechartdiv" style={{ width: "100%", height: 450 }} />
+          <div ref={chartRef} style={{ width: "100%", height: 450 }} />
         ) : (
           <Stack justifyContent="center" alignItems="center" height="100%">
             <Typography variant="subtitle1">No Data</Typography>

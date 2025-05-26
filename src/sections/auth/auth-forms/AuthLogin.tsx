@@ -73,33 +73,7 @@ const AuthLogin = ({
           try {
             const response = await postLogin(login, password, db);
             if (response?.result === "success") {
-              let role = response?.role;
-              let path = "/dashboard";
-
-              /** ======== | ROLE
-              1 : super_admin
-              2 : customer
-              3 : operator_iso
-              4 : operator_ispo
-              5 : operator_ict
-              6 : crm
-              7 : finance
-              8 : sales
-              9 : product_development
-              10 : auditor
-              11 : director
-              12 :  monitor
-              ======== | ROLE **/
-
-              if (role === "3") {
-                path = "/iso";
-              }
-
-              if (role === "4") {
-                path = "/ispo";
-              }
-
-              navigate(path);
+              navigate("/dashboard");
               setError(false);
               setStatus({ success: true });
               setSubmitting(false);

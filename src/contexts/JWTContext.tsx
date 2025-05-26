@@ -8,7 +8,7 @@ import axios from "@utils/axios";
 export const BASE_URL = "https://erp.tsicertification.com/";
 export const BASE_API = "api/";
 export const API_LOGIN = "session/authenticate";
-export const API_LOGOUT = "logout_user";
+export const API_LOGOUT = "session/logout";
 // export const GET_ALL_PROJECT = "get_all_project";
 export const GET_ALL_PROJECT = "get_date_customer";
 export const GET_ALL_STANDARD = "chart_list_standards";
@@ -121,18 +121,34 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
     return data;
   };
 
-  const logout = () => {
+  const logout = async () => {
+    const serviceToken = window.localStorage.getItem("serviceToken");
+
+    try {
+      // Optional: memanggil endpoint logout jika backend menyediakannya
+      await axios.post(BASE_URL + API_LOGOUT, {
+        params: {
+          access_token: serviceToken,
+        },
+      });
+    } catch (error) {
+      console.error("Logout API error:", error);
+    }
+
+    // Bersihkan session dan local storage
     setSession(null);
+    window.localStorage.removeItem("idUser");
+    window.localStorage.removeItem("userData");
+    window.localStorage.removeItem("serviceToken");
+
+    // Reset state menggunakan initialState
     dispatch({
       type: LOGOUT,
       payload: {
-        isLoggedIn: undefined,
-        user: undefined,
-        isInitialized: undefined,
+        ...initialState,
+        isInitialized: true, // Bisa ditandai true agar tidak stuck di <Loader />
       },
     });
-    window.localStorage.removeItem("idUser");
-    window.localStorage.removeItem("serviceToken");
   };
 
   if (state.isInitialized !== undefined && !state.isInitialized) {
