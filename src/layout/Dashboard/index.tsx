@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Outlet } from "react-router-dom";
 
 // material-ui
@@ -12,7 +12,6 @@ import Footer from "./Footer";
 import HorizontalBar from "./Drawer/HorizontalBar";
 import Loader from "@/components/Loader";
 import Breadcrumbs from "@/components/@extended/Breadcrumbs";
-import AuthGuard from "@/utils/route-guard/AuthGuard";
 
 import useConfig from "@/hooks/useConfig";
 import { handlerDrawerOpen, useGetMenuMaster } from "@/api/menu";
@@ -43,22 +42,20 @@ const DashboardLayout = () => {
   if (menuMasterLoading) return <Loader />;
 
   return (
-    <React.Fragment>
-      <AuthGuard>
-        <Box sx={{ display: "flex", width: "100%" }}>
-          <Header />
-          {!isHorizontal ? <Drawer /> : <HorizontalBar />}
+    <Box sx={{ display: "flex", width: "100%" }}>
+      <Header />
+      {!isHorizontal ? <Drawer /> : <HorizontalBar />}
 
-          <Box
-            component="main"
-            sx={{
-              width: "calc(100% - 260px)",
-              flexGrow: 1,
-              p: { xs: 2, sm: 3 },
-            }}
-          >
-            <Toolbar sx={{ mt: isHorizontal ? 8 : "inherit" }} />
-            {/* <Container
+      <Box
+        component="main"
+        sx={{
+          width: "calc(100% - 260px)",
+          flexGrow: 1,
+          p: { xs: 2, sm: 3 },
+        }}
+      >
+        <Toolbar sx={{ mt: isHorizontal ? 8 : "inherit" }} />
+        {/* <Container
                 maxWidth={container ? "xl" : false}
                 sx={{
                   ...(container && { px: { xs: 0, sm: 2 } }),
@@ -68,14 +65,12 @@ const DashboardLayout = () => {
                   flexDirection: "column",
                 }}
               > */}
-            <Breadcrumbs />
-            <Outlet />
-            <Footer />
-            {/* </Container> */}
-          </Box>
-        </Box>
-      </AuthGuard>
-    </React.Fragment>
+        <Breadcrumbs />
+        <Outlet />
+        <Footer />
+        {/* </Container> */}
+      </Box>
+    </Box>
   );
 };
 
