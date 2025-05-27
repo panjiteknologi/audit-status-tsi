@@ -27,15 +27,12 @@ function TokenHandler() {
           }),
         });
 
-        console.log("ini response token: ", response);
-
         if (!response.ok) {
           setError(true);
         }
 
         const data = await response.json();
         const result = data?.result;
-        console.log("ini response result validate token: ", result);
 
         if (
           result?.status === "success" &&
