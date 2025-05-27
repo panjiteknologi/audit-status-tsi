@@ -11,7 +11,7 @@ const tahapanOrder = [
   "Tanggal Aplication Form or Request",
   "Tanggal Review Penugasan ST Satu",
   "Tanggal Kontrak",
-  "Tanggal Pengirimab Notifikasi ST Satu",
+  "Tanggal Pengiriman Notifikasi ST Satu",
   "Tanggal Pengiriman Audit Plan ST Satu",
   "Tanggal Pelaksanaan Audit ST Satu",
   "Tanggal Penyelesaian CAPA ST Satu",
