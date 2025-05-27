@@ -37,11 +37,15 @@ function TokenHandler() {
         const result = data?.result;
         console.log("ini response result validate token: ", result);
 
-        if (result?.status === "success") {
+        if (
+          result?.status === "success" &&
+          result?.message === "Access token valid"
+        ) {
+          navigate("/dashboard");
+
           window.localStorage.setItem("serviceToken", token);
           window.localStorage.setItem("userData", JSON.stringify(result));
           window.localStorage.setItem("userName", result?.user_name);
-          navigate("/dashboard");
         } else {
           setError(true);
         }

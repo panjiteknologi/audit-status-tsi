@@ -61,6 +61,7 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
         const userData = window.localStorage.getItem("userData");
 
         if (serviceToken) {
+          console.log("serviceToken", serviceToken);
           const user = userData;
           setSession(serviceToken);
 
