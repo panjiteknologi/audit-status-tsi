@@ -27,18 +27,19 @@ function TokenHandler() {
           }),
         });
 
+        console.log("ini response token: ", response);
+
         if (!response.ok) {
           setError(true);
         }
 
-        console.log("ini response token: ", response);
-
         const data = await response.json();
         const result = data?.result;
+        console.log("ini response result validate token: ", result);
 
         if (result?.status === "success") {
           window.localStorage.setItem("serviceToken", token);
-          window.localStorage.setItem("userData", result);
+          window.localStorage.setItem("userData", JSON.stringify(result));
           window.localStorage.setItem("userName", result?.user_name);
           navigate("/dashboard");
         } else {

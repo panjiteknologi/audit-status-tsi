@@ -121,7 +121,6 @@ export const JWTProvider = ({ children }: { children: ReactNode }) => {
     const serviceToken = window.localStorage.getItem("serviceToken");
 
     try {
-      // Optional: memanggil endpoint logout jika backend menyediakannya
       await axios.post(BASE_URL + API_LOGOUT, {
         params: {
           access_token: serviceToken,
