@@ -23,6 +23,12 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 import { formatNumber } from "@/utils/formatIdr";
 import InputDateRange from "@/components/forms/InputDateRange";
 
+type LaunchingCertificate = {
+  customer: string;
+  iso_standards: string[];
+  tgl_kirim_sertifikat: string;
+};
+
 type DateRangeType = {
   startDate: Date;
   endDate: Date;
@@ -32,6 +38,7 @@ type DateRangeType = {
 const ChartBar = ({
   sales,
   standards,
+  launching_certificate,
   lead_time,
   setClickedData,
   slot,
@@ -39,10 +46,15 @@ const ChartBar = ({
 }: {
   sales: AllProject[];
   standards: any;
+  launching_certificate: LaunchingCertificate[];
   lead_time: AllProject[];
   setClickedData: Dispatch<SetStateAction<string | unknown>>;
-  slot: "sales" | "standards" | "lead_time";
-  setSlot: Dispatch<SetStateAction<"sales" | "standards" | "lead_time">>;
+  slot: "sales" | "standards" | "launching_certificate" | "lead_time";
+  setSlot: Dispatch<
+    SetStateAction<
+      "sales" | "standards" | "launching_certificate" | "lead_time"
+    >
+  >;
 }) => {
   const chartRef = useRef<any>(null);
 
@@ -54,7 +66,7 @@ const ChartBar = ({
     key: "selection",
   });
 
-  // Date Range
+  // Sales data transform
   const salesTransform = useMemo(() => {
     const start = moment(currentDateRange.startDate).startOf("day");
     const end = moment(currentDateRange.endDate).endOf("day");
@@ -69,64 +81,79 @@ const ChartBar = ({
     );
   }, [sales, currentDateRange]);
 
-  // const standardTransform = useMemo(() => {
-  //   const start = moment(currentDateRange.startDate).startOf("day");
-  //   const end = moment(currentDateRange.endDate).endOf("day");
-
-  //   return standards
-  //     .filter((x: { date: string }) =>
-  //       moment(x.date).isBetween(start, end, undefined, "[]")
-  //     )
-  //     .flatMap((x: { standards: any[] }) => x.standards);
-  // }, [standards, currentDateRange]);
-
+  // Standard data transform
   const standardTransform = useMemo(() => {
     const start = moment(currentDateRange.startDate).startOf("day");
     const end = moment(currentDateRange.endDate).endOf("day");
 
-    const filtered = standards
+    const filtered = (
+      slot === "launching_certificate" ? launching_certificate : standards
+    )
       .filter((x: { date: string }) =>
         moment(x.date).isBetween(start, end, undefined, "[]")
       )
-      .flatMap((x: { standards: any[] }) => x.standards);
+      .flatMap((x: { date: string; standards: any[] }) =>
+        x.standards.map((s) => ({
+          ...s,
+          date: x.date,
+        }))
+      );
 
-    // Gabungkan data berdasarkan 'name'
     const grouped: Record<
       string,
-      { name: string; totalQuantity: number; companyName: string }
+      {
+        name: string;
+        totalQuantity: number;
+        companies: { name: string; date: string }[];
+      }
     > = {};
 
     filtered.forEach(
-      (item: { name: string; totalQuantity: number; companyName: string }) => {
-        if (grouped[item.name]) {
-          grouped[item.name].totalQuantity += item.totalQuantity;
-        } else {
-          grouped[item.name] = {
-            name: item.name,
-            totalQuantity: item.totalQuantity,
-            companyName: item.companyName,
-          };
-        }
+      (item: {
+        name: string;
+        totalQuantity: number;
+        companyName: string[];
+        date: string;
+      }) => {
+        const names = item.name?.split(/[,;&]+/).map((s) => s.trim());
+
+        names.forEach((standardName) => {
+          if (!grouped[standardName]) {
+            grouped[standardName] = {
+              name: standardName,
+              totalQuantity: 0,
+              companies: [],
+            };
+          }
+
+          grouped[standardName].totalQuantity += item.totalQuantity;
+
+          item.companyName.forEach((company) => {
+            const exists = grouped[standardName].companies.some(
+              (c) => c.name === company && c.date === item.date
+            );
+            if (!exists) {
+              grouped[standardName].companies.push({
+                name: company,
+                date: item.date,
+              });
+            }
+          });
+        });
       }
     );
 
     return Object.values(grouped);
-  }, [standards, currentDateRange]);
+  }, [standards, launching_certificate, currentDateRange]);
 
   const handleChange = (
     _: MouseEvent<HTMLElement>,
-    newAlignment: SetStateAction<"sales" | "standards" | "lead_time">
+    newAlignment: SetStateAction<
+      "sales" | "standards" | "launching_certificate" | "lead_time"
+    >
   ) => {
     if (newAlignment) setSlot(newAlignment);
   };
-
-  // const onChangeDate = (dt: Moment | null) => {
-  //   if (dt) setCurrentDate(dt);
-  // };
-
-  // const onChangeDateRange = (dt: DateRange<Moment> | null) => {
-  //   if (dt) setCurrentDateRange(dt);
-  // };
 
   const onChangeDateRange = (range: { startDate: Date; endDate: Date }) => {
     setCurrentDateRange({ ...range, key: "selection" });
@@ -136,7 +163,7 @@ const ChartBar = ({
     const hasData =
       slot === "sales"
         ? salesTransform.length > 0
-        : slot === "standards"
+        : slot === "standards" || slot === "launching_certificate"
         ? standardTransform.length > 0
         : lead_time.length > 0;
 
@@ -185,7 +212,7 @@ const ChartBar = ({
         categoryField:
           slot === "sales"
             ? "sales_person"
-            : slot === "standards"
+            : slot === "standards" || slot === "launching_certificate"
             ? "name"
             : "customer",
         renderer: xRenderer,
@@ -216,7 +243,7 @@ const ChartBar = ({
           categoryXField:
             slot === "sales"
               ? "sales_person"
-              : slot === "standards"
+              : slot === "standards" || slot === "launching_certificate"
               ? "name"
               : "customer",
           clustered: true,
@@ -257,7 +284,7 @@ const ChartBar = ({
       series.data.setAll(
         slot === "sales"
           ? salesTransform
-          : slot === "standards"
+          : slot === "standards" || slot === "launching_certificate"
           ? standardTransform
           : lead_time
       );
@@ -283,7 +310,8 @@ const ChartBar = ({
           if (value == null) return "";
 
           if (slot === "sales") return formatNumber(value);
-          if (slot === "standards") return formatNumber(value);
+          if (slot === "standards" || slot === "launching_certificate")
+            return formatNumber(value);
           return `${formatNumber(value)} Hari\n(${label})`;
         });
 
@@ -293,7 +321,7 @@ const ChartBar = ({
 
     if (slot === "sales") {
       makeSeries("Sales", "value");
-    } else if (slot === "standards") {
+    } else if (slot === "standards" || slot === "launching_certificate") {
       makeSeries(
         "Quantity",
         "totalQuantity"
@@ -322,7 +350,7 @@ const ChartBar = ({
     xAxis.data.setAll(
       slot === "sales"
         ? salesTransform
-        : slot === "standards"
+        : slot === "standards" || slot === "launching_certificate"
         ? standardTransform
         : lead_time
     );
@@ -351,7 +379,7 @@ const ChartBar = ({
       </Box>
       <Box display="flex" justifyContent="space-between">
         <Typography variant="h6" color="textSecondary">
-          Chart Sales, Standards, and Lead Time
+          Chart Sales, Standards, Launching Certificate, and Lead Time
         </Typography>
         <ToggleButtonGroup
           exclusive
@@ -364,6 +392,9 @@ const ChartBar = ({
           </ToggleButton>
           <ToggleButton value="standards" sx={{ px: 2, py: 0.5 }}>
             Standards
+          </ToggleButton>
+          <ToggleButton value="launching_certificate" sx={{ px: 2, py: 0.5 }}>
+            Launching Certificate
           </ToggleButton>
           <ToggleButton value="lead_time" sx={{ px: 2, py: 0.5 }}>
             Lead Time

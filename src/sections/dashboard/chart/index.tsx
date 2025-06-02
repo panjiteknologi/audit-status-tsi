@@ -14,6 +14,12 @@ import DetailTable from "./DetailTable";
 dayjs.extend(isBetween);
 dayjs.extend(isoWeek);
 
+type LaunchingCertificate = {
+  customer: string;
+  iso_standards: string[];
+  tgl_kirim_sertifikat: string;
+};
+
 export type DataAnalytics = {
   countAuditThisWeek: number;
   countAuditLastWeek: number;
@@ -27,9 +33,9 @@ interface ChartDashboardProps {
 
 const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
   const [clickedData, setClickedData] = useState<any | null>(null);
-  const [slot, setSlot] = useState<"sales" | "standards" | "lead_time">(
-    "sales"
-  );
+  const [slot, setSlot] = useState<
+    "sales" | "standards" | "launching_certificate" | "lead_time"
+  >("sales");
 
   const totalProjects: AllProject[] = data;
   const totalInitialAudit: AllProject[] = data?.filter(
@@ -165,6 +171,24 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
     return Array.from(summaryMap.values());
   };
 
+  const getLaunchingCertificate = (
+    data: (LaunchingCertificate & { tgl_aplication_form: string })[]
+  ) => {
+    // const dum = data.map((x) => {
+    //   return {
+    //     ...x,
+    //     tgl_kirim_sertifikat: x.tgl_aplication_form,
+    //   };
+    // });
+    return data
+      .filter((item) => item.tgl_kirim_sertifikat)
+      .flatMap((item) => ({
+        customer: item.customer,
+        iso_standards: item.iso_standards,
+        tgl_kirim_sertifikat: item.tgl_kirim_sertifikat,
+      }));
+  };
+
   const acreditationWithTotal = data.reduce(
     (acc: { nama_akreditasi: string; value: number }[], curr: AllProject) => {
       curr.accreditation.forEach((akreditasi: any) => {
@@ -180,6 +204,56 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
   );
 
   const standardSummary = getStandardSummaryByMonthYear(standards as any);
+  const launchingCertificate = getStandardSummaryByMonthYear(
+    transformISOData(getLaunchingCertificate(data as any))
+  );
+
+  function transformISOData(
+    data: {
+      customer: string;
+      iso_standards: string[];
+      tgl_kirim_sertifikat: string;
+    }[]
+  ): {
+    date: string; // tgl_kirim_sertifikat
+    standard_name: string; // iso_standard
+    quantity: number;
+    customers: string[]; //customer
+  }[] {
+    const grouped: Record<
+      string,
+      { iso_standard: string; customer: Set<string> }
+    > = {};
+
+    for (const item of data) {
+      const date = item.tgl_kirim_sertifikat?.split(" ")[0];
+      if (!date) {
+        return [];
+      }
+      for (const iso of item.iso_standards) {
+        const key = `${date}__${iso}`;
+
+        if (!grouped[key]) {
+          grouped[key] = {
+            iso_standard: iso,
+            customer: new Set(),
+          };
+        }
+
+        grouped[key].customer.add(item.customer);
+      }
+    }
+
+    return Object.entries(grouped).map(([key, value]) => {
+      const [tgl_kirim_sertifikat] = key.split("__");
+      return {
+        date: tgl_kirim_sertifikat,
+        standard_name: value.iso_standard,
+        quantity: value.customer.size,
+        customers: Array.from(value.customer),
+      };
+    });
+  }
 
   return (
     <Grid container spacing={2}>
@@ -271,6 +345,7 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
         <ChartBar
           sales={salesNameWithTotal}
           standards={standardSummary}
+          launching_certificate={launchingCertificate}
           lead_time={salesNameWitheLeadTime as any}
           setClickedData={setClickedData}
           slot={slot}

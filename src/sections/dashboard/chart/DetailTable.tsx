@@ -1,4 +1,5 @@
 import MainCard from "@/components/MainCard";
+import { formatDateWithoutTime } from "@/utils/formatDate";
 import {
   Table,
   TableBody,
@@ -16,91 +17,163 @@ const DetailTable = ({
   slot,
 }: {
   clickedData: any;
-  slot: "sales" | "standards" | "lead_time";
+  slot: "sales" | "standards" | "launching_certificate" | "lead_time";
 }) => {
   return (
-    <MainCard sx={{ minHeight: 475 }}>
-      <Box mt={2} p={2} border="1px solid #ccc" borderRadius={2}>
-        <Typography variant="subtitle1" gutterBottom>
-          Detail Data
-        </Typography>
+    <MainCard
+      sx={{
+        minHeight: 475,
+        maxHeight: 630,
+        overflow: "auto",
+        bgcolor: "#f9f9f9",
+        borderRadius: 2,
+        boxShadow: 1,
+        scrollbarWidth: "thin",
+        scrollbarColor: "transparent transparent",
+        "&::-webkit-scrollbar": {
+          height: "6px",
+          width: "6px",
+        },
+        "&::-webkit-scrollbar-thumb": {
+          backgroundColor: "#ccc",
+          borderRadius: "4px",
+        },
+        "&::-webkit-scrollbar-track": {
+          backgroundColor: "transparent",
+        },
+      }}
+    >
+      <Typography variant="subtitle1" fontWeight="bold" gutterBottom>
+        Detail Data
+      </Typography>
 
-        <Box sx={{ overflowX: "auto" }}>
-          <TableContainer component={Paper} sx={{ minWidth: 300 }}>
-            <Table size="small" sx={{ minWidth: 400 }}>
-              <TableHead>
-                <TableRow>
-                  {slot === "sales" && (
-                    <>
-                      <TableCell sx={{ fontWeight: "bold" }}>
-                        Sales Name
-                      </TableCell>
-                      <TableCell sx={{ fontWeight: "bold" }}>
-                        Sales Closing
-                      </TableCell>
-                    </>
-                  )}
-                  {slot === "standards" && (
-                    <>
-                      <TableCell sx={{ fontWeight: "bold" }}>No</TableCell>
-                      <TableCell sx={{ fontWeight: "bold" }}>
-                        Company Name
-                      </TableCell>
-                      <TableCell sx={{ fontWeight: "bold" }}>
-                        Standard Name
-                      </TableCell>
-                    </>
-                  )}
-                  {slot === "lead_time" && (
-                    <>
-                      <TableCell sx={{ fontWeight: "bold" }}>
-                        Company Name
-                      </TableCell>
-                      <TableCell sx={{ fontWeight: "bold" }}>
-                        Total Days
-                      </TableCell>
-                      <TableCell sx={{ fontWeight: "bold" }}>
-                        Capa → Cert
-                      </TableCell>
-                    </>
-                  )}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {slot === "standards" &&
-                  clickedData?.companyName?.length > 0 &&
-                  clickedData.companyName.map((name: string, index: number) => (
-                    <TableRow key={index}>
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell>{name}</TableCell>
-                      <TableCell>
-                        {Array.isArray(clickedData.name)
-                          ? clickedData.name[index] || "-"
-                          : clickedData.name || "-"}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-
+      <Box
+        sx={{
+          width: "100%",
+          overflowX: "auto",
+          scrollbarWidth: "thin",
+          "&::-webkit-scrollbar": {
+            height: "6px",
+          },
+          "&::-webkit-scrollbar-thumb": {
+            backgroundColor: "#ccc",
+            borderRadius: "4px",
+          },
+          "&::-webkit-scrollbar-track": {
+            backgroundColor: "transparent",
+          },
+        }}
+      >
+        <TableContainer component={Paper} sx={{ borderRadius: 4 }}>
+          <Table
+            size="small"
+            sx={{
+              minWidth: 500,
+              borderCollapse: "separate",
+              borderSpacing: "0 2px", // Jarak antar baris
+            }}
+          >
+            <TableHead sx={{ bgcolor: "#f0f0f0", textAlign: "center" }}>
+              <TableRow>
                 {slot === "sales" && (
-                  <TableRow>
-                    <TableCell>{clickedData?.sales_person || "-"}</TableCell>
-                    <TableCell>{clickedData?.value ?? "0"} Closing</TableCell>
-                  </TableRow>
+                  <>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Sales Name
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Sales Closing
+                    </TableCell>
+                  </>
+                )}
+                {(slot === "standards" || slot === "launching_certificate") && (
+                  <>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>No</TableCell>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Company Name
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Certificate Date
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Standard Name
+                    </TableCell>
+                  </>
+                )}
+                {slot === "lead_time" && (
+                  <>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Company Name
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Total Days
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Capa → Cert
+                    </TableCell>
+                  </>
+                )}
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {(slot === "standards" || slot === "launching_certificate") &&
+                clickedData?.companies?.length > 0 &&
+                clickedData.companies.map(
+                  (company: { name: string; date: string }, index: number) => (
+                    <TableRow
+                      key={index}
+                      hover
+                      sx={{
+                        bgcolor: "#fff",
+                        boxShadow: 1,
+                        borderRadius: 2,
+                        "&:nth-of-type(odd)": {
+                          backgroundColor: "#fafafa",
+                        },
+                      }}
+                    >
+                      <TableCell sx={{ px: 2 }}>{index + 1}</TableCell>
+                      <TableCell sx={{ px: 2 }}>{company.name}</TableCell>
+                      <TableCell sx={{ px: 2 }}>
+                        {formatDateWithoutTime(company.date)}
+                      </TableCell>
+                      <TableCell sx={{ px: 2 }}>{clickedData.name}</TableCell>
+                    </TableRow>
+                  )
                 )}
 
-                {slot === "lead_time" && (
-                  <TableRow>
-                    <TableCell>{clickedData?.customer || "-"}</TableCell>
-                    <TableCell>{clickedData?.value_all ?? "0"} Days</TableCell>
-                    <TableCell>
-                      {clickedData?.value_capa_to_certificate ?? "-"}
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
+              {slot === "sales" && (
+                <TableRow
+                  hover
+                  sx={{ bgcolor: "#fff", boxShadow: 1, borderRadius: 2 }}
+                >
+                  <TableCell sx={{ px: 2 }}>
+                    {clickedData?.sales_person || "-"}
+                  </TableCell>
+                  <TableCell sx={{ px: 2 }}>
+                    {clickedData?.value ?? "0"} Closing
+                  </TableCell>
+                </TableRow>
+              )}
+
+              {slot === "lead_time" && (
+                <TableRow
+                  hover
+                  sx={{ bgcolor: "#fff", boxShadow: 1, borderRadius: 2 }}
+                >
+                  <TableCell sx={{ px: 2 }}>
+                    {clickedData?.customer || "-"}
+                  </TableCell>
+                  <TableCell sx={{ px: 2 }}>
+                    {clickedData?.value_all ?? "0"} Days
+                  </TableCell>
+                  <TableCell sx={{ px: 2 }}>
+                    {clickedData?.value_capa_to_certificate ?? "-"}
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
       </Box>
     </MainCard>
   );

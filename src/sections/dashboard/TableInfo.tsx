@@ -533,7 +533,7 @@ const TableInfo = ({
                             color="text.secondary"
                             sx={{ py: 4 }}
                           >
-                            Data tidak ditemukan
+                            Data Not Found
                           </Typography>
                         </TableCell>
                       </TableRow>
