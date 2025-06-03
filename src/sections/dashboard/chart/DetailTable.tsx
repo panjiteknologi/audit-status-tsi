@@ -85,7 +85,21 @@ const DetailTable = ({
                     </TableCell>
                   </>
                 )}
-                {(slot === "standards" || slot === "launching_certificate") && (
+                {slot === "standards" && (
+                  <>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>No</TableCell>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Company Name
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Date
+                    </TableCell>
+                    <TableCell sx={{ fontWeight: "bold", px: 2 }}>
+                      Standard Name
+                    </TableCell>
+                  </>
+                )}
+                {slot === "launching_certificate" && (
                   <>
                     <TableCell sx={{ fontWeight: "bold", px: 2 }}>No</TableCell>
                     <TableCell sx={{ fontWeight: "bold", px: 2 }}>
