@@ -26,7 +26,7 @@ const fetchProjects = async (token: string | null): Promise<AllProject[]> => {
   return data;
 };
 
-const fetchStandards = async (token: string | null): Promise<any[]> => {
+const fetchStandards = async (token: string | null): Promise<Standar[]> => {
   const response = await fetch(BASE_URL + BASE_API + GET_ALL_STANDARD, {
     method: "GET",
     headers: {
@@ -48,19 +48,27 @@ const Dashboard = () => {
     typeof window !== "undefined" ? localStorage.getItem("serviceToken") : null;
   const [selectedStandard, setSelectedStandard] = useState<string | null>(null);
 
-  const { data: projects = [], isLoading: isProjectsLoading } = useQuery<
-    AllProject[]
-  >({
+  const {
+    data: projects = [],
+    isLoading: isProjectsLoading,
+    isError: isProjectsError,
+  } = useQuery<AllProject[]>({
     queryKey: ["projects", user?.user_id],
     queryFn: () => fetchProjects(token),
     enabled: !!token,
-    refetchOnWindowFocus: true,
-    refetchIntervalInBackground: true,
+    refetchOnWindowFocus: false,
+    refetchIntervalInBackground: false,
     refetchInterval: 5000,
     staleTime: 5000,
   });
 
-  const { data: standards = [] } = useQuery({
+  const projectsData = projects?.data ?? [];
+
+  const {
+    data: standards = [],
+    isLoading: isStandardsLoading,
+    isError: isStandardsError,
+  } = useQuery({
     queryKey: ["standards"],
     queryFn: () => fetchStandards(token),
     enabled: !!token,
@@ -74,11 +82,14 @@ const Dashboard = () => {
   return (
     <div>
       <DashboardSections
-        data={projects}
+        data={projectsData as AllProject[]}
         isProjectsLoading={isProjectsLoading}
+        isProjectsError={isProjectsError}
         standards={standards}
         uniqueStandards={uniqueStandards as unknown as Standar}
         selectedStandard={selectedStandard}
+        isStandardsLoading={isStandardsLoading}
+        isStandardsError={isStandardsError}
         setSelectedStandard={setSelectedStandard}
       />
     </div>

@@ -1,3 +1,5 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Dispatch,
   Fragment,
@@ -9,11 +11,9 @@ import {
 import MainCard from "@/components/MainCard";
 import { AllProject, Standar } from "@/types/Project";
 import ScrollX from "@/components/ScrollX";
-import { useQueryClient } from "@tanstack/react-query";
 import {
   Box,
   Chip,
-  CircularProgress,
   Paper,
   Select,
   Stack,
@@ -69,7 +69,6 @@ interface TableInfoProps {
   uniqueStandards: Standar;
   selectedStandard: string | null;
   setSelectedStandard: Dispatch<SetStateAction<string | null>>;
-  isProjectsLoading: boolean;
 }
 
 const TableInfo = ({
@@ -77,7 +76,6 @@ const TableInfo = ({
   uniqueStandards,
   selectedStandard,
   setSelectedStandard,
-  isProjectsLoading,
 }: TableInfoProps) => {
   const routes = useLocation();
   const pathName = routes?.pathname?.substring(1);
@@ -87,10 +85,6 @@ const TableInfo = ({
 
   const [globalFilter, setGlobalFilter] = useState<string>("");
   const [sorting, setSorting] = useState<SortingState>([]);
-
-  const queryClient = useQueryClient();
-
-  const isFetching = queryClient.isFetching({ queryKey: ["projects"] }) > 0;
 
   const dataTransform = useMemo(() => {
     const stat = {
@@ -103,19 +97,18 @@ const TableInfo = ({
 
     type StatKey = keyof typeof stat;
 
-    // const filtered = data.filter((item) => {
-    //   if (globalFilter.trim() === "") return true; // tampilkan semua jika belum search
+    const filtered = data.filter((item) => {
+      if (globalFilter.trim() === "") return true;
 
-    //   // saat search, sembunyikan jika akreditasi atau standar kosong
-    //   const hasAccreditation =
-    //     Array.isArray(item.accreditation) && item.accreditation.length > 0;
-    //   const hasStandards =
-    //     Array.isArray(item.iso_standards) && item.iso_standards.length > 0;
+      const hasAccreditation =
+        Array.isArray(item.accreditation) && item.accreditation.length > 0;
+      const hasStandards =
+        Array.isArray(item.iso_standards) && item.iso_standards.length > 0;
 
-    //   return hasAccreditation && hasStandards;
-    // });
+      return hasAccreditation && hasStandards;
+    });
 
-    const trans = data.map((item) => ({
+    const trans = filtered.map((item) => ({
       ...item,
       sv: stat[item.tahapan as unknown as StatKey] ?? item.tahapan,
     }));
@@ -179,10 +172,10 @@ const TableInfo = ({
         cell: ({ row }) => {
           const standar: Standar[] | undefined = row?.original?.iso_standards;
           return Array.isArray(standar) && standar.length > 0 ? (
-            standar.map((item, index) => (
+            standar.map((item: any, index: number) => (
               <Chip
                 key={index}
-                label={(item as any) ?? "-"}
+                label={item}
                 sx={{ m: 0.2, fontSize: 18 }}
                 color="primary"
                 variant="outlined"
@@ -248,7 +241,7 @@ const TableInfo = ({
       },
       {
         header: "Latest Progress",
-        accessorKey: "tahapan",
+        accessorKey: "latest_progress",
         accessorFn: (row) => getlatestProgress(row),
         id: "latest_progress",
         meta: {
@@ -323,13 +316,13 @@ const TableInfo = ({
       return next.toLowerCase().includes(filter);
     }
 
-    // Cari di latest progress (computed)
     if (columnId === "latest_progress") {
       const latest = getlatestProgress(row.original);
       return latest.toLowerCase().includes(filter);
     }
     return flatString.includes(filterValue.toLowerCase());
   };
+
   const table = useReactTable({
     data: dataTransform,
     columns,
@@ -348,33 +341,18 @@ const TableInfo = ({
     globalFilterFn: customGlobalFilter as FilterFnOption<AllProject>,
   });
 
-  let headers = [];
-  table.getAllColumns().map((columns) =>
-    headers.push({
-      label:
-        typeof columns.columnDef.header === "string"
-          ? columns.columnDef.header
-          : "#",
-      // @ts-ignore
-      key: columns.columnDef.accessorKey,
-    })
-  );
+  // const headers = [];
+  // table.getAllColumns().map((columns) =>
+  //   headers.push({
+  //     label:
+  //       typeof columns.columnDef.header === "string"
+  //         ? columns.columnDef.header
+  //         : "#",
+  //     key: columns.columnDef.accessorKey,
+  //   })
+  // );
 
-  //Slider Time Table
-  useEffect(() => {
-    const dataLength = data.length;
-
-    const intervalId = setInterval(() => {
-      const pageSize = table.getState().pagination.pageSize;
-      const pageIndex = table.getState().pagination.pageIndex;
-      const maxPage = dataLength / pageSize;
-
-      table.setPageIndex(pageIndex < maxPage - 1 ? pageIndex + 1 : 0);
-    }, 40000);
-
-    // Membersihkan interval saat komponen di-unmount
-    return () => clearInterval(intervalId);
-  }, [data]);
+  useEffect(() => {}, [data]);
 
   return (
     <Fragment>
@@ -461,84 +439,61 @@ const TableInfo = ({
                 ))}
               </TableHead>
               <TableBody>
-                {isProjectsLoading ? (
-                  <TableRow>
-                    <TableCell colSpan={columns.length}>
-                      <Box
-                        sx={{
-                          display: "flex",
-                          justifyContent: "center",
-                          alignItems: "center",
-                          height: 100,
-                          gap: 1,
-                        }}
-                      >
-                        <CircularProgress size={16} />
-                        <Typography variant="body2">Loading...</Typography>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  <Fragment>
-                    {!!data.length &&
-                      table.getRowModel().rows.map((row) => (
-                        <Fragment key={row.id}>
-                          <TableRow>
-                            {row.getVisibleCells().map((cell) => (
-                              <TableCell
-                                key={cell.id}
-                                {...cell.column.columnDef.meta}
-                              >
-                                {flexRender(
-                                  cell.column.columnDef.cell,
-                                  cell.getContext()
-                                )}
-                              </TableCell>
-                            ))}
-                          </TableRow>
-                          {row.getIsExpanded() && (
-                            <TableRow
+                {table.getRowModel().rows.length ? (
+                  table.getRowModel().rows.map((row) => (
+                    <Fragment key={row.id}>
+                      <TableRow>
+                        {row.getVisibleCells().map((cell) => (
+                          <TableCell
+                            key={cell.id}
+                            {...cell.column.columnDef.meta}
+                          >
+                            {flexRender(
+                              cell.column.columnDef.cell,
+                              cell.getContext()
+                            )}
+                          </TableCell>
+                        ))}
+                      </TableRow>
+                      {row.getIsExpanded() && (
+                        <TableRow
+                          sx={{
+                            bgcolor: backColor,
+                            "&:hover": { bgcolor: `${backColor} !important` },
+                          }}
+                        >
+                          <TableCell colSpan={row.getVisibleCells().length}>
+                            <Box
                               sx={{
-                                bgcolor: backColor,
-                                "&:hover": {
-                                  bgcolor: `${backColor} !important`,
-                                },
+                                margin: 1,
+                                backgroundColor: "white",
+                                borderWidth: 1,
+                                borderColor: "gray",
                               }}
                             >
-                              <TableCell colSpan={row.getVisibleCells().length}>
-                                <Box
-                                  sx={{
-                                    margin: 1,
-                                    backgroundColor: "white",
-                                    borderWidth: 1,
-                                    borderColor: "gray",
-                                  }}
-                                >
-                                  <DataTable
-                                    data={getDataTable(row.original)}
-                                    pathName={pathName}
-                                  />
-                                </Box>
-                              </TableCell>
-                            </TableRow>
-                          )}
-                        </Fragment>
-                      ))}
-                    {!table.getRowModel().rows.length && !isFetching && (
-                      <TableRow>
-                        <TableCell colSpan={columns.length}>
-                          <Typography
-                            variant="h4"
-                            align="center"
-                            color="text.secondary"
-                            sx={{ py: 4 }}
-                          >
-                            Data Not Found
-                          </Typography>
-                        </TableCell>
-                      </TableRow>
-                    )}
-                  </Fragment>
+                              <DataTable
+                                data={getDataTable(row.original) as any}
+                                pathName={pathName}
+                              />
+                            </Box>
+                          </TableCell>
+                        </TableRow>
+                      )}
+                    </Fragment>
+                  ))
+                ) : (
+                  <TableRow>
+                    <TableCell colSpan={columns.length}>
+                      <Typography
+                        variant="h4"
+                        align="center"
+                        color="text.secondary"
+                        sx={{ py: 4 }}
+                      >
+                        Data tidak ditemukan
+                      </Typography>
+                    </TableCell>
+                  </TableRow>
                 )}
               </TableBody>
             </Table>
@@ -546,19 +501,6 @@ const TableInfo = ({
         </ScrollX>
 
         <Stack sx={{ padding: 2 }}>
-          {dataTransform.length > 0 && (
-            <Stack
-              direction="row"
-              justifyContent="flex-end"
-              sx={{ px: 2, pb: 2 }}
-            >
-              <Typography variant="caption" color="secondary">
-                Menampilkan {table.getPaginationRowModel().rows.length} dari{" "}
-                {table.getFilteredRowModel().rows.length} data
-              </Typography>
-            </Stack>
-          )}
-
           <TablePagination
             {...{
               setPageSize: table.setPageSize,
