@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   Dispatch,
   MouseEvent,
@@ -15,7 +16,7 @@ import {
   Typography,
   Stack,
 } from "@mui/material";
-import { AllProject } from "@/types/Project";
+import { AllProject, Standar } from "@/types/Project";
 import moment from "moment";
 import * as am5 from "@amcharts/amcharts5";
 import * as am5xy from "@amcharts/amcharts5/xy";
@@ -45,10 +46,10 @@ const ChartBar = ({
   setSlot,
 }: {
   sales: AllProject[];
-  standards: any;
+  standards: Standar[];
   launching_certificate: LaunchingCertificate[];
-  lead_time: AllProject[];
-  setClickedData: Dispatch<SetStateAction<string | unknown>>;
+  lead_time: AllProject[] | any;
+  setClickedData: Dispatch<SetStateAction<null>>;
   slot: "sales" | "standards" | "launching_certificate" | "lead_time";
   setSlot: Dispatch<
     SetStateAction<
@@ -56,7 +57,7 @@ const ChartBar = ({
     >
   >;
 }) => {
-  const chartRef = useRef<any>(null);
+  const chartRef = useRef<null>(null);
 
   const [noData, setNoData] = useState(false);
 
@@ -92,7 +93,7 @@ const ChartBar = ({
       .filter((x: { date: string }) =>
         moment(x.date).isBetween(start, end, undefined, "[]")
       )
-      .flatMap((x: { date: string; standards: any[] }) =>
+      .flatMap((x: { date: string; standards: Standar[] }) =>
         x.standards.map((s) => ({
           ...s,
           date: x.date,

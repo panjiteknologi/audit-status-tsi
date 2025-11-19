@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { AllProject, Standar } from "@/types/Project";
 import CardAnalytic from "./CardAnalytic";
 import CardAnalytic2 from "./CardAnalytic2";
@@ -10,7 +11,6 @@ import { useState } from "react";
 import { Grid, Typography } from "@mui/material";
 import DetailTable from "./DetailTable";
 
-// extend plugin dayjs
 dayjs.extend(isBetween);
 dayjs.extend(isoWeek);
 
@@ -32,7 +32,7 @@ interface ChartDashboardProps {
 }
 
 const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
-  const [clickedData, setClickedData] = useState<any | null>(null);
+  const [clickedData, setClickedData] = useState<null>(null);
   const [slot, setSlot] = useState<
     "sales" | "standards" | "launching_certificate" | "lead_time"
   >("sales");
@@ -133,7 +133,14 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
     )
     .sort((a, b) => Number(b.value_all) - Number(a.value_all));
 
-  const getStandardSummaryByMonthYear = (data: any[]) => {
+  const getStandardSummaryByMonthYear = (
+    data: {
+      date: string;
+      standard_name: string;
+      quantity: number;
+      customers: string[];
+    }[]
+  ) => {
     const summaryMap = new Map();
     data.forEach(({ date, standard_name, quantity, customers }) => {
       //harga,
@@ -153,7 +160,7 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
         });
       } else {
         const std = existing.standards.find(
-          (s: any) => s.name === standard_name
+          (s: Standar) => s.name === standard_name
         );
         if (std) {
           // std.totalHarga += harga;
@@ -172,7 +179,10 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
   };
 
   const getLaunchingCertificate = (
-    data: (LaunchingCertificate & { tgl_aplication_form: string })[]
+    data: (LaunchingCertificate & {
+      tgl_aplication_form: string;
+      tgl_sertifikat: string;
+    })[]
   ) => {
     // const dum = data.map((x) => {
     //   return {
@@ -181,17 +191,17 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
     //   };
     // });
     return data
-      .filter((item) => item.tgl_kirim_sertifikat)
+      .filter((item) => item.tgl_sertifikat)
       .flatMap((item) => ({
         customer: item.customer,
         iso_standards: item.iso_standards,
-        tgl_kirim_sertifikat: item.tgl_kirim_sertifikat,
+        tgl_kirim_sertifikat: item.tgl_sertifikat,
       }));
   };
 
   const acreditationWithTotal = data.reduce(
     (acc: { nama_akreditasi: string; value: number }[], curr: AllProject) => {
-      curr.accreditation.forEach((akreditasi: any) => {
+      curr.accreditation.forEach((akreditasi) => {
         const existing = acc.find(
           (item) => item.nama_akreditasi === akreditasi
         );
@@ -205,7 +215,7 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
 
   const standardSummary = getStandardSummaryByMonthYear(standards as any);
   const launchingCertificate = getStandardSummaryByMonthYear(
-    transformISOData(getLaunchingCertificate(data as any))
+    transformISOData(getLaunchingCertificate(data as []))
   );
 
   function transformISOData(
@@ -243,7 +253,6 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
         grouped[key].customer.add(item.customer);
       }
     }
-
     return Object.entries(grouped).map(([key, value]) => {
       const [tgl_kirim_sertifikat] = key.split("__");
       return {
@@ -336,17 +345,12 @@ const ChartDashboard = ({ data, standards }: ChartDashboardProps) => {
         </Typography>
       </Grid>
 
-      <Grid
-        item
-        xs={12}
-        md={!!clickedData ? 7 : 12}
-        lg={!!clickedData ? 7 : 12}
-      >
+      <Grid item xs={12} md={clickedData ? 7 : 12} lg={clickedData ? 7 : 12}>
         <ChartBar
           sales={salesNameWithTotal}
           standards={standardSummary}
           launching_certificate={launchingCertificate}
-          lead_time={salesNameWitheLeadTime as any}
+          lead_time={salesNameWitheLeadTime}
           setClickedData={setClickedData}
           slot={slot}
           setSlot={setSlot}

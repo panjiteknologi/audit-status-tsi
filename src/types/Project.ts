@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { JSX } from "react/jsx-runtime";
 
 export type Standar = {
@@ -55,7 +56,7 @@ export interface AllProject {
   lead_time_tgl_pengiriman_draft_sertifikat: string;
   lead_time_tgl_persetujuan_draft_sertifikat: string;
   lead_time_tgl_kirim_sertifikat: string;
-  tahapan: string | number | any;
+  tahapan: string | number;
   standar: Standar[];
   tgl_aplication_form: string;
   note_aplication_form: string;
@@ -100,12 +101,14 @@ export interface AllProject {
   note_tgl_persetujuan_draft_sertifikat: string;
   tgl_kirim_sertifikat: string;
   note_tgl_kirim_sertifikat: string;
+  tgl_sertifikat: string;
   lead_time_tgl_pengiriman_audit_plan_st_satu: string;
   nama_akreditasi: string;
   tgl_pengajuan: string;
   note_tgl_pengajuan: string;
   tgl_persetujuan: string;
   note_tgl_persetujuan: string;
+  lead_time_projec_audit_sertifikat: string;
 }
 
 export interface MenuProject {
